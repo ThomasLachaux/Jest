@@ -3,8 +3,6 @@ package com.projet;
 public class Card {
 
     // Todo: ajouter une enum.toString()
-    public enum Color {Jocker, Spade, Diamond, Heart, Club};
-
     private Color color;
     private int value;
     private boolean faceDown;
@@ -14,10 +12,21 @@ public class Card {
         this.value = value;
         this.faceDown = true;
 
-        if(value < 1 || value > 5) {
-            System.out.println("Erreur: Les valeurs doivent être comprises entre 1 et 5.");
+        if(value < 1 || value > 4) {
+            System.out.println("Erreur: Les valeurs doivent être comprises entre 1 et 4.");
             System.exit(1);
         }
+
+        if(color == Color.Jocker)
+            this.value = 0;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public int getValue() {
+        return value;
     }
 
     public Card setFaceDown() {
@@ -25,9 +34,25 @@ public class Card {
         return this;
     }
 
-    public Card setFaceUp() {
+    public boolean isFaceDown() {
+        return faceDown;
+    }
+
+    public boolean isFaceUp() {
+        return !faceDown;
+    }
+
+    public void setFaceUp() {
         faceDown = false;
-        return this;
+    }
+
+    public String toStringFromOutside() {
+        return faceDown ? "⛶" : toString();
+    }
+
+    @Override
+    public String toString() {
+        return (value != 0 ? value : "") + String.valueOf(color);
     }
 
 }
