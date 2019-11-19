@@ -52,7 +52,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return (value != 0 ? value : "") + String.valueOf(color);
+        return (color != Color.Jocker ? value : "") + String.valueOf(color);
     }
 
 }
