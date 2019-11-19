@@ -61,7 +61,7 @@ public class Game {
             }
         }
 
-        stack.add(new Card(Color.Jocker, 1));
+        stack.add(new Card(Color.Jocker, 0));
     }
 
     public void shuffleCards() {

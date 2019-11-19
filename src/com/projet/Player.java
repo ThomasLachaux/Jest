@@ -123,10 +123,9 @@ public class Player implements Comparable<Player> {
         return cardA.isFaceUp() ? cardA : cardB;
     }
 
+    // todo: rajouter un deck intermediaire yohann
     public void giveCardsToStack(Game game) {
-        for(int i = 0 ; i < current.size(); i++) {
-            game.addToStack(current.remove(i));
-        }
+        game.addToStack(current.remove(0));
     }
 
     // todo: jocker = 0
