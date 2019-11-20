@@ -120,10 +120,15 @@ public class Player implements Comparable<Player> {
         game.addToStack(current.remove(0));
     }
 
-    // todo: jocker = 0
-    // todo: egalité pas prise en compte
     @Override
     public int compareTo(Player o) {
-        return  o.getVisibleCard().getValue() - getVisibleCard().getValue();
+        int result = o.getVisibleCard().getValue() - getVisibleCard().getValue();
+
+        if(result == 0) {
+            result = o.getVisibleCard().getColor().getOrder() - getVisibleCard().getColor().getOrder();
+        }
+
+        return result;
     }
+
 }
