@@ -26,15 +26,12 @@ public class Player implements Comparable<Player> {
         current.add(cardB.setFaceDown());
     }
 
-    public Scanner startPrompt() {
-        Scanner scanner = new Scanner(System.in);
-
+    public void startPrompt() {
         System.out.println("--- " + this.name + " ---");
-        return scanner;
     }
 
     public void askWhichCardToFaceUp() {
-        Scanner scanner = startPrompt();
+        startPrompt();
         System.out.println("Quelle carte choisissez-vous de mettre face visible ?");
 
         Card cardA = current.get(0);
@@ -42,12 +39,10 @@ public class Player implements Comparable<Player> {
 
         System.out.print("1) " + cardA.toString() + "     ");
         System.out.println("2) " + cardB.toString());
-        // todo: faire de la validation
-        chooseFaceUpCard(scanner.nextInt() - 1);
+        chooseFaceUpCard(Scanner.nextInt(2) - 1);
     }
 
     public void askWhichPlayerToSteal(ArrayList<Player> players) {
-        Scanner scanner = startPrompt();
         int i = 1;
         ArrayList<Player> otherPlayers = new ArrayList<>();
         System.out.println("Quel joueur voler ?");
@@ -60,16 +55,13 @@ public class Player implements Comparable<Player> {
             }
         }
 
-        // todo: validation !
-        Player stolenPlayer = otherPlayers.get(scanner.nextInt() - 1);
+        Player stolenPlayer = otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
 
 
         System.out.println("Quelle carte voler ?");
         System.out.println(stolenPlayer.displayCards(true));
 
-        // todo: validation si 2 cartes
-        // todo: validation scanner !
-        Card stolenCard = stolenPlayer.stealCard(scanner.nextInt() - 1);
+        Card stolenCard = stolenPlayer.stealCard(Scanner.nextInt(stolenPlayer.getCurrentCardSize()) - 1);
         jest.add(stolenCard);
     }
 
