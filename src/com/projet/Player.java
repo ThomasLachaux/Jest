@@ -12,11 +12,13 @@ public class Player implements Comparable<Player> {
 
     private String name;
 
+    private  Score score;
     public Player(String name) {
         System.out.println("Création du joueur " + name);
         current = new ArrayList<>();
         jest = new ArrayList<>();
         this.name = name;
+        score = new Score(this);
     }
 
     // On a bien 2 cartes par joueurs tout le temps ????
@@ -130,4 +132,12 @@ public class Player implements Comparable<Player> {
     public int getJestSize() {
         return jest.size();
     }
+    public ArrayList<Card> getJest(){
+        return jest;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
 }
