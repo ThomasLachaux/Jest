@@ -12,8 +12,8 @@ public class Card {
         this.value = value;
         this.faceDown = true;
 
-        if(value < 1 || value > 4) {
-            System.out.println("Erreur: Les valeurs doivent être comprises entre 1 et 4.");
+        if(value < 0 || value > 4) {
+            System.out.println("Erreur: Les valeurs doivent être comprises entre 0 et 4.");
             System.exit(1);
         }
 
@@ -52,7 +52,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return (value != 0 ? value : "") + String.valueOf(color);
+        return (color != Color.Jocker ? value : "") + String.valueOf(color);
     }
 
 }

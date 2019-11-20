@@ -7,12 +7,11 @@ import java.util.LinkedList;
 public class Game {
 
     private static Game instance;
-    private LinkedList<Card> cards;
+    private LinkedList<Card> stack;
     private ArrayList<Player> players;
 
     public static Game getInstance() {
         if(instance == null) {
-            System.out.println("JEST");
             instance = new Game();
         }
 
@@ -20,29 +19,57 @@ public class Game {
     }
 
     private Game() {
+        Console.startGame();
         players = new ArrayList<>();
-        cards = new LinkedList<>();
+        stack = new LinkedList<>();
         createCards();
         shuffleCards();
         createPlayers(3);
 
-        while(cards.size() > 0) {
-           playTurn();
+        for(int i = 0; i < stack.size() / players.size(); i++) {
+            // Les tours vont de 1 à n
+            playTurn(i + 1);
         }
     }
 
-    public void playTurn() {
+    public void playTurn(int turn) {
         distributeCards();
 
+        // Quelle carte reveler
         for (Player player : players) {
             player.askWhichCardToFaceUp();
         }
 
         displayCurrentGame();
-        Collections.sort(players);
 
+        ArrayList<Player> hasntPlayedPlayers = new ArrayList<>(players);
+        Collections.sort(hasntPlayedPlayers);
+
+        Player stealerPlayer = hasntPlayedPlayers.get(0);
+
+        // Il se passe x actions (x le nombre de joueurs)
+        for(int i = 0; i < players.size(); i++) {
+            // Quelle carte voler ?
+
+            Player stolenPlayer = stealerPlayer.askWhichPlayerToSteal(players);
+
+            // On enleve le joueur des hasn't played players
+            hasntPlayedPlayers.remove(stealerPlayer);
+
+            // if stolenPlayer hasn't played
+            if(stolenPlayer.getJestSize() == turn - 1) {
+                stealerPlayer = stolenPlayer;
+            }
+
+            else {
+                if(hasntPlayedPlayers.size() > 0)
+                    stealerPlayer = hasntPlayedPlayers.get(0);
+            }
+        }
+
+        // Redonner toutes les cartes à la pile
         for(Player player : players) {
-            player.askWhichPlayerToSteal(players);
+            player.giveCardsToStack(this);
         }
     }
 
@@ -50,27 +77,28 @@ public class Game {
         for(int i = 1; i <= 4; i++) {
             for(Color color : Color.values()) {
                 if(color != Color.Jocker)
-                    cards.add(new Card(color, i));
+                    stack.add(new Card(color, i));
             }
         }
 
-        cards.add(new Card(Color.Jocker, 1));
+        stack.add(new Card(Color.Jocker, 0));
     }
 
     public void shuffleCards() {
-        Collections.shuffle(cards);
+        Collections.shuffle(stack);
     }
 
     public void distributeCards() {
         System.out.println("Distribution des cartes...");
         for (Player player : players) {
-            player.addCardFaceDown(cards.poll(), cards.poll());
+            player.addCardFaceDown(stack.poll(), stack.poll());
         }
+        System.out.println("Nombre de cartes restantes: " + stack.size());
     }
 
     public void createPlayers(int number) {
         for(int i = 0; i < number; i++) {
-            players.add(new Player("Player " + (i + 1)));
+            players.add(new Player("Joueur " + (i + 1)));
         }
     }
 
@@ -78,5 +106,9 @@ public class Game {
         for(Player player: players) {
             System.out.println(player.getName() + ": " + player.displayCards());
         }
+    }
+
+    public void addToStack(Card card) {
+        stack.add(card);
     }
 }
