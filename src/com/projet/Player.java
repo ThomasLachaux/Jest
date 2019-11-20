@@ -42,20 +42,31 @@ public class Player implements Comparable<Player> {
         chooseFaceUpCard(Scanner.nextInt(2) - 1);
     }
 
-    public void askWhichPlayerToSteal(ArrayList<Player> players) {
+    public Player askWhichPlayerToSteal(ArrayList<Player> players) {
+        startPrompt();
         int i = 1;
+
         ArrayList<Player> otherPlayers = new ArrayList<>();
         System.out.println("Quel joueur voler ?");
         for(Player player: players) {
-            // On n'affiche pas sois même ou un joueur qui n'a plus de cartes
-            if(this != player && player.getCurrentCardSize() != 0) {
+            // On n'affiche que les joueurs ayant 2 cartes et pas soit même
+            if(player.getCurrentCardSize() == 2 && player != this) {
                 System.out.print(i + ") " + player.getName() + "     ");
                 otherPlayers.add(player);
                 i++;
             }
         }
 
-        Player stolenPlayer = otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
+        Player stolenPlayer;
+
+        if(otherPlayers.size() == 0) {
+            System.out.println("En fait, ne choisissez pas, vous devez vous voler à vous même \uD83D\uDE01");
+            stolenPlayer = this;
+        }
+
+        else {
+            stolenPlayer = otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
+        }
 
 
         System.out.println("Quelle carte voler ?");
@@ -63,6 +74,8 @@ public class Player implements Comparable<Player> {
 
         Card stolenCard = stolenPlayer.stealCard(Scanner.nextInt(stolenPlayer.getCurrentCardSize()) - 1);
         jest.add(stolenCard);
+
+        return stolenPlayer;
     }
 
     public int getCurrentCardSize() {
@@ -71,6 +84,10 @@ public class Player implements Comparable<Player> {
 
     public String getName() {
         return name;
+    }
+
+    public Card getCard(int index) {
+        return current.get(index);
     }
 
     public String displayCards(boolean withIndexes) {
@@ -129,6 +146,10 @@ public class Player implements Comparable<Player> {
         }
 
         return result;
+    }
+
+    public int getJestSize() {
+        return jest.size();
     }
 
 }

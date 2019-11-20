@@ -26,12 +26,13 @@ public class Game {
         shuffleCards();
         createPlayers(3);
 
-        while(stack.size() > 0) {
-           playTurn();
+        for(int i = 0; i < stack.size() / players.size(); i++) {
+            // Les tours vont de 1 à n
+            playTurn(i + 1);
         }
     }
 
-    public void playTurn() {
+    public void playTurn(int turn) {
         distributeCards();
 
         // Quelle carte reveler
@@ -40,11 +41,30 @@ public class Game {
         }
 
         displayCurrentGame();
-        Collections.sort(players);
 
-        // Quelle carte voler ?
-        for(Player player : players) {
-            player.askWhichPlayerToSteal(players);
+        ArrayList<Player> hasntPlayedPlayers = new ArrayList<>(players);
+        Collections.sort(hasntPlayedPlayers);
+
+        Player stealerPlayer = hasntPlayedPlayers.get(0);
+
+        // Il se passe x actions (x le nombre de joueurs)
+        for(int i = 0; i < players.size(); i++) {
+            // Quelle carte voler ?
+
+            Player stolenPlayer = stealerPlayer.askWhichPlayerToSteal(players);
+
+            // On enleve le joueur des hasn't played players
+            hasntPlayedPlayers.remove(stealerPlayer);
+
+            // if stolenPlayer hasn't played
+            if(stolenPlayer.getJestSize() == turn - 1) {
+                stealerPlayer = stolenPlayer;
+            }
+
+            else {
+                if(hasntPlayedPlayers.size() > 0)
+                    stealerPlayer = hasntPlayedPlayers.get(0);
+            }
         }
 
         // Redonner toutes les cartes à la pile
