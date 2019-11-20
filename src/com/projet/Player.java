@@ -133,8 +133,8 @@ public class Player implements Comparable<Player> {
     }
 
     // todo: rajouter un deck intermediaire yohann
-    public void giveCardsToStack(Game game) {
-        game.addToStack(current.remove(0));
+    public Card pollHand() {
+        return current.remove(0);
     }
 
     @Override
@@ -151,5 +151,4 @@ public class Player implements Comparable<Player> {
     public int getJestSize() {
         return jest.size();
     }
-
 }

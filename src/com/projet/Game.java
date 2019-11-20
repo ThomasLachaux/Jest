@@ -9,6 +9,7 @@ public class Game {
     private static Game instance;
     private LinkedList<Card> stack;
     private ArrayList<Player> players;
+    private LinkedList<Card> tmpDeck;
 
     public static Game getInstance() {
         if(instance == null) {
@@ -22,6 +23,7 @@ public class Game {
         Console.startGame();
         players = new ArrayList<>();
         stack = new LinkedList<>();
+        tmpDeck = new LinkedList<>();
         createCards();
         shuffleCards();
         createPlayers(3);
@@ -33,7 +35,13 @@ public class Game {
     }
 
     public void playTurn(int turn) {
-        distributeCards();
+        // On verifie si c'est le premier tour
+        if(players.get(0).getJestSize() == 0){
+            distributeCardsFirst();
+        }
+        else {
+            distributeCard();
+        }
 
         // Quelle carte reveler
         for (Player player : players) {
@@ -67,9 +75,12 @@ public class Game {
             }
         }
 
-        // Redonner toutes les cartes à la pile
+        // Redonner toutes les cartes à la pile temporaire
         for(Player player : players) {
-            player.giveCardsToStack(this);
+           Card cardPlayer =  player.pollHand();
+           Card cardStack = stack.poll();
+           tmpDeck.add(cardPlayer);
+           tmpDeck.add(cardStack);
         }
     }
 
@@ -88,14 +99,19 @@ public class Game {
         Collections.shuffle(stack);
     }
 
-    public void distributeCards() {
+    public void distributeCardsFirst() {
         System.out.println("Distribution des cartes...");
         for (Player player : players) {
             player.addCardFaceDown(stack.poll(), stack.poll());
         }
         System.out.println("Nombre de cartes restantes: " + stack.size());
     }
-
+    public void distributeCard() {
+        System.out.println("Redistribution des cartes...");
+        for (Player player : players) {
+            player.addCardFaceDown(tmpDeck.poll(), tmpDeck.poll());
+        }
+    }
     public void createPlayers(int number) {
         for(int i = 0; i < number; i++) {
             players.add(new Player("Joueur " + (i + 1)));
@@ -108,7 +124,4 @@ public class Game {
         }
     }
 
-    public void addToStack(Card card) {
-        stack.add(card);
-    }
 }
