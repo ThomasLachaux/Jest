@@ -11,9 +11,7 @@ public class Scanner {
     public static int nextInt(int min, int max) {
         int result;
         boolean invalidAnswer;
-
-        System.out.println("DEBUG: min " + min + " max: " + max);
-
+        
         do {
             result = scanner.nextInt();
 
