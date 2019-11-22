@@ -9,7 +9,8 @@ public class Game {
     private static Game instance;
     private LinkedList<Card> stack;
     private ArrayList<Player> players;
-    private LinkedList<Card> tmpDeck;
+    private LinkedList<Card> tmpStack;
+    private ArrayList<Card> trophies;
 
     public static Game getInstance() {
         if(instance == null) {
@@ -23,25 +24,50 @@ public class Game {
         Console.startGame();
         players = new ArrayList<>();
         stack = new LinkedList<>();
-        tmpDeck = new LinkedList<>();
+        tmpStack = new LinkedList<>();
         createCards();
         shuffleCards();
         createPlayers(3);
+        distributeAndShowTrophies();
 
-        for(int i = 0; i < stack.size() / players.size(); i++) {
-            // Les tours vont de 1 à n
-            playTurn(i + 1);
+        // On joue tant que notre pile temporaire n'est plus vide.
+        // (Elle est de 6 pour 3 joueurs dans tous les tours sauf le dernier)
+        int i = 1;
+        do{
+            playTurn(i);
+            i++;
+        } while(tmpStack.size() != 0);
+
+        System.out.println("Fin du jeu !");
+    }
+
+    public void distributeAndShowTrophies() {
+        trophies = new ArrayList<>();
+        trophies.add(stack.poll());
+
+        // Si il y a 3 joueurs, on ajoute encore un trophée
+        if(players.size() == 3) {
+            trophies.add(stack.poll());
         }
+
+        System.out.println("--- Trophées ---");
+        for(Card trophy : trophies) {
+            System.out.print(trophy.toString() + "     ");
+        }
+        System.out.println();
     }
 
     public void playTurn(int turn) {
+        System.out.println("--- Tour " + turn + " ---");
         // On verifie si c'est le premier tour
-        if(players.get(0).getJestSize() == 0){
+        if(turn == 1){
             distributeCardsFirst();
         }
         else {
             distributeCard();
         }
+
+        System.out.println("Il reste " + stack.size() + " cartes");
 
         // Quelle carte reveler
         for (Player player : players) {
@@ -75,12 +101,15 @@ public class Game {
             }
         }
 
-        // Redonner toutes les cartes à la pile temporaire
+        // Redonner toutes les cartes à la pile temporaire et melange
         for(Player player : players) {
            Card cardPlayer =  player.pollHand();
            Card cardStack = stack.poll();
-           tmpDeck.add(cardPlayer);
-           tmpDeck.add(cardStack);
+           if(cardStack != null) {
+               tmpStack.add(cardPlayer);
+               tmpStack.add(cardStack);
+           }
+           Collections.shuffle(tmpStack);
         }
     }
 
@@ -104,18 +133,21 @@ public class Game {
         for (Player player : players) {
             player.addCardFaceDown(stack.poll(), stack.poll());
         }
-        System.out.println("Nombre de cartes restantes: " + stack.size());
     }
     public void distributeCard() {
         System.out.println("Redistribution des cartes...");
         for (Player player : players) {
-            player.addCardFaceDown(tmpDeck.poll(), tmpDeck.poll());
+            player.addCardFaceDown(tmpStack.poll(), tmpStack.poll());
         }
     }
     public void createPlayers(int number) {
         for(int i = 0; i < number; i++) {
             players.add(new Player("Joueur " + (i + 1)));
         }
+    }
+
+    public ArrayList<Card> getTrophies() {
+        return trophies;
     }
 
     public void displayCurrentGame() {
