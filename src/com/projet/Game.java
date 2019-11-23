@@ -155,5 +155,8 @@ public class Game {
             System.out.println(player.getName() + ": " + player.displayCards());
         }
     }
+    public void giveTrophies(){
+
+    }
 
 }

@@ -33,7 +33,9 @@ public class Card {
         faceDown = true;
         return this;
     }
-
+    public int setValue(int i){
+        return this.value = i;
+    }
     public boolean isFaceDown() {
         return faceDown;
     }
