@@ -19,4 +19,8 @@ public class Majority implements Trophy {
     public String toString() {
         return "Majority " + majorityValue;
     }
+
+    public int getMajorityValue() {
+        return majorityValue;
+    }
 }

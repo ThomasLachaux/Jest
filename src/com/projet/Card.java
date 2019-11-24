@@ -50,6 +50,8 @@ public class Card {
         faceDown = false;
     }
 
+
+
     public String toStringFromOutside() {
         return faceDown ? "⛶" : toString();
     }

@@ -20,4 +20,8 @@ public class Lowest implements Trophy {
     public String toString() {
         return "Lowest " + trophyColor;
     }
+
+    public Color getTrophyColor() {
+        return trophyColor;
+    }
 }

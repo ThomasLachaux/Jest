@@ -20,4 +20,8 @@ public class Highest implements Trophy {
     public String toString() {
         return "Highest " + trophyColor;
     }
+
+    public Color getTrophyColor() {
+        return trophyColor;
+    }
 }
