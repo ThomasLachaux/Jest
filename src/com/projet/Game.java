@@ -42,6 +42,18 @@ public class Game {
         } while (tmpStack.size() != 0);
 
         System.out.println("Fin du jeu !");
+
+        System.out.println("--- Résultats ---");
+
+        String justification = "| %-16s | %-4d |%n";
+
+        System.out.println("+------------------+------+");
+        System.out.println("|      Joueur      | Jest |");
+        System.out.println("+------------------+------+");
+        for (Player player: players) {
+            System.out.format(justification, player.getName(), player.getScore().getPoints());
+        }
+        System.out.println("+------------------+------+");
     }
 
     public void distributeAndShowTrophies() {
