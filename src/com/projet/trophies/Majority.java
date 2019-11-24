@@ -1,7 +1,5 @@
 package com.projet.trophies;
 
-import com.projet.Card;
-
 public class Majority extends Trophy {
 
     private int majorityValue;

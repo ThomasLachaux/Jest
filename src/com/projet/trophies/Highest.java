@@ -1,6 +1,5 @@
 package com.projet.trophies;
 
-import com.projet.Card;
 import com.projet.Color;
 
 public class Highest extends Trophy {

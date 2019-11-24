@@ -1,5 +1,7 @@
 package com.projet;
 
+import com.projet.trophies.Trophy;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -10,10 +12,10 @@ public class Game {
     private LinkedList<Card> stack;
     private ArrayList<Player> players;
     private LinkedList<Card> tmpStack;
-    private ArrayList<Card> trophies;
+    private ArrayList<Trophy> trophies;
 
     public static Game getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Game();
         }
 
@@ -33,25 +35,25 @@ public class Game {
         // On joue tant que notre pile temporaire n'est plus vide.
         // (Elle est de 6 pour 3 joueurs dans tous les tours sauf le dernier)
         int i = 1;
-        do{
+        do {
             playTurn(i);
             i++;
-        } while(tmpStack.size() != 0);
+        } while (tmpStack.size() != 0);
 
         System.out.println("Fin du jeu !");
     }
 
     public void distributeAndShowTrophies() {
         trophies = new ArrayList<>();
-        trophies.add(stack.poll());
+        trophies.add(Trophy.computeTrophy(stack.poll()));
 
         // Si il y a 3 joueurs, on ajoute encore un trophée
-        if(players.size() == 3) {
-            trophies.add(stack.poll());
+        if (players.size() == 3) {
+            trophies.add(Trophy.computeTrophy(stack.poll()));
         }
 
         System.out.println("--- Trophées ---");
-        for(Card trophy : trophies) {
+        for (Trophy trophy : trophies) {
             System.out.print(trophy.toString() + "     ");
         }
         System.out.println();
@@ -60,10 +62,9 @@ public class Game {
     public void playTurn(int turn) {
         System.out.println("--- Tour " + turn + " ---");
         // On verifie si c'est le premier tour
-        if(turn == 1){
+        if (turn == 1) {
             distributeCardsFirst();
-        }
-        else {
+        } else {
             distributeCard();
         }
 
@@ -82,7 +83,7 @@ public class Game {
         Player stealerPlayer = hasntPlayedPlayers.get(0);
 
         // Il se passe x actions (x le nombre de joueurs)
-        for(int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < players.size(); i++) {
             // Quelle carte voler ?
 
             Player stolenPlayer = stealerPlayer.askWhichPlayerToSteal(players);
@@ -91,32 +92,30 @@ public class Game {
             hasntPlayedPlayers.remove(stealerPlayer);
 
             // if stolenPlayer hasn't played
-            if(stolenPlayer.getJestSize() == turn - 1) {
+            if (stolenPlayer.getJestSize() == turn - 1) {
                 stealerPlayer = stolenPlayer;
-            }
-
-            else {
-                if(hasntPlayedPlayers.size() > 0)
+            } else {
+                if (hasntPlayedPlayers.size() > 0)
                     stealerPlayer = hasntPlayedPlayers.get(0);
             }
         }
 
         // Redonner toutes les cartes à la pile temporaire et melange
-        for(Player player : players) {
-           Card cardPlayer =  player.pollHand();
-           Card cardStack = stack.poll();
-           if(cardStack != null) {
-               tmpStack.add(cardPlayer);
-               tmpStack.add(cardStack);
-           }
-           Collections.shuffle(tmpStack);
+        for (Player player : players) {
+            Card cardPlayer = player.pollHand();
+            Card cardStack = stack.poll();
+            if (cardStack != null) {
+                tmpStack.add(cardPlayer);
+                tmpStack.add(cardStack);
+            }
+            Collections.shuffle(tmpStack);
         }
     }
 
     public void createCards() {
-        for(int i = 1; i <= 4; i++) {
-            for(Color color : Color.values()) {
-                if(color != Color.Jocker)
+        for (int i = 1; i <= 4; i++) {
+            for (Color color : Color.values()) {
+                if (color != Color.Jocker)
                     stack.add(new Card(color, i));
             }
         }
@@ -134,14 +133,16 @@ public class Game {
             player.addCardFaceDown(stack.poll(), stack.poll());
         }
     }
+
     public void distributeCard() {
         System.out.println("Redistribution des cartes...");
         for (Player player : players) {
             player.addCardFaceDown(tmpStack.poll(), tmpStack.poll());
         }
     }
+
     public void createPlayers(int number) {
-        for(int i = 0; i < number; i++) {
+        for (int i = 0; i < number; i++) {
             players.add(new Player("Joueur " + (i + 1)));
         }
     }
@@ -151,11 +152,12 @@ public class Game {
     }
 
     public void displayCurrentGame() {
-        for(Player player: players) {
+        for (Player player : players) {
             System.out.println(player.getName() + ": " + player.displayCards());
         }
     }
-    public void giveTrophies(){
+
+    public void giveTrophies() {
 
     }
 

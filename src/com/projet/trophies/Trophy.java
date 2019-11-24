@@ -62,10 +62,6 @@ public abstract class Trophy {
                 return new BestJest();
         }
 
-        try {
-            throw new Exception("Erreur");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return null;
     }
 }

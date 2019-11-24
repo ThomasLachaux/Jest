@@ -12,12 +12,12 @@ public class Card {
         this.value = value;
         this.faceDown = true;
 
-        if(value < 0 || value > 4) {
+        if (value < 0 || value > 4) {
             System.out.println("Erreur: Les valeurs doivent être comprises entre 0 et 4.");
             System.exit(1);
         }
 
-        if(color == Color.Jocker)
+        if (color == Color.Jocker)
             this.value = 0;
     }
 
@@ -33,9 +33,11 @@ public class Card {
         faceDown = true;
         return this;
     }
-    public int setValue(int i){
+
+    public int setValue(int i) {
         return this.value = i;
     }
+
     public boolean isFaceDown() {
         return faceDown;
     }

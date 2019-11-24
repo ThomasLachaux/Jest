@@ -1,6 +1,6 @@
 package com.projet;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Player implements Comparable<Player> {
 
@@ -12,7 +12,8 @@ public class Player implements Comparable<Player> {
 
     private String name;
 
-    private  Score score;
+    private Score score;
+
     public Player(String name) {
         System.out.println("Création du joueur " + name);
         current = new ArrayList<>();
@@ -50,9 +51,9 @@ public class Player implements Comparable<Player> {
 
         ArrayList<Player> otherPlayers = new ArrayList<>();
         System.out.println("Quel joueur voler ?");
-        for(Player player: players) {
+        for (Player player : players) {
             // On n'affiche que les joueurs ayant 2 cartes et pas soit même
-            if(player.getCurrentCardSize() == 2 && player != this) {
+            if (player.getCurrentCardSize() == 2 && player != this) {
                 System.out.print(i + ") " + player.getName() + "     ");
                 otherPlayers.add(player);
                 i++;
@@ -61,12 +62,10 @@ public class Player implements Comparable<Player> {
 
         Player stolenPlayer;
 
-        if(otherPlayers.size() == 0) {
+        if (otherPlayers.size() == 0) {
             System.out.println("En fait, ne choisissez pas, vous devez vous voler à vous même \uD83D\uDE01");
             stolenPlayer = this;
-        }
-
-        else {
+        } else {
             stolenPlayer = otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
         }
 
@@ -95,8 +94,8 @@ public class Player implements Comparable<Player> {
     public String displayCards(boolean withIndexes) {
         StringBuilder builder = new StringBuilder();
 
-        for(int i = 0; i < current.size(); i++) {
-            if(withIndexes) {
+        for (int i = 0; i < current.size(); i++) {
+            if (withIndexes) {
                 builder.append(i + 1);
                 builder.append(") ");
             }
@@ -143,7 +142,7 @@ public class Player implements Comparable<Player> {
     public int compareTo(Player o) {
         int result = o.getVisibleCard().getValue() - getVisibleCard().getValue();
 
-        if(result == 0) {
+        if (result == 0) {
             result = o.getVisibleCard().getColor().getOrder() - getVisibleCard().getColor().getOrder();
         }
 
@@ -153,7 +152,8 @@ public class Player implements Comparable<Player> {
     public int getJestSize() {
         return jest.size();
     }
-    public ArrayList<Card> getJest(){
+
+    public ArrayList<Card> getJest() {
         return jest;
     }
 
