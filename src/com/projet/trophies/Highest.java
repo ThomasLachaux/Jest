@@ -1,6 +1,7 @@
 package com.projet.trophies;
 
 import com.projet.Color;
+import com.projet.Player;
 import com.projet.trophies.visitor.Visitor;
 
 public class Highest implements Trophy {
@@ -12,8 +13,8 @@ public class Highest implements Trophy {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public Player accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 
     @Override

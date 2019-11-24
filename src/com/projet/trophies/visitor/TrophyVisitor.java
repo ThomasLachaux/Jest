@@ -15,21 +15,35 @@ public class TrophyVisitor implements Visitor {
         this.players = players;
     }
 
+    private Player calculateBestJest(ArrayList<Player> players) {
+        Player winner = players.get(0);
+
+        for(Player player : players) {
+            if(player.getScore().getPoints() > winner.getScore().getPoints()) {
+                winner = player;
+            }
+        }
+
+        return winner;
+    }
+
     @Override
     public Player visit(Highest highest) {
         Player winner = players.get(0);
-        int maxCount = 0;
+        int maxWinnerValue = 0;
 
         for(Player player : players) {
 
-            int count = 0;
+            // Pour chaque joueur, regarde la carte la plus elevée dans la couleur
+            int maxPlayerValue = 0;
             for(Card card : player.getJest()) {
-                if (card.getColor() == highest.getTrophyColor()) {
-                    count++;
+                if (card.getColor() == highest.getTrophyColor() && card.getValue() > maxPlayerValue ) {
+                    maxPlayerValue = card.getValue();
                 }
             }
 
-            if(count > maxCount)
+            // Si elle est plus elevée que le joueur, on change le winner
+            if(maxPlayerValue > maxWinnerValue)
                 winner = player;
         }
 
@@ -39,18 +53,18 @@ public class TrophyVisitor implements Visitor {
     @Override
     public Player visit(Lowest lowest) {
         Player winner = players.get(0);
-        int maxCount = Integer.MAX_VALUE;
+        int maxWinnerValue = Integer.MAX_VALUE;
 
         for(Player player : players) {
 
-            int count = 0;
+            int maxPlayerValue = Integer.MAX_VALUE;
             for(Card card : player.getJest()) {
-                if (card.getColor() == lowest.getTrophyColor()) {
-                    count++;
+                if (card.getColor() == lowest.getTrophyColor() && card.getValue() < maxPlayerValue ) {
+                    maxPlayerValue = card.getValue();
                 }
             }
 
-            if(count < maxCount)
+            if(maxPlayerValue < maxWinnerValue)
                 winner = player;
         }
 
@@ -66,7 +80,7 @@ public class TrophyVisitor implements Visitor {
 
             int count = 0;
             for(Card card : player.getJest()) {
-                if (card.getValue() == majority.getTrophyColor()) {
+                if (card.getValue() == majority.getMajorityValue()) {
                     count++;
                 }
             }
@@ -96,15 +110,28 @@ public class TrophyVisitor implements Visitor {
 
     @Override
     public Player visit(BestJest bestJest) {
-        Player winner = players.get(0);
-
-        return winner;
+        return calculateBestJest(players);
     }
 
     @Override
     public Player visit(NoJoke noJoke) {
-        Player winner = players.get(0);
+        ArrayList<Player> playersWithoutJocker = new ArrayList<>();
 
-        return winner;
+        for(Player player : players) {
+            boolean hasJocker = false;
+
+            for(Card card : player.getJest()) {
+                if (card.getColor() == Color.Jocker) {
+                    hasJocker = true;
+                    break;
+                }
+            }
+
+            if(!hasJocker) {
+                playersWithoutJocker.add(player);
+            }
+        }
+
+        return calculateBestJest(playersWithoutJocker);
     }
 }

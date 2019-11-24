@@ -2,69 +2,57 @@ package com.projet.trophies;
 
 import com.projet.Card;
 import com.projet.Color;
+import com.projet.Player;
 import com.projet.trophies.visitor.Visitor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public interface Trophy {
 
-    void accept(Visitor visitor);
+    Player accept(Visitor visitor);
 
-    static Trophy computeTrophy(Card card) {
-        switch (card.getColor()) {
-            case Spade:
-                switch (card.getValue()) {
-                    case 1:
-                        return new Highest(Color.Club);
+    static HashMap<Card, Trophy> getTrophies() {
+        HashMap<Card, Trophy> trophies = new HashMap<>();
 
-                    case 2:
-                        return new Majority(3);
+        // Spades
+        trophies.put(new Card(Color.Spade, 1), new Highest(Color.Club));
+        trophies.put(new Card(Color.Spade, 2), new Majority(3));
+        trophies.put(new Card(Color.Spade, 2), new Majority(2));
+        trophies.put(new Card(Color.Spade, 4), new Lowest(Color.Club));
 
-                    case 3:
-                        return new Majority(2);
+        // Clubs
+        trophies.put(new Card(Color.Club, 1), new Highest(Color.Spade));
+        trophies.put(new Card(Color.Club, 2), new Lowest(Color.Heart));
+        trophies.put(new Card(Color.Club, 3), new Highest(Color.Heart));
+        trophies.put(new Card(Color.Club, 4), new Lowest(Color.Spade));
 
-                    case 4:
-                        return new Lowest(Color.Club);
-                }
-                break;
+        // Diamonds
+        trophies.put(new Card(Color.Diamond, 1), new Majority(4));
+        trophies.put(new Card(Color.Diamond, 2), new Highest(Color.Diamond));
+        trophies.put(new Card(Color.Diamond, 3), new Lowest(Color.Diamond));
+        trophies.put(new Card(Color.Diamond, 4), new NoJoke());
 
-            case Club:
-                switch (card.getValue()) {
-                    case 1:
-                        return new Highest(Color.Spade);
-
-                    case 2:
-                        return new Lowest(Color.Heart);
-
-                    case 3:
-                        return new Highest(Color.Heart);
-
-                    case 4:
-                        return new Lowest(Color.Spade);
-                }
-                break;
-
-            case Diamond:
-                switch (card.getValue()) {
-                    case 1:
-                        return new Majority(4);
-
-                    case 2:
-                        return new Highest(Color.Diamond);
-
-                    case 3:
-                        return new Lowest(Color.Diamond);
-
-                    case 4:
-                        return new NoJoke();
-                }
-                break;
-
-            case Heart:
-                return new Joker();
-
-            case Jocker:
-                return new BestJest();
+        // Hearts
+        for(int i = 1; i <= 4; i++) {
+            trophies.put(new Card(Color.Heart, i), new Joker());
         }
 
+        trophies.put(new Card(Color.Jocker, 0), new BestJest());
+
+        return trophies;
+    }
+
+    static Trophy computeTrophy(Card card) {
+        return getTrophies().get(card);
+    }
+
+    static Card findCard(Trophy find) {
+        for(Map.Entry<Card, Trophy> trophy : getTrophies().entrySet()) {
+            if(find == trophy.getValue()) {
+                return trophy.getKey();
+            }
+        }
         return null;
     }
 }

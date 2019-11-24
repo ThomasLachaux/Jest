@@ -1,6 +1,7 @@
 package com.projet;
 
 import com.projet.trophies.Trophy;
+import com.projet.trophies.visitor.TrophyVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -159,7 +160,12 @@ public class Game {
     }
 
     public void giveTrophies() {
+        TrophyVisitor visitor = new TrophyVisitor(players);
 
+        for(Trophy trophy : trophies) {
+            Player winner = trophy.accept(visitor);
+            winner.addToJest(Trophy.findCard(trophy));
+            System.out.println("Le trophée " + trophy.toString() + " est donnée à " + winner.toString());
+        }
     }
-
 }

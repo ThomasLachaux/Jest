@@ -79,6 +79,10 @@ public class Player implements Comparable<Player> {
         return stolenPlayer;
     }
 
+    public void addToJest(Card card) {
+        jest.add(card);
+    }
+
     public int getCurrentCardSize() {
         return current.size();
     }
