@@ -50,8 +50,6 @@ public class Card {
         faceDown = false;
     }
 
-
-
     public String toStringFromOutside() {
         return faceDown ? "⛶" : toString();
     }
@@ -61,4 +59,19 @@ public class Card {
         return (color != Color.Jocker ? value : "") + String.valueOf(color);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Card) {
+            Card card = (Card) obj;
+
+            return value == card.getValue() && color == card.getColor();
+        }
+        
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return value * 31 + color.getOrder();
+    }
 }

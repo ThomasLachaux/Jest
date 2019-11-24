@@ -26,9 +26,8 @@ public class Game {
     private Game() {
         Console.startGame();
         players = new ArrayList<>();
-        stack = new LinkedList<>();
+        stack = Trophy.getCards();
         tmpStack = new LinkedList<>();
-        createCards();
         shuffleCards();
         createPlayers(3);
         distributeAndShowTrophies();
@@ -124,17 +123,6 @@ public class Game {
             }
             Collections.shuffle(tmpStack);
         }
-    }
-
-    public void createCards() {
-        for (int i = 1; i <= 4; i++) {
-            for (Color color : Color.values()) {
-                if (color != Color.Jocker)
-                    stack.add(new Card(color, i));
-            }
-        }
-
-        stack.add(new Card(Color.Jocker, 0));
     }
 
     public void shuffleCards() {

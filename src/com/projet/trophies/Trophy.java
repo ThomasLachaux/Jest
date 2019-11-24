@@ -5,7 +5,9 @@ import com.projet.Color;
 import com.projet.Player;
 import com.projet.trophies.visitor.Visitor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public interface Trophy {
@@ -43,14 +45,24 @@ public interface Trophy {
         return trophies;
     }
 
+    static LinkedList<Card> getCards() {
+        LinkedList<Card> cards = new LinkedList<>();
+
+        for(Map.Entry<Card, Trophy> entry : getTrophies().entrySet()) {
+            cards.add(entry.getKey());
+        }
+
+        return cards;
+    }
+
     static Trophy computeTrophy(Card card) {
         return getTrophies().get(card);
     }
 
     static Card findCard(Trophy find) {
-        for(Map.Entry<Card, Trophy> trophy : getTrophies().entrySet()) {
-            if(find == trophy.getValue()) {
-                return trophy.getKey();
+        for(Map.Entry<Card, Trophy> entry : getTrophies().entrySet()) {
+            if(find == entry.getValue()) {
+                return entry.getKey();
             }
         }
         return null;
