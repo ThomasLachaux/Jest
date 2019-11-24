@@ -1,4 +1,15 @@
 package com.projet.trophies;
 
-public class Joker extends Trophy {
+import com.projet.trophies.visitor.Visitor;
+
+public class Joker implements Trophy {
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Joker";
+    }
 }

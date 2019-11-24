@@ -44,19 +44,20 @@ public class Game {
     }
 
     public void distributeAndShowTrophies() {
+        System.out.println("--- Trophées ---");
         trophies = new ArrayList<>();
-        trophies.add(Trophy.computeTrophy(stack.poll()));
+
+        Card cardA = stack.poll();
+        Trophy trophyA = Trophy.computeTrophy(cardA);
+
+        System.out.print(trophyA + " (" + cardA + ")" + "     ");
 
         // Si il y a 3 joueurs, on ajoute encore un trophée
         if (players.size() == 3) {
-            trophies.add(Trophy.computeTrophy(stack.poll()));
+            Card cardB = stack.poll();
+            Trophy trophyB = Trophy.computeTrophy(cardB);
+            System.out.println(trophyB + " (" + cardB + ")");
         }
-
-        System.out.println("--- Trophées ---");
-        for (Trophy trophy : trophies) {
-            System.out.print(trophy.toString() + "     ");
-        }
-        System.out.println();
     }
 
     public void playTurn(int turn) {
@@ -147,7 +148,7 @@ public class Game {
         }
     }
 
-    public ArrayList<Card> getTrophies() {
+    public ArrayList<Trophy> getTrophies() {
         return trophies;
     }
 

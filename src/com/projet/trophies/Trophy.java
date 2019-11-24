@@ -2,10 +2,13 @@ package com.projet.trophies;
 
 import com.projet.Card;
 import com.projet.Color;
+import com.projet.trophies.visitor.Visitor;
 
-public abstract class Trophy {
+public interface Trophy {
 
-    public static Trophy computeTrophy(Card card) {
+    void accept(Visitor visitor);
+
+    static Trophy computeTrophy(Card card) {
         switch (card.getColor()) {
             case Spade:
                 switch (card.getValue()) {
