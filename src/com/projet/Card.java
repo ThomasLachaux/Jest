@@ -3,8 +3,8 @@ package com.projet;
 public class Card {
 
     // Todo: ajouter une enum.toString()
-    private Color color;
-    private int value;
+    protected Color color;
+    protected int value;
     private boolean faceDown;
 
     public Card(Color color, int value) {
