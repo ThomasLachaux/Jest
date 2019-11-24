@@ -50,6 +50,8 @@ public class Card {
         faceDown = false;
     }
 
+
+
     public String toStringFromOutside() {
         return faceDown ? "⛶" : toString();
     }
@@ -66,7 +68,7 @@ public class Card {
 
             return value == card.getValue() && color == card.getColor();
         }
-        
+
         return false;
     }
 
@@ -74,4 +76,5 @@ public class Card {
     public int hashCode() {
         return value * 31 + color.getOrder();
     }
+
 }
