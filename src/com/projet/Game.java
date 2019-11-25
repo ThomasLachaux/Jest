@@ -1,5 +1,6 @@
 package com.projet;
 
+import com.projet.trophies.TropheyMapping;
 import com.projet.trophies.Trophy;
 import com.projet.trophies.visitor.TrophyVisitor;
 
@@ -14,6 +15,7 @@ public class Game {
     private ArrayList<Player> players;
     private LinkedList<Card> tmpStack;
     private ArrayList<Trophy> trophies;
+    private TropheyMapping tropheyMapping;
 
     public static Game getInstance() {
         if (instance == null) {
@@ -57,18 +59,20 @@ public class Game {
     }
 
     public void distributeAndShowTrophies() {
+        tropheyMapping = new TropheyMapping(TropheyMapping.generateDefaultMapping());
+
         System.out.println("--- Trophées ---");
         trophies = new ArrayList<>();
 
         Card cardA = stack.poll();
-        Trophy trophyA = Trophy.computeTrophy(cardA);
+        Trophy trophyA = tropheyMapping.computeTrophy(cardA);
 
         System.out.print(trophyA + " (" + cardA + ")" + "     ");
 
         // Si il y a 3 joueurs, on ajoute encore un trophée
         if (players.size() == 3) {
             Card cardB = stack.poll();
-            Trophy trophyB = Trophy.computeTrophy(cardB);
+            Trophy trophyB = tropheyMapping.computeTrophy(cardB);
             System.out.println(trophyB + " (" + cardB + ")");
         }
     }
@@ -176,7 +180,7 @@ public class Game {
 
         for(Trophy trophy : trophies) {
             Player winner = trophy.accept(visitor);
-            winner.addToJest(Trophy.findCard(trophy));
+            winner.addToJest(tropheyMapping.findCard(trophy));
             System.out.println("Le trophée " + trophy.toString() + " est donnée à " + winner.toString());
         }
     }
