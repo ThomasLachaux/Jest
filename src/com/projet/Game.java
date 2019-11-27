@@ -18,6 +18,7 @@ public class Game {
     private LinkedList<Card> tmpStack;
     private ArrayList<Trophy> trophies;
     private TropheyMapping tropheyMapping;
+    private int extension = 0;
 
     public static Game getInstance() {
         if (instance == null) {
@@ -35,19 +36,26 @@ public class Game {
         createCards();
         shuffleCards();
         createPlayers(3);
+        chooseExtension();
         distributeAndShowTrophies();
+
+
 
         // On joue tant que notre pile temporaire n'est plus vide.
         // (Elle est de 6 pour 3 joueurs dans tous les tours sauf le dernier)
         int i = 1;
         do {
+            System.out.println("stack: " + stack.size());
             playTurn(i);
             i++;
-        } while (tmpStack.size() != 0);
+        } while (tmpStack.size() != 0 || (extension == 1 && stack.size() !=0));
 
         System.out.println("Fin du jeu !");
 
         System.out.println(Console.RED + "--- Résultats ---" + Console.RESET);
+        for (Player player: players) {
+            player.getScore().calculateAll();
+        }
 
         String justification = "| %-16s | %-4d |%n";
 
@@ -81,13 +89,14 @@ public class Game {
 
     public void playTurn(int turn) {
         System.out.println(Console.RED + "--- Tour " + turn + " ---" + Console.RESET);
+
         // On verifie si c'est le premier tour
-        if (turn == 1) {
+        if (turn == 1 || extension == 1) {
             distributeCardsFirst();
         } else {
             distributeCard();
         }
-
+        System.out.println(tmpStack.size());
         System.out.println("Il reste " + stack.size() + " cartes");
 
         // Quelle carte reveler
@@ -119,17 +128,28 @@ public class Game {
                     stealerPlayer = hasntPlayedPlayers.get(0);
             }
         }
-
-        // Redonner toutes les cartes à la pile temporaire et melange
-        for (Player player : players) {
-            Card cardPlayer = player.pollHand();
-            Card cardStack = stack.poll();
-            if (cardStack != null) {
-                tmpStack.add(cardPlayer);
-                tmpStack.add(cardStack);
+        if ( extension == 0 || extension == 2){
+            for (Player player : players) {
+                Card cardPlayer = player.pollHand();
+                Card cardStack = stack.poll();
+                if (cardStack != null) {
+                    tmpStack.add(cardPlayer);
+                    tmpStack.add(cardStack);
+                }
+                Collections.shuffle(tmpStack);
             }
-            Collections.shuffle(tmpStack);
         }
+        else if (extension == 1){
+            // Redonner toutes les cartes à la pile et melange
+            for (Player player : players) {
+                Card cardPlayer = player.pollHand();
+                if (stack.size() != 0) {
+                    stack.add(cardPlayer);
+                }
+                Collections.shuffle(stack);
+            }
+        }
+
     }
 
     public void createCards() {
@@ -182,7 +202,17 @@ public class Game {
         }
         System.out.println("+------------------+----------------+");
     }
+    public void chooseExtension(){
+        System.out.println("voulez vous une extension ?");
+        System.out.println("1) oui    2) non");
+        int tmpChoose = Scanner.nextInt(2);
+        if (tmpChoose == 1 ){
+            System.out.println("Quelle extension voulez vous?");
+            System.out.println("1) remise en jeu des cartes dans le stack    2) ");
+            extension = Scanner.nextInt(2);
+        }
 
+    }
     public void giveTrophies() {
         TrophyVisitor visitor = new TrophyVisitor(players);
 
