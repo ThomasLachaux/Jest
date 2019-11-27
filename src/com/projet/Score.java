@@ -1,5 +1,7 @@
 package com.projet;
 
+import com.projet.players.Player;
+
 import java.util.ArrayList;
 
 public class Score {
@@ -109,7 +111,6 @@ public class Score {
                 if (card.getValue() == 1) {
                     asHeart = true;
                 }
-
             }
         }
         if (nbrHeart == 1 && asHeart == true) {

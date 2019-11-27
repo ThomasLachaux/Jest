@@ -10,6 +10,7 @@ public class Scanner {
 
     // Le min et le max sont inclusifs
     public static int nextInt(int min, int max) {
+        System.out.print(Console.BLUE + "-> " + Console.RESET);
         int result;
         boolean invalidAnswer;
 
@@ -24,6 +25,7 @@ public class Scanner {
 
         } while (invalidAnswer);
 
+        System.out.println();
         return result;
     }
 

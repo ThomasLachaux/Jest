@@ -1,6 +1,6 @@
 package com.projet.trophies;
 
-import com.projet.Player;
+import com.projet.players.Player;
 import com.projet.trophies.visitor.Visitor;
 
 public class NoJoke implements Trophy {

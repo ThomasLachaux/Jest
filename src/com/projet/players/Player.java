@@ -1,8 +1,13 @@
-package com.projet;
+package com.projet.players;
+
+import com.projet.Card;
+import com.projet.Console;
+import com.projet.Scanner;
+import com.projet.Score;
 
 import java.util.ArrayList;
 
-public class Player implements Comparable<Player> {
+public abstract class Player implements Comparable<Player> {
 
     // Equivalent de posée sur le diagramme mais on ne fait pas de français
     private ArrayList<Card> current;
@@ -13,9 +18,14 @@ public class Player implements Comparable<Player> {
     private String name;
 
     private Score score;
+    private Display display;
+
+    public abstract String favoriteColor();
 
     public Player(String name) {
-        System.out.println("Création du joueur " + name);
+        display = new Display(this);
+        display.playerCreation(name);
+
         current = new ArrayList<>();
         jest = new ArrayList<>();
         this.name = name;
@@ -30,48 +40,42 @@ public class Player implements Comparable<Player> {
     }
 
     public void startPrompt() {
-        System.out.println("--- " + this.name + " ---");
+        System.out.println(favoriteColor() + "--- " + this.name + " ---" + Console.RESET);
     }
 
     public void askWhichCardToFaceUp() {
         startPrompt();
-        System.out.println("Quelle carte choisissez-vous de mettre face visible ?");
 
         Card cardA = current.get(0);
         Card cardB = current.get(1);
+        display.askWhatCardToShow(cardA, cardB);
 
-        System.out.print("1) " + cardA.toString() + "     ");
-        System.out.println("2) " + cardB.toString());
         chooseFaceUpCard(Scanner.nextInt(2) - 1);
     }
 
     public Player askWhichPlayerToSteal(ArrayList<Player> players) {
         startPrompt();
-        int i = 1;
 
         ArrayList<Player> otherPlayers = new ArrayList<>();
-        System.out.println("Quel joueur voler ?");
+
         for (Player player : players) {
             // On n'affiche que les joueurs ayant 2 cartes et pas soit même
             if (player.getCurrentCardSize() == 2 && player != this) {
-                System.out.print(i + ") " + player.getName() + "     ");
                 otherPlayers.add(player);
-                i++;
             }
         }
+
+        display.askWhichPlayerToSteal(otherPlayers);
 
         Player stolenPlayer;
 
         if (otherPlayers.size() == 0) {
-            System.out.println("En fait, ne choisissez pas, vous devez vous voler à vous même \uD83D\uDE01");
             stolenPlayer = this;
         } else {
             stolenPlayer = otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
         }
 
-
-        System.out.println("Quelle carte voler ?");
-        System.out.println(stolenPlayer.displayCards(true));
+        display.askWhichCardToSteal(stolenPlayer);
 
         Card stolenCard = stolenPlayer.stealCard(Scanner.nextInt(stolenPlayer.getCurrentCardSize()) - 1);
         jest.add(stolenCard);
@@ -105,7 +109,10 @@ public class Player implements Comparable<Player> {
             }
 
             builder.append(current.get(i).toStringFromOutside());
-            builder.append("     ");
+
+            if(i != current.size() - 1) {
+                builder.append("     ");
+            }
         }
 
         return builder.toString();
@@ -116,7 +123,7 @@ public class Player implements Comparable<Player> {
     }
 
     public Card stealCard(int index) {
-        System.out.println("Vous avez volé un " + current.get(index).toString());
+        System.out.println(name + " a  volé un " + current.get(index).toString());
         return current.remove(index);
     }
 
@@ -137,7 +144,6 @@ public class Player implements Comparable<Player> {
         return cardA.isFaceUp() ? cardA : cardB;
     }
 
-    // todo: rajouter un deck intermediaire yohann
     public Card pollHand() {
         return current.remove(0);
     }

@@ -1,5 +1,7 @@
 package com.projet;
 
+import com.projet.players.Human;
+import com.projet.players.Player;
 import com.projet.trophies.TropheyMapping;
 import com.projet.trophies.Trophy;
 import com.projet.trophies.visitor.TrophyVisitor;
@@ -45,7 +47,7 @@ public class Game {
 
         System.out.println("Fin du jeu !");
 
-        System.out.println("--- Résultats ---");
+        System.out.println(Console.RED + "--- Résultats ---" + Console.RESET);
 
         String justification = "| %-16s | %-4d |%n";
 
@@ -78,7 +80,7 @@ public class Game {
     }
 
     public void playTurn(int turn) {
-        System.out.println("--- Tour " + turn + " ---");
+        System.out.println(Console.RED + "--- Tour " + turn + " ---" + Console.RESET);
         // On verifie si c'est le premier tour
         if (turn == 1) {
             distributeCardsFirst();
@@ -161,7 +163,7 @@ public class Game {
 
     public void createPlayers(int number) {
         for (int i = 0; i < number; i++) {
-            players.add(new Player("Joueur " + (i + 1)));
+            players.add(new Human("Joueur " + (i + 1)));
         }
     }
 
@@ -170,9 +172,15 @@ public class Game {
     }
 
     public void displayCurrentGame() {
-        for (Player player : players) {
-            System.out.println(player.getName() + ": " + player.displayCards());
+        String justification = "| %-16s | %-14s |%n";
+
+        System.out.println("+------------------+----------------+");
+        System.out.println("|      Joueur      |     Cartes     |");
+        System.out.println("+------------------+----------------+");
+        for (Player player: players) {
+            System.out.format(justification, player.getName(), player.displayCards());
         }
+        System.out.println("+------------------+----------------+");
     }
 
     public void giveTrophies() {
@@ -180,8 +188,14 @@ public class Game {
 
         for(Trophy trophy : trophies) {
             Player winner = trophy.accept(visitor);
-            winner.addToJest(tropheyMapping.findCard(trophy));
-            System.out.println("Le trophée " + trophy.toString() + " est donnée à " + winner.toString());
+            if(winner != null) {
+                winner.addToJest(tropheyMapping.findCard(trophy));
+                System.out.println("Le trophée " + trophy.toString() + " est donnée à " + winner.toString());
+            }
+
+            else {
+                System.out.println("Le trophée est donnée à personne");
+            }
         }
     }
 }

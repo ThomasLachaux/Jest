@@ -1,6 +1,6 @@
 package com.projet.trophies.visitor;
 
-import com.projet.Player;
+import com.projet.players.Player;
 import com.projet.trophies.*;
 
 public interface Visitor {

@@ -1,7 +1,7 @@
 package com.projet.trophies;
 
 import com.projet.Color;
-import com.projet.Player;
+import com.projet.players.Player;
 import com.projet.trophies.visitor.Visitor;
 
 public class Highest implements Trophy {
