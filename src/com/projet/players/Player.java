@@ -18,13 +18,14 @@ public abstract class Player implements Comparable<Player> {
     private String name;
 
     private Score score;
-    private Display display;
+
+    private Strategy strategy;
 
     public abstract String favoriteColor();
 
-    public Player(String name) {
-        display = new Display(this);
-        display.playerCreation(name);
+    public Player(String name, Strategy strategy) {
+
+        this.strategy = strategy;
 
         current = new ArrayList<>();
         jest = new ArrayList<>();
@@ -48,9 +49,10 @@ public abstract class Player implements Comparable<Player> {
 
         Card cardA = current.get(0);
         Card cardB = current.get(1);
-        display.askWhatCardToShow(cardA, cardB);
 
-        chooseFaceUpCard(Scanner.nextInt(2) - 1);
+        Card cardChosen = strategy.askWhichCardToShow(cardA, cardB);
+
+        cardChosen.setFaceUp();
     }
 
     public Player askWhichPlayerToSteal(ArrayList<Player> players) {
@@ -65,19 +67,13 @@ public abstract class Player implements Comparable<Player> {
             }
         }
 
-        display.askWhichPlayerToSteal(otherPlayers);
-
-        Player stolenPlayer;
+        Player stolenPlayer = strategy.askWhichPlayerToSteal(otherPlayers);
 
         if (otherPlayers.size() == 0) {
             stolenPlayer = this;
-        } else {
-            stolenPlayer = otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
         }
 
-        display.askWhichCardToSteal(stolenPlayer);
-
-        Card stolenCard = stolenPlayer.stealCard(Scanner.nextInt(stolenPlayer.getCurrentCardSize()) - 1);
+        Card stolenCard = strategy.askWhichCardToSteal(stolenPlayer);
         jest.add(stolenCard);
 
         return stolenPlayer;
@@ -130,11 +126,6 @@ public abstract class Player implements Comparable<Player> {
     @Override
     public String toString() {
         return name;
-    }
-
-    // Dans le diagramme: put
-    public void chooseFaceUpCard(int index) {
-        current.get(index).setFaceUp();
     }
 
     public Card getVisibleCard() {
