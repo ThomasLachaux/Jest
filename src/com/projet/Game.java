@@ -1,7 +1,9 @@
 package com.projet;
 
+import com.projet.players.Bot;
 import com.projet.players.Human;
 import com.projet.players.Player;
+import com.projet.strategies.RandomStrategy;
 import com.projet.trophies.TropheyMapping;
 import com.projet.trophies.Trophy;
 import com.projet.trophies.visitor.TrophyVisitor;
@@ -37,7 +39,7 @@ public class Game {
         tmpStack = new LinkedList<>();
         createCards();
         shuffleCards();
-        createPlayers(3);
+        createPlayers();
         chooseExtension();
         distributeAndShowTrophies();
 
@@ -86,6 +88,35 @@ public class Game {
             Card cardB = stack.poll();
             Trophy trophyB = tropheyMapping.computeTrophy(cardB);
             System.out.println(trophyB + " (" + cardB + ")");
+        }
+    }
+
+    public void createPlayers() {
+        System.out.println("Combien y a-t-il de joueurs ? (Entre 0 et 4)");
+        int players = Scanner.nextInt(0, 4);
+
+        int minBots = 3 - players;
+        int maxBots = 4 - players;
+
+        int bots;
+
+        if(maxBots == 0) {
+            bots = 0;
+        }
+
+        else {
+            System.out.println("Combien y a-il de bots ? (Entre " + minBots + " et " + maxBots + ")");
+            bots = Scanner.nextInt(minBots, maxBots);
+        }
+
+        for(int i = 0; i < players; i++) {
+            String name = "Player " + (i + 1);
+            this.players.add(new Human(name));
+        }
+
+        for(int i = 0; i < bots; i++) {
+            String name = "Bot " + (i + 1);
+            this.players.add(new Bot(name, new RandomStrategy(name)));
         }
     }
 
@@ -180,12 +211,6 @@ public class Game {
         System.out.println("Redistribution des cartes...");
         for (Player player : players) {
             player.addCardFaceDown(tmpStack.poll(), tmpStack.poll());
-        }
-    }
-
-    public void createPlayers(int number) {
-        for (int i = 0; i < number; i++) {
-            players.add(new Human("Joueur " + (i + 1)));
         }
     }
 

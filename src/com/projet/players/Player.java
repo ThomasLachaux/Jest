@@ -1,6 +1,7 @@
 package com.projet.players;
 
 import com.projet.Card;
+import com.projet.strategies.Strategy;
 import com.projet.utils.Console;
 import com.projet.Score;
 

@@ -4,7 +4,8 @@ import com.projet.utils.Console;
 
 public class Scanner {
 
-    private static java.util.Scanner scanner = new java.util.Scanner(System.in);
+    private static final String INVALID_ANSWER = "Entrée invalide ! Veuillez réessayer";
+    public static java.util.Scanner scanner = new java.util.Scanner(System.in);
 
     // Disables instantiations
     private Scanner() {
@@ -22,7 +23,7 @@ public class Scanner {
             invalidAnswer = result < min || result > max;
 
             if (invalidAnswer) {
-                System.out.println("Entrée invalide ! Veuillez réessayer");
+                System.out.println(INVALID_ANSWER);
             }
 
         } while (invalidAnswer);

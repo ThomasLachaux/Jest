@@ -1,5 +1,6 @@
 package com.projet.players;
 
+import com.projet.strategies.Strategy;
 import com.projet.utils.Console;
 
 public class Bot extends Player {
