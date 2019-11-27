@@ -1,8 +1,7 @@
 package com.projet.players;
 
 import com.projet.Card;
-import com.projet.Console;
-import com.projet.Scanner;
+import com.projet.utils.Console;
 import com.projet.Score;
 
 import java.util.ArrayList;

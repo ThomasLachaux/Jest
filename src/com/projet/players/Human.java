@@ -1,6 +1,6 @@
 package com.projet.players;
 
-import com.projet.Console;
+import com.projet.utils.Console;
 import com.projet.strategies.HumanStrategy;
 
 public class Human extends Player {

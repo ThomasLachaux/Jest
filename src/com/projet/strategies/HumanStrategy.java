@@ -1,7 +1,7 @@
 package com.projet.strategies;
 
 import com.projet.Card;
-import com.projet.Scanner;
+import com.projet.utils.Scanner;
 import com.projet.players.Player;
 import com.projet.players.Strategy;
 

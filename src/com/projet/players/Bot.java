@@ -1,13 +1,10 @@
 package com.projet.players;
 
-import com.projet.Console;
-import com.projet.strategies.RandomStrategy;
+import com.projet.utils.Console;
 
-public class AI extends Player {
-
-
-    public AI(String name) {
-        super(name, new RandomStrategy());
+public class Bot extends Player {
+    public Bot(String name, Strategy strategy) {
+        super(name, strategy);
         System.out.println("Création du bot " + name);
     }
 

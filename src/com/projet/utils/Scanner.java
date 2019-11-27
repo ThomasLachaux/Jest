@@ -1,4 +1,6 @@
-package com.projet;
+package com.projet.utils;
+
+import com.projet.utils.Console;
 
 public class Scanner {
 

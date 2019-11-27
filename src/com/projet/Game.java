@@ -5,6 +5,8 @@ import com.projet.players.Player;
 import com.projet.trophies.TropheyMapping;
 import com.projet.trophies.Trophy;
 import com.projet.trophies.visitor.TrophyVisitor;
+import com.projet.utils.Console;
+import com.projet.utils.Scanner;
 
 import java.util.ArrayList;
 import java.util.Collections;
