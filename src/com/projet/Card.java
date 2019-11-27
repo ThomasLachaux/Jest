@@ -3,8 +3,8 @@ package com.projet;
 public class Card {
 
     // Todo: ajouter une enum.toString()
-    private Color color;
-    private int value;
+    protected Color color;
+    protected int value;
     private boolean faceDown;
 
     public Card(Color color, int value) {
@@ -12,12 +12,12 @@ public class Card {
         this.value = value;
         this.faceDown = true;
 
-        if(value < 0 || value > 4) {
+        if (value < 0 || value > 4) {
             System.out.println("Erreur: Les valeurs doivent être comprises entre 0 et 4.");
             System.exit(1);
         }
 
-        if(color == Color.Jocker)
+        if (color == Color.Jocker)
             this.value = 0;
     }
 
@@ -34,6 +34,10 @@ public class Card {
         return this;
     }
 
+    public int setValue(int i) {
+        return this.value = i;
+    }
+
     public boolean isFaceDown() {
         return faceDown;
     }
@@ -46,6 +50,8 @@ public class Card {
         faceDown = false;
     }
 
+
+
     public String toStringFromOutside() {
         return faceDown ? "⛶" : toString();
     }
@@ -53,6 +59,22 @@ public class Card {
     @Override
     public String toString() {
         return (color != Color.Jocker ? value : "") + String.valueOf(color);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Card) {
+            Card card = (Card) obj;
+
+            return value == card.getValue() && color == card.getColor();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return value * 31 + color.getOrder();
     }
 
 }

@@ -1,8 +1,13 @@
-package com.projet;
+package com.projet.players;
 
-import java.util.*;
+import com.projet.Card;
+import com.projet.Console;
+import com.projet.Scanner;
+import com.projet.Score;
 
-public class Player implements Comparable<Player> {
+import java.util.ArrayList;
+
+public abstract class Player implements Comparable<Player> {
 
     // Equivalent de posée sur le diagramme mais on ne fait pas de français
     private ArrayList<Card> current;
@@ -12,11 +17,20 @@ public class Player implements Comparable<Player> {
 
     private String name;
 
-    public Player(String name) {
-        System.out.println("Création du joueur " + name);
+    private Score score;
+
+    private Strategy strategy;
+
+    public abstract String favoriteColor();
+
+    public Player(String name, Strategy strategy) {
+
+        this.strategy = strategy;
+
         current = new ArrayList<>();
         jest = new ArrayList<>();
         this.name = name;
+        score = new Score(this);
     }
 
     // On a bien 2 cartes par joueurs tout le temps ????
@@ -27,55 +41,46 @@ public class Player implements Comparable<Player> {
     }
 
     public void startPrompt() {
-        System.out.println("--- " + this.name + " ---");
+        System.out.println(favoriteColor() + "--- " + this.name + " ---" + Console.RESET);
     }
 
     public void askWhichCardToFaceUp() {
         startPrompt();
-        System.out.println("Quelle carte choisissez-vous de mettre face visible ?");
 
         Card cardA = current.get(0);
         Card cardB = current.get(1);
 
-        System.out.print("1) " + cardA.toString() + "     ");
-        System.out.println("2) " + cardB.toString());
-        chooseFaceUpCard(Scanner.nextInt(2) - 1);
+        Card cardChosen = strategy.askWhichCardToShow(cardA, cardB);
+
+        cardChosen.setFaceUp();
     }
 
     public Player askWhichPlayerToSteal(ArrayList<Player> players) {
         startPrompt();
-        int i = 1;
 
         ArrayList<Player> otherPlayers = new ArrayList<>();
-        System.out.println("Quel joueur voler ?");
-        for(Player player: players) {
+
+        for (Player player : players) {
             // On n'affiche que les joueurs ayant 2 cartes et pas soit même
-            if(player.getCurrentCardSize() == 2 && player != this) {
-                System.out.print(i + ") " + player.getName() + "     ");
+            if (player.getCurrentCardSize() == 2 && player != this) {
                 otherPlayers.add(player);
-                i++;
             }
         }
 
-        Player stolenPlayer;
+        Player stolenPlayer = strategy.askWhichPlayerToSteal(otherPlayers);
 
-        if(otherPlayers.size() == 0) {
-            System.out.println("En fait, ne choisissez pas, vous devez vous voler à vous même \uD83D\uDE01");
+        if (otherPlayers.size() == 0) {
             stolenPlayer = this;
         }
 
-        else {
-            stolenPlayer = otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
-        }
-
-
-        System.out.println("Quelle carte voler ?");
-        System.out.println(stolenPlayer.displayCards(true));
-
-        Card stolenCard = stolenPlayer.stealCard(Scanner.nextInt(stolenPlayer.getCurrentCardSize()) - 1);
+        Card stolenCard = strategy.askWhichCardToSteal(stolenPlayer);
         jest.add(stolenCard);
 
         return stolenPlayer;
+    }
+
+    public void addToJest(Card card) {
+        jest.add(card);
     }
 
     public int getCurrentCardSize() {
@@ -93,14 +98,17 @@ public class Player implements Comparable<Player> {
     public String displayCards(boolean withIndexes) {
         StringBuilder builder = new StringBuilder();
 
-        for(int i = 0; i < current.size(); i++) {
-            if(withIndexes) {
+        for (int i = 0; i < current.size(); i++) {
+            if (withIndexes) {
                 builder.append(i + 1);
                 builder.append(") ");
             }
 
             builder.append(current.get(i).toStringFromOutside());
-            builder.append("     ");
+
+            if(i != current.size() - 1) {
+                builder.append("     ");
+            }
         }
 
         return builder.toString();
@@ -111,18 +119,13 @@ public class Player implements Comparable<Player> {
     }
 
     public Card stealCard(int index) {
-        System.out.println("Vous avez volé un " + current.get(index).toString());
+        System.out.println(name + " a  volé un " + current.get(index).toString());
         return current.remove(index);
     }
 
     @Override
     public String toString() {
         return name;
-    }
-
-    // Dans le diagramme: put
-    public void chooseFaceUpCard(int index) {
-        current.get(index).setFaceUp();
     }
 
     public Card getVisibleCard() {
@@ -132,7 +135,6 @@ public class Player implements Comparable<Player> {
         return cardA.isFaceUp() ? cardA : cardB;
     }
 
-    // todo: rajouter un deck intermediaire yohann
     public Card pollHand() {
         return current.remove(0);
     }
@@ -141,7 +143,7 @@ public class Player implements Comparable<Player> {
     public int compareTo(Player o) {
         int result = o.getVisibleCard().getValue() - getVisibleCard().getValue();
 
-        if(result == 0) {
+        if (result == 0) {
             result = o.getVisibleCard().getColor().getOrder() - getVisibleCard().getColor().getOrder();
         }
 
@@ -151,4 +153,13 @@ public class Player implements Comparable<Player> {
     public int getJestSize() {
         return jest.size();
     }
+
+    public ArrayList<Card> getJest() {
+        return jest;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
 }
