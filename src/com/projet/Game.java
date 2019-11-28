@@ -93,27 +93,18 @@ public class Game {
     }
 
     public void createPlayers() {
-        System.out.println("Combien y a-t-il de joueurs ? (Entre 0 et 4)");
+        System.out.println("Combien y a-t-il de joueurs ? (Entre 3 et 4)");
         int players = Scanner.nextInt(0, 4);
-
-        int minBots = 3 - players;
-        int maxBots = 4 - players;
-
         int bots;
         int botDifficulty = 1;
+        System.out.println("Combien y a-il de bots ? (Entre 0 et " + players + ")");
+        bots = Scanner.nextInt(0, players);
 
-        if (maxBots == 0) {
-            bots = 0;
-        } else {
-            System.out.println("Combien y a-il de bots ? (Entre " + minBots + " et " + maxBots + ")");
-            bots = Scanner.nextInt(minBots, maxBots);
+        System.out.println("Quelle difficulté des bots voulez-vous ?");
+        System.out.println("1) Facile     2) Difficile");
+        botDifficulty = Scanner.nextInt(2);
 
-            System.out.println("Quelle difficulté des bots voulez-vous ?");
-            System.out.println("1) Facile     2) Difficile");
-            botDifficulty = Scanner.nextInt(2);
-        }
-
-        for (int i = 0; i < players; i++) {
+        for (int i = 0; i < players - bots; i++) {
             String name = "Player " + (i + 1);
             this.players.add(new Human(name));
         }

@@ -119,7 +119,7 @@ public abstract class Player implements Comparable<Player> {
     }
 
     public Card stealCard(int index) {
-        System.out.println(name + " a  volé un " + current.get(index).toString());
+        System.out.println(name + " a  perdu un " + current.get(index).toString());
         return current.remove(index);
     }
 
