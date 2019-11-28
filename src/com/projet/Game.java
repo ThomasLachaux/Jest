@@ -139,8 +139,10 @@ public class Game {
         System.out.println("Il reste " + stack.size() + " cartes");
 
         // Quelle carte reveler
-        for (Player player : players) {
-            player.askWhichCardToFaceUp();
+        if(extension != 2) {
+            for (Player player : players) {
+                player.askWhichCardToFaceUp();
+            }
         }
 
         displayCurrentGame();
@@ -241,7 +243,7 @@ public class Game {
         int tmpChoose = Scanner.nextInt(2);
         if (tmpChoose == 1) {
             System.out.println("Quelle extension voulez vous?");
-            System.out.println("1) remise en jeu des cartes dans le stack    2) ");
+            System.out.println("1) remise en jeu des cartes dans le stack    2)jouer carte face caché  ");
             extension = Scanner.nextInt(2);
         }
 
