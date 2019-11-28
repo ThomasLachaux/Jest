@@ -58,9 +58,8 @@ public class BlackStrategy extends BotStrategy {
 
     @Override
     public Card askWhichCardToSteal(Player stolenPlayer) {
-        Card chosenCard = stolenPlayer.getVisibleCard();
+        Card chosenCard = stolenPlayer.stealVisibleCard();
         hasChoseCard(chosenCard);
-
         return chosenCard;
     }
 }

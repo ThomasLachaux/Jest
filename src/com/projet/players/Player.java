@@ -123,6 +123,12 @@ public abstract class Player implements Comparable<Player> {
         return current.remove(index);
     }
 
+    public Card stealVisibleCard() {
+        int index = current.indexOf(getVisibleCard());
+
+        return stealCard(index);
+    }
+
     @Override
     public String toString() {
         return name;
