@@ -1,10 +1,16 @@
 package com.projet;
 
+import com.projet.players.Bot;
 import com.projet.players.Human;
 import com.projet.players.Player;
+import com.projet.strategies.BlackStrategy;
+import com.projet.strategies.RandomStrategy;
+import com.projet.strategies.Strategy;
 import com.projet.trophies.TropheyMapping;
 import com.projet.trophies.Trophy;
 import com.projet.trophies.visitor.TrophyVisitor;
+import com.projet.utils.Console;
+import com.projet.utils.Scanner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,10 +41,9 @@ public class Game {
         tmpStack = new LinkedList<>();
         createCards();
         shuffleCards();
-        createPlayers(3);
+        createPlayers();
         chooseExtension();
         distributeAndShowTrophies();
-
 
 
         // On joue tant que notre pile temporaire n'est plus vide.
@@ -48,12 +53,14 @@ public class Game {
             System.out.println("stack: " + stack.size());
             playTurn(i);
             i++;
-        } while (tmpStack.size() != 0 || (extension == 1 && stack.size() !=0));
+        } while (tmpStack.size() != 0 || (extension == 1 && stack.size() != 0));
+
 
         System.out.println("Fin du jeu !");
+        giveTrophies();
 
         System.out.println(Console.RED + "--- Résultats ---" + Console.RESET);
-        for (Player player: players) {
+        for (Player player : players) {
             player.getScore().calculateAll();
         }
 
@@ -62,7 +69,7 @@ public class Game {
         System.out.println("+------------------+------+");
         System.out.println("|      Joueur      | Jest |");
         System.out.println("+------------------+------+");
-        for (Player player: players) {
+        for (Player player : players) {
             System.out.format(justification, player.getName(), player.getScore().getPoints());
         }
         System.out.println("+------------------+------+");
@@ -76,6 +83,7 @@ public class Game {
 
         Card cardA = stack.poll();
         Trophy trophyA = tropheyMapping.computeTrophy(cardA);
+        trophies.add(trophyA);
 
         System.out.print(trophyA + " (" + cardA + ")" + "     ");
 
@@ -83,7 +91,33 @@ public class Game {
         if (players.size() == 3) {
             Card cardB = stack.poll();
             Trophy trophyB = tropheyMapping.computeTrophy(cardB);
+            trophies.add(trophyB);
             System.out.println(trophyB + " (" + cardB + ")");
+        }
+    }
+
+    public void createPlayers() {
+        System.out.println("Combien y a-t-il de joueurs ? (Entre 3 et 4)");
+        int players = Scanner.nextInt(0, 4);
+        int bots;
+        int botDifficulty = 1;
+        System.out.println("Combien y a-il de bots ? (Entre 0 et " + players + ")");
+        bots = Scanner.nextInt(0, players);
+
+        System.out.println("Quelle difficulté des bots voulez-vous ?");
+        System.out.println("1) Facile     2) Difficile");
+        botDifficulty = Scanner.nextInt(2);
+
+        for (int i = 0; i < players - bots; i++) {
+            String name = "Player " + (i + 1);
+            this.players.add(new Human(name));
+        }
+
+        for (int i = 0; i < bots; i++) {
+            String name = "Bot " + (i + 1);
+
+            Strategy strategy = botDifficulty == 1 ? new RandomStrategy(name) : new BlackStrategy(name);
+            this.players.add(new Bot(name, strategy));
         }
     }
 
@@ -100,8 +134,10 @@ public class Game {
         System.out.println("Il reste " + stack.size() + " cartes");
 
         // Quelle carte reveler
-        for (Player player : players) {
-            player.askWhichCardToFaceUp();
+        if(extension != 2) {
+            for (Player player : players) {
+                player.askWhichCardToFaceUp();
+            }
         }
 
         displayCurrentGame();
@@ -128,7 +164,7 @@ public class Game {
                     stealerPlayer = hasntPlayedPlayers.get(0);
             }
         }
-        if ( extension == 0 || extension == 2){
+        if (extension == 0 || extension == 2) {
             for (Player player : players) {
                 Card cardPlayer = player.pollHand();
                 Card cardStack = stack.poll();
@@ -138,8 +174,7 @@ public class Game {
                 }
                 Collections.shuffle(tmpStack);
             }
-        }
-        else if (extension == 1){
+        } else if (extension == 1) {
             // Redonner toutes les cartes à la pile et melange
             for (Player player : players) {
                 Card cardPlayer = player.pollHand();
@@ -181,12 +216,6 @@ public class Game {
         }
     }
 
-    public void createPlayers(int number) {
-        for (int i = 0; i < number; i++) {
-            players.add(new Human("Joueur " + (i + 1)));
-        }
-    }
-
     public ArrayList<Trophy> getTrophies() {
         return trophies;
     }
@@ -197,33 +226,32 @@ public class Game {
         System.out.println("+------------------+----------------+");
         System.out.println("|      Joueur      |     Cartes     |");
         System.out.println("+------------------+----------------+");
-        for (Player player: players) {
+        for (Player player : players) {
             System.out.format(justification, player.getName(), player.displayCards());
         }
         System.out.println("+------------------+----------------+");
     }
-    public void chooseExtension(){
+
+    public void chooseExtension() {
         System.out.println("voulez vous une extension ?");
-        System.out.println("1) oui    2) non");
+        System.out.println("1) Oui     2) Non");
         int tmpChoose = Scanner.nextInt(2);
-        if (tmpChoose == 1 ){
+        if (tmpChoose == 1) {
             System.out.println("Quelle extension voulez vous?");
-            System.out.println("1) remise en jeu des cartes dans le stack    2) ");
+            System.out.println("1) remise en jeu des cartes dans le stack    2)jouer carte face caché  ");
             extension = Scanner.nextInt(2);
         }
 
     }
+
     public void giveTrophies() {
         TrophyVisitor visitor = new TrophyVisitor(players);
-
-        for(Trophy trophy : trophies) {
+        for (Trophy trophy : trophies) {
             Player winner = trophy.accept(visitor);
-            if(winner != null) {
+            if (winner != null) {
                 winner.addToJest(tropheyMapping.findCard(trophy));
                 System.out.println("Le trophée " + trophy.toString() + " est donnée à " + winner.toString());
-            }
-
-            else {
+            } else {
                 System.out.println("Le trophée est donnée à personne");
             }
         }

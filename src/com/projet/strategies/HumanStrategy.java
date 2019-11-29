@@ -1,9 +1,8 @@
 package com.projet.strategies;
 
 import com.projet.Card;
-import com.projet.Scanner;
+import com.projet.utils.Scanner;
 import com.projet.players.Player;
-import com.projet.players.Strategy;
 
 import java.util.ArrayList;
 
@@ -33,7 +32,7 @@ public class HumanStrategy implements Strategy {
                 Player player = otherPlayers.get(i);
                 System.out.print((i + 1) + ") " + player.getName() + "     ");
             }
-
+            System.out.println();
             return otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
         }
     }

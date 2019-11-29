@@ -1,8 +1,8 @@
 package com.projet.players;
 
 import com.projet.Card;
-import com.projet.Console;
-import com.projet.Scanner;
+import com.projet.strategies.Strategy;
+import com.projet.utils.Console;
 import com.projet.Score;
 
 import java.util.ArrayList;
@@ -119,8 +119,14 @@ public abstract class Player implements Comparable<Player> {
     }
 
     public Card stealCard(int index) {
-        System.out.println(name + " a  volé un " + current.get(index).toString());
+        System.out.println(name + " a  perdu un " + current.get(index).toString());
         return current.remove(index);
+    }
+
+    public Card stealVisibleCard() {
+        int index = current.indexOf(getVisibleCard());
+
+        return stealCard(index);
     }
 
     @Override
