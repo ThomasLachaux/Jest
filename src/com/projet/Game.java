@@ -55,7 +55,9 @@ public class Game {
             i++;
         } while (tmpStack.size() != 0 || (extension == 1 && stack.size() != 0));
 
+
         System.out.println("Fin du jeu !");
+        giveTrophies();
 
         System.out.println(Console.RED + "--- Résultats ---" + Console.RESET);
         for (Player player : players) {
@@ -81,6 +83,7 @@ public class Game {
 
         Card cardA = stack.poll();
         Trophy trophyA = tropheyMapping.computeTrophy(cardA);
+        trophies.add(trophyA);
 
         System.out.print(trophyA + " (" + cardA + ")" + "     ");
 
@@ -88,6 +91,7 @@ public class Game {
         if (players.size() == 3) {
             Card cardB = stack.poll();
             Trophy trophyB = tropheyMapping.computeTrophy(cardB);
+            trophies.add(trophyB);
             System.out.println(trophyB + " (" + cardB + ")");
         }
     }
@@ -230,7 +234,7 @@ public class Game {
 
     public void chooseExtension() {
         System.out.println("voulez vous une extension ?");
-        System.out.println("1) oui    2) non");
+        System.out.println("1) Oui     2) Non");
         int tmpChoose = Scanner.nextInt(2);
         if (tmpChoose == 1) {
             System.out.println("Quelle extension voulez vous?");
@@ -242,7 +246,6 @@ public class Game {
 
     public void giveTrophies() {
         TrophyVisitor visitor = new TrophyVisitor(players);
-
         for (Trophy trophy : trophies) {
             Player winner = trophy.accept(visitor);
             if (winner != null) {

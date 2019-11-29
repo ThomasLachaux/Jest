@@ -32,7 +32,7 @@ public class HumanStrategy implements Strategy {
                 Player player = otherPlayers.get(i);
                 System.out.print((i + 1) + ") " + player.getName() + "     ");
             }
-
+            System.out.println();
             return otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
         }
     }
