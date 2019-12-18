@@ -10,6 +10,7 @@ import com.projet.models.trophies.TropheyMapping;
 import com.projet.models.trophies.Trophy;
 import com.projet.models.trophies.visitor.TrophyVisitor;
 import com.projet.models.utils.Console;
+import com.projet.models.utils.EventType;
 import com.projet.models.utils.Observable;
 import com.projet.models.utils.Scanner;
 
@@ -34,9 +35,8 @@ public class Game extends Observable {
 
         return instance;
     }
-
-    private Game() {
-        Console.startGame();
+    public void partie(){
+        notifyObservers(EventType.START_GAME, null);
         players = new ArrayList<>();
         stack = new LinkedList<>();
         tmpStack = new LinkedList<>();
@@ -74,6 +74,10 @@ public class Game extends Observable {
             System.out.format(justification, player.getName(), player.getScore().getPoints());
         }
         System.out.println("+------------------+------+");
+    }
+
+    private Game() {
+
     }
 
     public void distributeAndShowTrophies() {

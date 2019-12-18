@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class Observable {
 
-    private ArrayList<Observer> observers;
+    private ArrayList<Observer> observers = new ArrayList<>();
 
     public void addObserver(Observer observer) {
         observers.add(observer);
@@ -14,5 +14,9 @@ public abstract class Observable {
         for(Observer observer : observers) {
             observer.update(eventType, payload);
         }
+    }
+
+    public void notifyObservers(EventType eventType) {
+        notifyObservers(eventType, null);
     }
 }
