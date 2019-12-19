@@ -1,9 +1,10 @@
 package com.projet.models.utils;
 
-public class Scanner {
+import com.projet.models.App;
+import com.projet.views.Console;
 
+public class Scanner {
     private static final String INVALID_ANSWER = "Entrée invalide ! Veuillez réessayer";
-    public static java.util.Scanner scanner = new java.util.Scanner(System.in);
 
     // Disables instantiations
     private Scanner() {
@@ -11,22 +12,25 @@ public class Scanner {
 
     // Le min et le max sont inclusifs
     public static int nextInt(int min, int max) {
-        System.out.print(Console.BLUE + "-> " + Console.RESET);
-        int result;
-        boolean invalidAnswer;
+        int result = -1;
+        try {
+            boolean invalidAnswer;
 
-        do {
-            result = scanner.nextInt();
+            do {
+                result = Integer.parseInt(App.getInstance().getQueue().take());
 
-            invalidAnswer = result < min || result > max;
+                invalidAnswer = result < min || result > max;
 
-            if (invalidAnswer) {
-                System.out.println(INVALID_ANSWER);
-            }
+                if (invalidAnswer) {
+                    System.out.println(INVALID_ANSWER);
+                }
 
-        } while (invalidAnswer);
+            } while (invalidAnswer);
 
-        System.out.println();
+            System.out.println();
+        } catch (NumberFormatException | InterruptedException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 

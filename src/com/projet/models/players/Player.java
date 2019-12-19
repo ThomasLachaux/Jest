@@ -2,8 +2,8 @@ package com.projet.models.players;
 
 import com.projet.models.Card;
 import com.projet.models.strategies.Strategy;
-import com.projet.models.utils.Console;
 import com.projet.models.Score;
+import com.projet.views.Console;
 
 import java.util.ArrayList;
 

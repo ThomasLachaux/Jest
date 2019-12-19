@@ -1,7 +1,7 @@
 package com.projet.models.players;
 
 import com.projet.models.strategies.Strategy;
-import com.projet.models.utils.Console;
+import com.projet.views.Console;
 
 public class Bot extends Player {
     public Bot(String name, Strategy strategy) {

@@ -9,16 +9,17 @@ import com.projet.models.strategies.Strategy;
 import com.projet.models.trophies.TropheyMapping;
 import com.projet.models.trophies.Trophy;
 import com.projet.models.trophies.visitor.TrophyVisitor;
-import com.projet.models.utils.Console;
 import com.projet.models.utils.EventType;
 import com.projet.models.utils.Observable;
 import com.projet.models.utils.Scanner;
+import com.projet.views.Console;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.concurrent.BlockingQueue;
 
-public class Game extends Observable {
+public class Game extends Observable implements Runnable {
 
     private static Game instance;
     private LinkedList<Card> stack;
@@ -27,15 +28,35 @@ public class Game extends Observable {
     private ArrayList<Trophy> trophies;
     private TropheyMapping tropheyMapping;
     private int extension = 0;
+    private BlockingQueue<String> queue;
 
     public static Game getInstance() {
-        if (instance == null) {
-            instance = new Game();
+        try {
+            if (instance == null) {
+                throw new Exception("Pour initialiser game, il faut un blockingqueue");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return instance;
     }
-    public void partie(){
+
+    public static Game getInstance(BlockingQueue blockingQueue) {
+        if(instance == null) {
+            instance = new Game(blockingQueue);
+        }
+
+        return instance;
+    }
+
+    private Game(BlockingQueue<String> queue) {
+        this.queue = queue;
+    }
+
+    @Override
+    public void run() {
         notifyObservers(EventType.START_GAME, null);
         players = new ArrayList<>();
         stack = new LinkedList<>();
@@ -60,7 +81,7 @@ public class Game extends Observable {
         System.out.println("Fin du jeu !");
         giveTrophies();
 
-        System.out.println(Console.RED + "--- Résultats ---" + Console.RESET);
+        System.out.println(com.projet.views.Console.RED + "--- Résultats ---" + com.projet.views.Console.RESET);
         for (Player player : players) {
             player.getScore().calculateAll();
         }
@@ -77,7 +98,6 @@ public class Game extends Observable {
     }
 
     private Game() {
-
     }
 
     public void distributeAndShowTrophies() {
@@ -102,6 +122,7 @@ public class Game extends Observable {
     }
 
     public void createPlayers() {
+
         System.out.println("Combien y a-t-il de joueurs ? (Entre 3 et 4)");
         int players = Scanner.nextInt(0, 4);
         int bots;
@@ -124,10 +145,11 @@ public class Game extends Observable {
             Strategy strategy = botDifficulty == 1 ? new RandomStrategy(name) : new BlackStrategy(name);
             this.players.add(new Bot(name, strategy));
         }
+
     }
 
     public void playTurn(int turn) {
-        System.out.println(Console.RED + "--- Tour " + turn + " ---" + Console.RESET);
+        System.out.println(Console.RED + "--- Tour " + turn + " ---" + com.projet.views.Console.RESET);
 
         // On verifie si c'est le premier tour
         if (turn == 1 || extension == 1) {
