@@ -59,6 +59,11 @@ public class Console implements Observer, Runnable {
             case START_GAME:
                 startGame();
                 break;
+
+            case CHOOSE_PLAYER_COUNT:
+            case CHOOSE_BOT_COUNT:
+                System.out.println(payload);
+                break;
         }
     }
 

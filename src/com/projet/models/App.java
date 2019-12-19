@@ -1,7 +1,9 @@
 package com.projet.models;
 
 import com.projet.views.Console;
+import com.projet.views.Interface;
 
+import java.awt.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -11,7 +13,7 @@ public class App {
     private BlockingQueue<String> queue = new ArrayBlockingQueue<>(50);
 
     public static void main(String[] args) {
-        instance = new App();
+        new App();
     }
 
     public static App getInstance() {
@@ -19,6 +21,7 @@ public class App {
     }
 
     private App() {
+        instance = this;
         Game game = Game.getInstance(queue);
         Console console = Console.getInstance(queue);
 
@@ -27,6 +30,17 @@ public class App {
 
         Thread consoleThread = new Thread(console);
         consoleThread.start();
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Interface window = new Interface();
+                    window.getFrame().setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public BlockingQueue<String> getQueue() {
