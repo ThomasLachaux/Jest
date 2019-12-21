@@ -23,6 +23,7 @@ public class Console implements Observer, Runnable {
 
     private static Console instance;
     private BlockingQueue<String> queue;
+    private boolean canUseConsole = false;
 
     private Console(BlockingQueue<String> queue) {
         Game.getInstance().addObserver(this);
@@ -57,13 +58,13 @@ public class Console implements Observer, Runnable {
     public void update(EventType eventType, Object payload) {
         switch(eventType) {
             case START_GAME:
+                canUseConsole = false;
                 startGame();
+                System.out.println("Veillez utiliser l'interface grafique pour configurer le Jest");
                 break;
 
-            case CHOOSE_PLAYER_COUNT:
-            case CHOOSE_BOT_COUNT:
-                System.out.println(payload);
-                break;
+            case GAME_SET_UP:
+                canUseConsole = true;
         }
     }
 
@@ -72,7 +73,7 @@ public class Console implements Observer, Runnable {
         while (true) {
             String input = readLine();
 
-            if (input != null) {
+            if (input != null && canUseConsole) {
                 try {
                     queue.put(input);
                 } catch (InterruptedException e) {

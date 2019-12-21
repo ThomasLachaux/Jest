@@ -1,16 +1,10 @@
 package com.projet.views;
 
-import com.projet.controllers.ButtonController;
-import com.projet.models.App;
 import com.projet.models.Game;
 import com.projet.models.utils.EventType;
 import com.projet.models.utils.Observer;
 
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 public class Interface implements Observer {
 

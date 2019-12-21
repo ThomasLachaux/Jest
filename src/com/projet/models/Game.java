@@ -123,16 +123,15 @@ public class Game extends Observable implements Runnable {
 
     public void createPlayers() {
 
-        notifyObservers(EventType.CHOOSE_PLAYER_COUNT, "Combien y a-t-il de joueurs ? (Entre 3 et 4)");
         int players = Scanner.nextInt(0, 4);
+        System.out.println("Debug: Joueurs: " + players);
         int bots;
         int botDifficulty = 1;
-        notifyObservers(EventType.CHOOSE_BOT_COUNT, "Combien y a-il de bots ? (Entre 0 et " + players + ")");
         bots = Scanner.nextInt(0, players);
+        System.out.println("Debug: Bots: " + bots);
 
-        System.out.println("Quelle difficulté des bots voulez-vous ?");
-        System.out.println("1) Facile     2) Difficile");
         botDifficulty = Scanner.nextInt(2);
+        System.out.println("Debug: Difficulté: " + botDifficulty);
 
         for (int i = 0; i < players - bots; i++) {
             String name = "Player " + (i + 1);
