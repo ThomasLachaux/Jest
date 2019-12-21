@@ -15,6 +15,7 @@ public class HumanStrategy implements Strategy {
 
         int response = Scanner.nextInt(2);
 
+
         return response == 1 ? cardA : cardB;
     }
 

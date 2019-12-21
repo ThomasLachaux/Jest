@@ -1,8 +1,10 @@
 package com.projet.models.players;
 
 import com.projet.models.Card;
+import com.projet.models.Game;
 import com.projet.models.strategies.Strategy;
 import com.projet.models.Score;
+import com.projet.models.utils.EventType;
 import com.projet.views.Console;
 
 import java.util.ArrayList;
@@ -49,6 +51,10 @@ public abstract class Player implements Comparable<Player> {
 
         Card cardA = current.get(0);
         Card cardB = current.get(1);
+
+        if(this instanceof Human) {
+            Game.getInstance().notifyObservers(EventType.HUMAN_CHOOSE_CARD, this);
+        }
 
         Card cardChosen = strategy.askWhichCardToShow(cardA, cardB);
 

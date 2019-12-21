@@ -60,10 +60,11 @@ public class Console implements Observer, Runnable {
             case START_GAME:
                 canUseConsole = false;
                 startGame();
-                System.out.println("Veillez utiliser l'interface grafique pour configurer le Jest");
+                System.out.println("Veillez utiliser l'interface graphique pour configurer le Jest");
                 break;
 
             case GAME_SET_UP:
+                System.out.println("Debug: console débloquée");
                 canUseConsole = true;
         }
     }

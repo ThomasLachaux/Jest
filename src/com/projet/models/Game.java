@@ -65,6 +65,9 @@ public class Game extends Observable implements Runnable {
         shuffleCards();
         createPlayers();
         chooseExtension();
+
+        notifyObservers(EventType.GAME_SET_UP, players);
+
         distributeAndShowTrophies();
 
 
@@ -158,6 +161,8 @@ public class Game extends Observable implements Runnable {
         }
         System.out.println(tmpStack.size());
         System.out.println("Il reste " + stack.size() + " cartes");
+
+        notifyObservers(EventType.START_TURN, turn);
 
         // Quelle carte reveler
         if(extension != 2) {
