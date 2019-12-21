@@ -7,6 +7,8 @@ package com.projet.views;
 import javax.swing.*;
 
 import com.projet.controllers.PlayerController;
+import com.projet.models.App;
+import com.projet.models.Game;
 import com.projet.models.players.Player;
 import com.projet.models.utils.EventType;
 import com.projet.models.utils.Observer;
@@ -24,12 +26,12 @@ public class Board extends JPanel implements Observer {
     public Board(ArrayList<Player> players) {
         initComponents();
 
-        playerControllers.add(new PlayerController(players.get(0), player1Label, p1c1, p1c2));
-        playerControllers.add(new PlayerController(players.get(1), player2Label, p2c1, p2c2));
-        playerControllers.add(new PlayerController(players.get(2), player3Label, p3c1, p3c2));
+        playerControllers.add(new PlayerController(players.get(0), player1Panel, player1Label, p1c1, p1c2));
+        playerControllers.add(new PlayerController(players.get(1), player2Panel, player2Label, p2c1, p2c2));
+        playerControllers.add(new PlayerController(players.get(2), player3Panel, player3Label, p3c1, p3c2));
 
         if(players.size() == 4) {
-            playerControllers.add(new PlayerController(players.get(3), player4Label, p4c1, p4c2));
+            playerControllers.add(new PlayerController(players.get(3), player4Panel, player4Label, p4c1, p4c2));
         }
 
         else {
@@ -40,21 +42,56 @@ public class Board extends JPanel implements Observer {
     @Override
     public void update(EventType eventType, Object payload) {
         switch (eventType) {
-            case HUMAN_CHOOSE_CARD:
-                for(PlayerController controller : playerControllers) {
-                    if(controller.getPlayer() == payload) {
-                        controller.chooseCard();
-                    }
+            case CHOOSE_CARD:
+                findController(Game.getInstance().getCurrentPlayer()).chooseCard();
+                break;
+            case CHOOSED_CARD:
+                findController(Game.getInstance().getCurrentPlayer()).onCardChoosen();
+                break;
+
+            case STEAL_PLAYER:
+                findController(Game.getInstance().getCurrentPlayer()).playing();
+                ArrayList<Player> otherPlayers = (ArrayList<Player>) payload;
+
+                for(int i = 0; i < otherPlayers.size(); i++) {
+                    findController(otherPlayers.get(i)).addStealButton(new PlayerController.StealListener() {
+                        @Override
+                        public void onSteal(Player player, int i) {
+                            App.getInstance().getBus().put(i + 1);
+                        }
+                    }, i);
                 }
-            break;
-            case HUMAN_CHOOSED_CARD:
-                for(PlayerController controller : playerControllers) {
-                    if(controller.getPlayer() == payload) {
-                        controller.onHumanCardChosen();
-                    }
+                break;
+
+            case STOLE_PLAYER:
+                otherPlayers = (ArrayList<Player>) payload;
+
+                for(Player player : otherPlayers) {
+                    findController(player).removeStealButton();
                 }
-            break;
+                break;
+
+            case STEAL_CARD:
+                Player stolenPlayer = (Player) payload;
+                findController(stolenPlayer).displayVisibleCard();
+                break;
+
+            case STOLE_CARD:
+                stolenPlayer = (Player) payload;
+                findController(stolenPlayer).onCardChoosen();
+                findController(Game.getInstance().getCurrentPlayer()).notPlaying();
+                break;
         }
+    }
+
+    private PlayerController findController(Object player) {
+        for(PlayerController controller : playerControllers) {
+            if(controller.getPlayer() == player) {
+                return controller;
+            }
+        }
+
+        return null;
     }
 
     private void initComponents() {
@@ -78,12 +115,13 @@ public class Board extends JPanel implements Observer {
         player4Label = new JLabel();
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder
-        ( 0, 0 ,0 , 0) ,  "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border
-        .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069al\u006fg", java .awt . Font. BOLD ,12 ) ,java . awt
-        . Color .red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void
-        propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062or\u0064er" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
-        ;} } );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
+        javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax
+        . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
+        .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt
+        . Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans.
+        PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .
+        equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
         setLayout(new MigLayout(
             "fill,hidemode 3,align center center",
             // columns
@@ -104,14 +142,17 @@ public class Board extends JPanel implements Observer {
                 "[fill]",
                 // rows
                 "[]" +
+                "[]" +
                 "[]"));
 
             //---- p1c1 ----
             p1c1.setText("Carte 1");
+            p1c1.setFocusPainted(false);
             player1Panel.add(p1c1, "cell 0 0");
 
             //---- p1c2 ----
             p1c2.setText("Carte 2");
+            p1c2.setFocusPainted(false);
             player1Panel.add(p1c2, "cell 1 0");
 
             //---- player1Label ----
@@ -130,14 +171,17 @@ public class Board extends JPanel implements Observer {
                 "[fill]",
                 // rows
                 "[]" +
+                "[]" +
                 "[]"));
 
             //---- p2c1 ----
             p2c1.setText("Carte 1");
+            p2c1.setFocusPainted(false);
             player2Panel.add(p2c1, "cell 0 0");
 
             //---- p2c2 ----
             p2c2.setText("Carte 2");
+            p2c2.setFocusPainted(false);
             player2Panel.add(p2c2, "cell 1 0");
 
             //---- player2Label ----
@@ -156,14 +200,17 @@ public class Board extends JPanel implements Observer {
                 "[fill]",
                 // rows
                 "[]" +
+                "[]" +
                 "[]"));
 
             //---- p3c1 ----
             p3c1.setText("Carte 1");
+            p3c1.setFocusPainted(false);
             player3Panel.add(p3c1, "cell 0 0");
 
             //---- p3c2 ----
             p3c2.setText("Carte 2");
+            p3c2.setFocusPainted(false);
             player3Panel.add(p3c2, "cell 1 0");
 
             //---- player3Label ----
@@ -182,14 +229,17 @@ public class Board extends JPanel implements Observer {
                 "[fill]",
                 // rows
                 "[]" +
+                "[]" +
                 "[]"));
 
             //---- p4c1 ----
             p4c1.setText("Carte 1");
+            p4c1.setFocusPainted(false);
             player4Panel.add(p4c1, "cell 0 0");
 
             //---- p4c2 ----
             p4c2.setText("Carte 2");
+            p4c2.setFocusPainted(false);
             player4Panel.add(p4c2, "cell 1 0");
 
             //---- player4Label ----

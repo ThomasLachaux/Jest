@@ -36,13 +36,13 @@ public class Menu extends JPanel {
 
         bus.put(String.valueOf(playerInput.getModel().getValue()));
         bus.put(String.valueOf(botInput.getModel().getValue()));
-        bus.put(String.valueOf(easyDifficulty ? 1 : 2));
+        bus.put(easyDifficulty ? 1 : 2);
 
         // Voulez vous jouer à une extension
-        bus.put(String.valueOf(extension == 0 ? 2 : 1));
+        bus.put(extension == 0 ? 2 : 1);
 
         if(extension != 0) {
-            bus.put(String.valueOf(extension));
+            bus.put(extension);
         }
     }
 

@@ -33,7 +33,7 @@ public class App {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Interface window = new Interface();
+                    Interface window = Interface.getInstance();
                     window.getFrame().setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();

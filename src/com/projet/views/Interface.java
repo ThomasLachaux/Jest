@@ -12,11 +12,20 @@ import java.util.ArrayList;
 public class Interface extends Observable implements Observer {
 
     private JFrame frame;
+    private static Interface instance;
+
+    public static Interface getInstance() {
+        if(instance == null) {
+            instance = new Interface();
+        }
+
+        return instance;
+    }
 
     /**
      * Create the application.
      */
-    public Interface() {
+    private Interface() {
         initialize();
         Game.getInstance().addObserver(this);
     }

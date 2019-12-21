@@ -43,6 +43,7 @@ public abstract class Player implements Comparable<Player> {
     }
 
     public void startPrompt() {
+        Game.getInstance().setCurrentPlayer(this);
         System.out.println(favoriteColor() + "--- " + this.name + " ---" + Console.RESET);
     }
 
@@ -52,15 +53,7 @@ public abstract class Player implements Comparable<Player> {
         Card cardA = current.get(0);
         Card cardB = current.get(1);
 
-        if(this instanceof Human) {
-            Game.getInstance().notifyObservers(EventType.HUMAN_CHOOSE_CARD, this);
-        }
-
         Card cardChosen = strategy.askWhichCardToShow(cardA, cardB);
-
-        if(this instanceof Human) {
-            Game.getInstance().notifyObservers(EventType.HUMAN_CHOOSED_CARD, this);
-        }
 
         cardChosen.setFaceUp();
     }

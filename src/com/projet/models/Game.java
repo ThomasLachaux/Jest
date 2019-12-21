@@ -28,6 +28,8 @@ public class Game extends Observable implements Runnable {
     private TropheyMapping tropheyMapping;
     private int extension = 0;
 
+    private Player currentPlayer;
+
     public static Game getInstance() {
         if(instance == null) {
             instance = new Game();
@@ -267,5 +269,13 @@ public class Game extends Observable implements Runnable {
                 System.out.println("Le trophée est donnée à personne");
             }
         }
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
