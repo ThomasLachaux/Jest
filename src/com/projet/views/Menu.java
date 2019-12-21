@@ -4,14 +4,14 @@
 
 package com.projet.views;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.concurrent.BlockingQueue;
-import javax.swing.*;
-import javax.swing.event.*;
-
 import com.projet.models.App;
-import net.miginfocom.swing.*;
+import com.projet.models.utils.Bus;
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author unknown
@@ -32,21 +32,17 @@ public class Menu extends JPanel {
     }
 
     private void playActionPerformed(ActionEvent event) {
-        try {
-            BlockingQueue<String> queue = App.getInstance().getQueue();
+        Bus bus = App.getInstance().getBus();
 
-            queue.put(String.valueOf(playerInput.getModel().getValue()));
-            queue.put(String.valueOf(botInput.getModel().getValue()));
-            queue.put(String.valueOf(easyDifficulty ? 1 : 2));
+        bus.put(String.valueOf(playerInput.getModel().getValue()));
+        bus.put(String.valueOf(botInput.getModel().getValue()));
+        bus.put(String.valueOf(easyDifficulty ? 1 : 2));
 
-            // Voulez vous jouer à une extension
-            queue.put(String.valueOf(extension == 0 ? 2 : 1));
+        // Voulez vous jouer à une extension
+        bus.put(String.valueOf(extension == 0 ? 2 : 1));
 
-            if(extension != 0) {
-                queue.put(String.valueOf(extension));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(extension != 0) {
+            bus.put(String.valueOf(extension));
         }
     }
 

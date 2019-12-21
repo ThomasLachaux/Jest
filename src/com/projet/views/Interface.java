@@ -1,6 +1,5 @@
 package com.projet.views;
 
-import com.projet.models.Card;
 import com.projet.models.Game;
 import com.projet.models.players.Player;
 import com.projet.models.utils.EventType;
@@ -9,9 +8,6 @@ import com.projet.models.utils.Observer;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class Interface extends Observable implements Observer {
 

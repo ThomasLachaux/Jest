@@ -17,7 +17,6 @@ import com.projet.views.Console;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.concurrent.BlockingQueue;
 
 public class Game extends Observable implements Runnable {
 
@@ -28,31 +27,13 @@ public class Game extends Observable implements Runnable {
     private ArrayList<Trophy> trophies;
     private TropheyMapping tropheyMapping;
     private int extension = 0;
-    private BlockingQueue<String> queue;
 
     public static Game getInstance() {
-        try {
-            if (instance == null) {
-                throw new Exception("Pour initialiser game, il faut un blockingqueue");
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return instance;
-    }
-
-    public static Game getInstance(BlockingQueue blockingQueue) {
         if(instance == null) {
-            instance = new Game(blockingQueue);
+            instance = new Game();
         }
 
         return instance;
-    }
-
-    private Game(BlockingQueue<String> queue) {
-        this.queue = queue;
     }
 
     @Override

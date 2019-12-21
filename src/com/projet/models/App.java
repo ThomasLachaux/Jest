@@ -1,16 +1,15 @@
 package com.projet.models;
 
+import com.projet.models.utils.Bus;
 import com.projet.views.Console;
 import com.projet.views.Interface;
 
 import java.awt.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 public class App {
 
     private static App instance;
-    private BlockingQueue<String> queue = new ArrayBlockingQueue<>(50);
+    private Bus bus = new Bus(50);
 
     public static void main(String[] args) {
         new App();
@@ -22,8 +21,8 @@ public class App {
 
     private App() {
         instance = this;
-        Game game = Game.getInstance(queue);
-        Console console = Console.getInstance(queue);
+        Game game = Game.getInstance();
+        Console console = Console.getInstance();
 
         Thread gameThread = new Thread(game);
         gameThread.start();
@@ -43,7 +42,7 @@ public class App {
         });
     }
 
-    public BlockingQueue<String> getQueue() {
-        return queue;
+    public Bus getBus() {
+        return bus;
     }
 }

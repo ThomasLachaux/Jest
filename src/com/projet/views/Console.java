@@ -1,5 +1,6 @@
 package com.projet.views;
 
+import com.projet.models.App;
 import com.projet.models.Game;
 import com.projet.models.utils.EventType;
 import com.projet.models.utils.Observer;
@@ -7,7 +8,6 @@ import com.projet.models.utils.Observer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.concurrent.BlockingQueue;
 
 public class Console implements Observer, Runnable {
 
@@ -22,17 +22,15 @@ public class Console implements Observer, Runnable {
     public static final String WHITE = "\u001B[37m";
 
     private static Console instance;
-    private BlockingQueue<String> queue;
     private boolean canUseConsole = false;
 
-    private Console(BlockingQueue<String> queue) {
+    private Console() {
         Game.getInstance().addObserver(this);
-        this.queue = queue;
     }
 
-    public static Console getInstance(BlockingQueue<String> queue) {
+    public static Console getInstance() {
         if(instance == null) {
-            instance = new Console(queue);
+            instance = new Console();
         }
 
         return instance;
@@ -75,11 +73,7 @@ public class Console implements Observer, Runnable {
             String input = readLine();
 
             if (input != null && canUseConsole) {
-                try {
-                    queue.put(input);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                App.getInstance().getBus().put(input);
             }
         }
     }

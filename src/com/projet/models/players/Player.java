@@ -58,6 +58,10 @@ public abstract class Player implements Comparable<Player> {
 
         Card cardChosen = strategy.askWhichCardToShow(cardA, cardB);
 
+        if(this instanceof Human) {
+            Game.getInstance().notifyObservers(EventType.HUMAN_CHOOSED_CARD, this);
+        }
+
         cardChosen.setFaceUp();
     }
 

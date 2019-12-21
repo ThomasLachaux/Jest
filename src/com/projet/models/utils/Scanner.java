@@ -1,7 +1,6 @@
 package com.projet.models.utils;
 
 import com.projet.models.App;
-import com.projet.views.Console;
 
 public class Scanner {
     private static final String INVALID_ANSWER = "Entrée invalide ! Veuillez réessayer";
@@ -17,7 +16,7 @@ public class Scanner {
             boolean invalidAnswer;
 
             do {
-                result = Integer.parseInt(App.getInstance().getQueue().take());
+                result = Integer.parseInt(App.getInstance().getBus().take());
 
                 invalidAnswer = result < min || result > max;
 
@@ -28,7 +27,7 @@ public class Scanner {
             } while (invalidAnswer);
 
             System.out.println();
-        } catch (NumberFormatException | InterruptedException e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
         }
         return result;
