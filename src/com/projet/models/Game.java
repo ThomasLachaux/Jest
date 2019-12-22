@@ -49,9 +49,11 @@ public class Game extends Observable implements Runnable {
         createPlayers();
         chooseExtension();
 
-        notifyObservers(EventType.GAME_SET_UP, players);
 
         distributeAndShowTrophies();
+        System.out.println("Avant envoi");
+        notifyObservers(EventType.GAME_SET_UP, players);
+        System.out.println("Après envoi");
 
 
         // On joue tant que notre pile temporaire n'est plus vide.
@@ -277,5 +279,9 @@ public class Game extends Observable implements Runnable {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public TropheyMapping getTropheyMapping() {
+        return tropheyMapping;
     }
 }

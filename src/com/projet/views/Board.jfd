@@ -72,6 +72,36 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 				"$layoutConstraints": "fill,hidemode 3,align center center"
 				"$columnConstraints": "[fill][fill]"
+				"$rowConstraints": "[][]"
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "trophyLabel"
+					"text": "Trophées"
+					"horizontalAlignment": 0
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0 2 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "trophy1"
+					"text": "Trophée 1"
+					"horizontalAlignment": 0
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "trophy2"
+					"text": "Trophée 2"
+					"horizontalAlignment": 0
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 1"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 1"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "fill,hidemode 3,align center center"
+				"$columnConstraints": "[fill][fill]"
 				"$rowConstraints": "[][][]"
 			} ) {
 				name: "player3Panel"

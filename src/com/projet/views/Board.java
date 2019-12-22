@@ -10,6 +10,7 @@ import com.projet.controllers.PlayerController;
 import com.projet.models.App;
 import com.projet.models.Game;
 import com.projet.models.players.Player;
+import com.projet.models.trophies.Trophy;
 import com.projet.models.utils.EventType;
 import com.projet.models.utils.Observer;
 import net.miginfocom.swing.*;
@@ -30,13 +31,21 @@ public class Board extends JPanel implements Observer {
         playerControllers.add(new PlayerController(players.get(1), player2Panel, player2Label, p2c1, p2c2));
         playerControllers.add(new PlayerController(players.get(2), player3Panel, player3Label, p3c1, p3c2));
 
+        Trophy trophyA = Game.getInstance().getTrophies().get(0);
+        Trophy trophyB = Game.getInstance().getTrophies().get(1);
+        trophy1.setText(Game.getInstance().getTropheyMapping().findCard(trophyA).toString() + " " + trophyA.toString());
+
         if(players.size() == 4) {
             playerControllers.add(new PlayerController(players.get(3), player4Panel, player4Label, p4c1, p4c2));
+            trophy2.setText(null);
         }
 
         else {
             remove(player4Panel);
+            trophy2.setText(Game.getInstance().getTropheyMapping().findCard(trophyB).toString() + " " + trophyB.toString());
         }
+
+
     }
 
     @Override
@@ -72,39 +81,7 @@ public class Board extends JPanel implements Observer {
 
             case STOLE_CARD:
                 findController(Game.getInstance().getCurrentPlayer()).notPlaying();
-
-            /*case STEAL_PLAYER:
-                findController(Game.getInstance().getCurrentPlayer()).playing();
-                ArrayList<Player> otherPlayers = (ArrayList<Player>) payload;
-
-                for(int i = 0; i < otherPlayers.size(); i++) {
-                    findController(otherPlayers.get(i)).addStealButton(new PlayerController.StealListener() {
-                        @Override
-                        public void onSteal(Player player, int i) {
-                            App.getInstance().getBus().put(i + 1);
-                        }
-                    }, i);
-                }
                 break;
-
-            case STOLE_PLAYER:
-                otherPlayers = (ArrayList<Player>) payload;
-
-                for(Player player : otherPlayers) {
-                    findController(player).removeStealButton();
-                }
-                break;
-
-            case STEAL_CARD:
-                Player stolenPlayer = (Player) payload;
-                findController(stolenPlayer).displayVisibleCard();
-                break;
-
-            case STOLE_CARD:
-                stolenPlayer = (Player) payload;
-                findController(stolenPlayer).onCardChoosen();
-                findController(Game.getInstance().getCurrentPlayer()).notPlaying();
-                break;*/
         }
     }
 
@@ -129,6 +106,10 @@ public class Board extends JPanel implements Observer {
         p2c1 = new JButton();
         p2c2 = new JButton();
         player2Label = new JLabel();
+        panel1 = new JPanel();
+        trophyLabel = new JLabel();
+        trophy1 = new JLabel();
+        trophy2 = new JLabel();
         player3Panel = new JPanel();
         p3c1 = new JButton();
         p3c2 = new JButton();
@@ -139,13 +120,14 @@ public class Board extends JPanel implements Observer {
         player4Label = new JLabel();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-        javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax
-        . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-        .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt
-        . Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans.
-        PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .
-        equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (
+        new javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion"
+        , javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
+        , new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 )
+        , java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (
+        new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+        ) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( )
+        ; }} );
         setLayout(new MigLayout(
             "fill,hidemode 3,align center center",
             // columns
@@ -214,6 +196,34 @@ public class Board extends JPanel implements Observer {
             player2Panel.add(player2Label, "cell 0 1 2 1");
         }
         add(player2Panel, "cell 1 0");
+
+        //======== panel1 ========
+        {
+            panel1.setLayout(new MigLayout(
+                "fill,hidemode 3,align center center",
+                // columns
+                "[fill]" +
+                "[fill]",
+                // rows
+                "[]" +
+                "[]"));
+
+            //---- trophyLabel ----
+            trophyLabel.setText("Troph\u00e9es");
+            trophyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            panel1.add(trophyLabel, "cell 0 0 2 1");
+
+            //---- trophy1 ----
+            trophy1.setText("Troph\u00e9e 1");
+            trophy1.setHorizontalAlignment(SwingConstants.CENTER);
+            panel1.add(trophy1, "cell 0 1");
+
+            //---- trophy2 ----
+            trophy2.setText("Troph\u00e9e 2");
+            trophy2.setHorizontalAlignment(SwingConstants.CENTER);
+            panel1.add(trophy2, "cell 1 1");
+        }
+        add(panel1, "cell 1 1");
 
         //======== player3Panel ========
         {
@@ -285,6 +295,10 @@ public class Board extends JPanel implements Observer {
     private JButton p2c1;
     private JButton p2c2;
     private JLabel player2Label;
+    private JPanel panel1;
+    private JLabel trophyLabel;
+    private JLabel trophy1;
+    private JLabel trophy2;
     private JPanel player3Panel;
     private JButton p3c1;
     private JButton p3c2;
