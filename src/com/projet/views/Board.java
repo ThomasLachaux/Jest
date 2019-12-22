@@ -51,6 +51,30 @@ public class Board extends JPanel implements Observer {
 
             case STEAL_PLAYER:
                 findController(Game.getInstance().getCurrentPlayer()).playing();
+                for(PlayerController controller : playerControllers) {
+                    controller.displayVisibleCard();
+                    controller.disableCards();
+                }
+
+                ArrayList<Player> otherPlayers = (ArrayList<Player>) payload;
+
+                // Si on doit se voler à soit même, s'auto active
+                if(otherPlayers.size() == 0) {
+                    findController(Game.getInstance().getCurrentPlayer()).enableCards();
+                }
+
+                for(int i = 0; i < otherPlayers.size(); i++) {
+                    Player player = otherPlayers.get(i);
+                    findController(player).enableCards();
+                    findController(player).addStealListener(i);
+                }
+                break;
+
+            case STOLE_CARD:
+                findController(Game.getInstance().getCurrentPlayer()).notPlaying();
+
+            /*case STEAL_PLAYER:
+                findController(Game.getInstance().getCurrentPlayer()).playing();
                 ArrayList<Player> otherPlayers = (ArrayList<Player>) payload;
 
                 for(int i = 0; i < otherPlayers.size(); i++) {
@@ -80,7 +104,7 @@ public class Board extends JPanel implements Observer {
                 stolenPlayer = (Player) payload;
                 findController(stolenPlayer).onCardChoosen();
                 findController(Game.getInstance().getCurrentPlayer()).notPlaying();
-                break;
+                break;*/
         }
     }
 

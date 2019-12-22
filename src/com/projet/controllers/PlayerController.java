@@ -2,7 +2,6 @@ package com.projet.controllers;
 
 import com.projet.models.App;
 import com.projet.models.players.Player;
-import com.projet.views.Interface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +20,6 @@ public class PlayerController {
 
     private ActionListener cardAListener;
     private ActionListener cardBListener;
-
-    private JButton steal;
 
     public interface StealListener {
         void onSteal(Player player, int i);
@@ -89,46 +86,49 @@ public class PlayerController {
     }
 
     public void hideCards() {
-        cardA.setText(" ");
-        cardB.setText(" ");
-    }
-
-    public void addStealButton(StealListener listener, int i) {
-        steal = new JButton();
-        steal.setText("Voler");
-
-        steal.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                listener.onSteal(PlayerController.this.getPlayer(), i);
-            }
-        });
-
-        panel.add(steal, "cell 0 2 2 1");
-
-        Interface.getInstance().getFrame().revalidate();
-        Interface.getInstance().getFrame().repaint();
-    }
-
-    public void removeStealButton() {
-        panel.remove(steal);
-        Interface.getInstance().getFrame().revalidate();
-        Interface.getInstance().getFrame().repaint();
+        cardA.setText("⛶");
+        cardB.setText("⛶");
     }
 
     public void displayVisibleCard() {
-        int visibleCardIndex = player.getVisibleCard() == player.getCard(0) ? 0 : 1;
+        cardA.setText(player.getCard(0).toStringFromOutside());
 
-        if (visibleCardIndex == 0) {
-            cardA.setText(player.getVisibleCard().toString());
-        } else {
-            cardB.setText(player.getVisibleCard().toString());
+        if(player.getCurrentCardSize() == 2) {
+            cardB.setText(player.getCard(1).toStringFromOutside());
         }
+        else {
+            cardB.setEnabled(false);
+        }
+    }
 
-        cardAListener = addChooseCardListener(1);
-        cardBListener = addChooseCardListener(2);
+    public void disableCards() {
+        cardA.setEnabled(false);
+        cardB.setEnabled(false);
+    }
 
-        cardA.addActionListener(cardAListener);
-        cardB.addActionListener(cardBListener);
+    public void enableCards() {
+        cardA.setEnabled(true);
+        cardB.setEnabled(true);
+    }
+
+    public void addStealListener(int i) {
+        cardA.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                App.getInstance().getBus().put(i + 1);
+                App.getInstance().getBus().put(1);
+                cardA.setText(" ");
+                notPlaying();
+            }
+        });
+
+        cardB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                App.getInstance().getBus().put(i +1);
+                App.getInstance().getBus().put(2);
+                cardB.setText(" ");
+            }
+        });
     }
 }

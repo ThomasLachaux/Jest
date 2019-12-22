@@ -25,6 +25,7 @@ public class HumanStrategy implements Strategy {
 
     @Override
     public Player askWhichPlayerToSteal(ArrayList<Player> otherPlayers) {
+        Game.getInstance().notifyObservers(EventType.STEAL_PLAYER, otherPlayers);
         if(otherPlayers.size() == 0) {
             System.out.println("Vous êtes obligé de voler vous même :/");
             return null;
@@ -38,7 +39,6 @@ public class HumanStrategy implements Strategy {
                 System.out.print((i + 1) + ") " + player.getName() + "     ");
             }
             System.out.println();
-            Game.getInstance().notifyObservers(EventType.STEAL_PLAYER, otherPlayers);
             Player stolenPlayer = otherPlayers.get(Scanner.nextInt(otherPlayers.size()) - 1);
             Game.getInstance().notifyObservers(EventType.STOLE_PLAYER, otherPlayers);
 

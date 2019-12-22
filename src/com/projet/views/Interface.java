@@ -64,4 +64,9 @@ public class Interface extends Observable implements Observer {
                 break;
         }
     }
+
+    public void refresh() {
+        getFrame().revalidate();
+        getFrame().repaint();
+    }
 }
