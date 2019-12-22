@@ -52,10 +52,17 @@ public class Board extends JPanel implements Observer {
     public void update(EventType eventType, Object payload) {
         switch (eventType) {
             case CHOOSE_CARD:
+                for(PlayerController controller : playerControllers) {
+                    controller.disableCards();
+                }
                 findController(Game.getInstance().getCurrentPlayer()).chooseCard();
+                findController(Game.getInstance().getCurrentPlayer()).enableCards();
                 break;
             case CHOOSED_CARD:
                 findController(Game.getInstance().getCurrentPlayer()).onCardChoosen();
+                for(PlayerController controller : playerControllers) {
+                    controller.enableCards();
+                }
                 break;
 
             case STEAL_PLAYER:
@@ -70,6 +77,7 @@ public class Board extends JPanel implements Observer {
                 // Si on doit se voler à soit même, s'auto active
                 if(otherPlayers.size() == 0) {
                     findController(Game.getInstance().getCurrentPlayer()).enableCards();
+                    findController(Game.getInstance().getCurrentPlayer()).addStealListener(-1);
                 }
 
                 for(int i = 0; i < otherPlayers.size(); i++) {
@@ -81,6 +89,11 @@ public class Board extends JPanel implements Observer {
 
             case STOLE_CARD:
                 findController(Game.getInstance().getCurrentPlayer()).notPlaying();
+
+                for(PlayerController controller : playerControllers) {
+                    controller.removeActionListeners();
+                    controller.enableCards();
+                }
                 break;
         }
     }
@@ -120,14 +133,13 @@ public class Board extends JPanel implements Observer {
         player4Label = new JLabel();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (
-        new javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion"
-        , javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
-        , new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 )
-        , java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (
-        new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-        ) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( )
-        ; }} );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
+        swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border
+        . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
+        ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
+        ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
+        .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
+        ( ); }} );
         setLayout(new MigLayout(
             "fill,hidemode 3,align center center",
             // columns

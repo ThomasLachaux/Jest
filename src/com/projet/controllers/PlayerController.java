@@ -1,6 +1,7 @@
 package com.projet.controllers;
 
 import com.projet.models.App;
+import com.projet.models.Game;
 import com.projet.models.players.Player;
 
 import javax.swing.*;
@@ -20,10 +21,6 @@ public class PlayerController {
 
     private ActionListener cardAListener;
     private ActionListener cardBListener;
-
-    public interface StealListener {
-        void onSteal(Player player, int i);
-    }
 
     public PlayerController(Player player, JPanel panel, JLabel label, JButton cardA, JButton cardB) {
         this.player = player;
@@ -45,11 +42,12 @@ public class PlayerController {
         cardB.setText(player.getCard(1).toString());
     }
 
-    public ActionListener addChooseCardListener(int index) {
+    public ActionListener getChooseCardListener(int index) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 App.getInstance().getBus().put(index);
+                removeActionListeners();
             }
         };
     }
@@ -61,17 +59,15 @@ public class PlayerController {
         hideCards();
         notPlaying();
 
-        // Enlève le listener des 2 cartes
-        cardA.removeActionListener(cardAListener);
-        cardB.removeActionListener(cardBListener);
+        removeActionListeners();
     }
 
     public void chooseCard() {
         playing();
         showCards();
 
-        cardAListener = addChooseCardListener(1);
-        cardBListener = addChooseCardListener(2);
+        cardAListener = getChooseCardListener(1);
+        cardBListener = getChooseCardListener(2);
 
         cardA.addActionListener(cardAListener);
         cardB.addActionListener(cardBListener);
@@ -111,24 +107,39 @@ public class PlayerController {
         cardB.setEnabled(true);
     }
 
-    public void addStealListener(int i) {
-        cardA.addActionListener(new ActionListener() {
+    public ActionListener getStealListener(int playerIndex, int cardChoice) {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                App.getInstance().getBus().put(i + 1);
-                App.getInstance().getBus().put(1);
-                cardA.setText(" ");
+                JButton button = (JButton) e.getSource();
+                button.setText(" ");
+
+                // Si le joueur courant est le même que le controller, on envoit pas quel joueur choisir
+                if(player != Game.getInstance().getCurrentPlayer()) {
+                    App.getInstance().getBus().put(playerIndex + 1);
+                }
+                App.getInstance().getBus().put(cardChoice);
                 notPlaying();
             }
-        });
+        };
+    }
 
-        cardB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                App.getInstance().getBus().put(i +1);
-                App.getInstance().getBus().put(2);
-                cardB.setText(" ");
-            }
-        });
+    public void removeActionListeners() {
+        for(ActionListener listener : cardA.getActionListeners()) {
+            cardA.removeActionListener(listener);
+        }
+
+        for(ActionListener listener : cardB.getActionListeners()) {
+            cardB.removeActionListener(listener);
+        }
+
+    }
+
+    public void addStealListener(int playerIndex) {
+        cardAListener = getStealListener(playerIndex, 1);
+        cardBListener = getStealListener(playerIndex, 2);
+
+        cardA.addActionListener(cardAListener);
+        cardB.addActionListener(cardBListener);
     }
 }
