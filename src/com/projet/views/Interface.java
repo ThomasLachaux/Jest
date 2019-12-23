@@ -49,8 +49,7 @@ public class Interface extends Observable implements Observer {
     public void switchPanel(JPanel panel) {
         frame.getContentPane().removeAll();
         frame.getContentPane().add(panel);
-        frame.revalidate();
-        frame.repaint();
+        refresh();
     }
 
     @Override
