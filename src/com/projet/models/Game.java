@@ -9,6 +9,7 @@ import com.projet.models.strategies.Strategy;
 import com.projet.models.trophies.TropheyMapping;
 import com.projet.models.trophies.Trophy;
 import com.projet.models.trophies.visitor.TrophyVisitor;
+import com.projet.models.utils.Entry;
 import com.projet.models.utils.EventType;
 import com.projet.models.utils.Observable;
 import com.projet.models.utils.Scanner;
@@ -17,6 +18,7 @@ import com.projet.views.Console;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class Game extends Observable implements Runnable {
 
@@ -40,7 +42,7 @@ public class Game extends Observable implements Runnable {
 
     @Override
     public void run() {
-        notifyObservers(EventType.START_GAME, null);
+        notifyObservers(EventType.GAME_START, null);
         players = new ArrayList<>();
         stack = new LinkedList<>();
         tmpStack = new LinkedList<>();
@@ -73,6 +75,8 @@ public class Game extends Observable implements Runnable {
         for (Player player : players) {
             player.getScore().calculateAll();
         }
+
+        notifyObservers(EventType.SCORE_GIVEN);
 
         String justification = "| %-16s | %-4d |%n";
 
@@ -147,7 +151,7 @@ public class Game extends Observable implements Runnable {
         System.out.println(tmpStack.size());
         System.out.println("Il reste " + stack.size() + " cartes");
 
-        notifyObservers(EventType.START_TURN, turn);
+        notifyObservers(EventType.TURN_START, turn);
 
         // Quelle carte reveler
         if(extension != 2) {
@@ -262,10 +266,14 @@ public class Game extends Observable implements Runnable {
 
     public void giveTrophies() {
         TrophyVisitor visitor = new TrophyVisitor(players);
-        for (Trophy trophy : trophies) {
+        for (int i = 0; i < trophies.size(); i++) {
+            Trophy trophy = trophies.get(i);
             Player winner = trophy.accept(visitor);
             if (winner != null) {
                 winner.addToJest(tropheyMapping.findCard(trophy));
+                // Fait un mapping entre l'index du trohpé et le gagnant
+                Entry<Integer, Player> mapping = new Entry<>(i, winner);
+                notifyObservers(EventType.TROPHEY_GIVEN, mapping);
                 System.out.println("Le trophée " + trophy.toString() + " est donnée à " + winner.toString());
             } else {
                 System.out.println("Le trophée est donnée à personne");

@@ -22,12 +22,17 @@ public class PlayerController {
     private ActionListener cardAListener;
     private ActionListener cardBListener;
 
-    public PlayerController(Player player, JPanel panel, JLabel label, JButton cardA, JButton cardB) {
+    private JLabel score;
+    private JLabel tropheys;
+
+    public PlayerController(Player player, JPanel panel, JLabel label, JButton cardA, JButton cardB, JLabel score, JLabel tropheys) {
         this.player = player;
         this.panel = panel;
         this.label = label;
         this.cardA = cardA;
         this.cardB = cardB;
+        this.score = score;
+        this.tropheys = tropheys;
 
         label.setText(player.getName());
         hideCards();
@@ -37,12 +42,14 @@ public class PlayerController {
         return player;
     }
 
-    public void showCards() {
+    public PlayerController showCards() {
         cardA.setText(player.getCard(0).toString());
         cardB.setText(player.getCard(1).toString());
+
+        return this;
     }
 
-    public ActionListener getChooseCardListener(int index) {
+    private ActionListener getChooseCardListener(int index) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,14 +62,16 @@ public class PlayerController {
     /**
      * Dès qu'un humain a choisi une carte, on cache ses cartes et on enlève le listener
      */
-    public void onCardChoosen() {
+    public PlayerController onCardChoosen() {
         hideCards();
         notPlaying();
 
         removeActionListeners();
+
+        return this;
     }
 
-    public void chooseCard() {
+    public PlayerController chooseCard() {
         playing();
         showCards();
 
@@ -71,22 +80,30 @@ public class PlayerController {
 
         cardA.addActionListener(cardAListener);
         cardB.addActionListener(cardBListener);
+
+        return this;
     }
 
-    public void playing() {
+    public PlayerController playing() {
         label.setForeground(Color.RED);
+
+        return this;
     }
 
-    public void notPlaying() {
+    public PlayerController notPlaying() {
         label.setForeground(Color.BLACK);
+
+        return this;
     }
 
-    public void hideCards() {
+    public PlayerController hideCards() {
         cardA.setText("⛶");
         cardB.setText("⛶");
+
+        return this;
     }
 
-    public void displayVisibleCard() {
+    public PlayerController displayVisibleCard() {
         cardA.setText(player.getCard(0).toStringFromOutside());
 
         if(player.getCurrentCardSize() == 2) {
@@ -95,19 +112,25 @@ public class PlayerController {
         else {
             cardB.setEnabled(false);
         }
+
+        return this;
     }
 
-    public void disableCards() {
+    public PlayerController disableCards() {
         cardA.setEnabled(false);
         cardB.setEnabled(false);
+
+        return this;
     }
 
-    public void enableCards() {
+    public PlayerController enableCards() {
         cardA.setEnabled(true);
         cardB.setEnabled(true);
+
+        return this;
     }
 
-    public ActionListener getStealListener(int playerIndex, int cardChoice) {
+    private ActionListener getStealListener(int playerIndex, int cardChoice) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,7 +147,7 @@ public class PlayerController {
         };
     }
 
-    public void removeActionListeners() {
+    public PlayerController removeActionListeners() {
         for(ActionListener listener : cardA.getActionListeners()) {
             cardA.removeActionListener(listener);
         }
@@ -133,13 +156,28 @@ public class PlayerController {
             cardB.removeActionListener(listener);
         }
 
+        return this;
     }
 
-    public void addStealListener(int playerIndex) {
+    public PlayerController addStealListener(int playerIndex) {
         cardAListener = getStealListener(playerIndex, 1);
         cardBListener = getStealListener(playerIndex, 2);
 
         cardA.addActionListener(cardAListener);
         cardB.addActionListener(cardBListener);
+
+        return this;
+    }
+
+    public PlayerController displayScore() {
+        int points = player.getScore().getPoints();
+        score.setText("Score: " + points);
+        return this;
+    }
+
+    public PlayerController addTrophey(String trophey) {
+        tropheys.setText(tropheys.getText() + "     " + trophey);
+
+        return this;
     }
 }

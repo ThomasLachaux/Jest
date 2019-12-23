@@ -152,7 +152,7 @@ public class Menu extends JPanel {
         add(bots, "cell 0 2");
 
         //---- botInput ----
-        botInput.setModel(new SpinnerNumberModel(0, 0, 4, 1));
+        botInput.setModel(new SpinnerNumberModel(0, 0, 3, 1));
         add(botInput, "cell 1 2");
 
         //---- difficultyLabel ----

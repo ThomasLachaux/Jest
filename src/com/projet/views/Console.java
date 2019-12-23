@@ -55,7 +55,7 @@ public class Console implements Observer, Runnable {
     @Override
     public void update(EventType eventType, Object payload) {
         switch(eventType) {
-            case START_GAME:
+            case GAME_START:
                 canUseConsole = false;
                 startGame();
                 System.out.println("Veillez utiliser l'interface graphique pour configurer le Jest");
