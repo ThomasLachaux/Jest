@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.0.6.255" Java: "11.0.4" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.0.6.255" Java: "11.0.5" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -15,17 +15,15 @@ new FormModel {
 				"$rowConstraints": "[][][][]"
 			} ) {
 				name: "player1Panel"
-				add( new FormComponent( "javax.swing.JButton" ) {
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p1c1"
 					"text": "Carte 1"
-					"focusPainted": false
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p1c2"
 					"text": "Carte 2"
-					"focusPainted": false
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 0"
 				} )
@@ -57,17 +55,15 @@ new FormModel {
 				"$rowConstraints": "[][][][]"
 			} ) {
 				name: "player2Panel"
-				add( new FormComponent( "javax.swing.JButton" ) {
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p2c1"
 					"text": "Carte 1"
-					"focusPainted": false
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p2c2"
 					"text": "Carte 2"
-					"focusPainted": false
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 0"
 				} )
@@ -136,17 +132,15 @@ new FormModel {
 				"$rowConstraints": "[][][][]"
 			} ) {
 				name: "player3Panel"
-				add( new FormComponent( "javax.swing.JButton" ) {
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p3c1"
 					"text": "Carte 1"
-					"focusPainted": false
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p3c2"
 					"text": "Carte 2"
-					"focusPainted": false
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 0"
 				} )
@@ -178,17 +172,15 @@ new FormModel {
 				"$rowConstraints": "[][][][]"
 			} ) {
 				name: "player4Panel"
-				add( new FormComponent( "javax.swing.JButton" ) {
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p4c1"
 					"text": "Carte 1"
-					"focusPainted": false
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p4c2"
 					"text": "Carte 2"
-					"focusPainted": false
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 0"
 				} )

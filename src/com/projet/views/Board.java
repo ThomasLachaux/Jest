@@ -140,18 +140,22 @@ public class Board extends JPanel implements Observer {
         return null;
     }
 
+    private void createUIComponents() {
+        // TODO: add custom component creation code here
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
         player1Panel = new JPanel();
-        p1c1 = new JButton();
-        p1c2 = new JButton();
+        p1c1 = new JLabel();
+        p1c2 = new JLabel();
         player1Label = new JLabel();
         p1Score = new JLabel();
         p1Tropheys = new JLabel();
         player2Panel = new JPanel();
-        p2c1 = new JButton();
-        p2c2 = new JButton();
+        p2c1 = new JLabel();
+        p2c2 = new JLabel();
         player2Label = new JLabel();
         p2Score = new JLabel();
         p2Tropheys = new JLabel();
@@ -161,26 +165,25 @@ public class Board extends JPanel implements Observer {
         trophy2 = new JLabel();
         turn = new JLabel();
         player3Panel = new JPanel();
-        p3c1 = new JButton();
-        p3c2 = new JButton();
+        p3c1 = new JLabel();
+        p3c2 = new JLabel();
         player3Label = new JLabel();
         p3Score = new JLabel();
         p3Tropheys = new JLabel();
         player4Panel = new JPanel();
-        p4c1 = new JButton();
-        p4c2 = new JButton();
+        p4c1 = new JLabel();
+        p4c2 = new JLabel();
         player4Label = new JLabel();
         p4Score = new JLabel();
         p4Tropheys = new JLabel();
 
         //======== this ========
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
-        swing.border.EmptyBorder(0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border
-        .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog"
-        ,java.awt.Font.BOLD,12),java.awt.Color.red), getBorder
-        ())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
-        .beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException
-        ();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.
+        EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER,javax.swing
+        .border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font.BOLD,12),
+        java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener()
+        {@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))
+        throw new RuntimeException();}});
         setLayout(new MigLayout(
             "fill,hidemode 3,align center center",
             // columns
@@ -207,12 +210,10 @@ public class Board extends JPanel implements Observer {
 
             //---- p1c1 ----
             p1c1.setText("Carte 1");
-            p1c1.setFocusPainted(false);
             player1Panel.add(p1c1, "cell 0 0");
 
             //---- p1c2 ----
             p1c2.setText("Carte 2");
-            p1c2.setFocusPainted(false);
             player1Panel.add(p1c2, "cell 1 0");
 
             //---- player1Label ----
@@ -245,12 +246,10 @@ public class Board extends JPanel implements Observer {
 
             //---- p2c1 ----
             p2c1.setText("Carte 1");
-            p2c1.setFocusPainted(false);
             player2Panel.add(p2c1, "cell 0 0");
 
             //---- p2c2 ----
             p2c2.setText("Carte 2");
-            p2c2.setFocusPainted(false);
             player2Panel.add(p2c2, "cell 1 0");
 
             //---- player2Label ----
@@ -317,12 +316,10 @@ public class Board extends JPanel implements Observer {
 
             //---- p3c1 ----
             p3c1.setText("Carte 1");
-            p3c1.setFocusPainted(false);
             player3Panel.add(p3c1, "cell 0 0");
 
             //---- p3c2 ----
             p3c2.setText("Carte 2");
-            p3c2.setFocusPainted(false);
             player3Panel.add(p3c2, "cell 1 0");
 
             //---- player3Label ----
@@ -355,12 +352,10 @@ public class Board extends JPanel implements Observer {
 
             //---- p4c1 ----
             p4c1.setText("Carte 1");
-            p4c1.setFocusPainted(false);
             player4Panel.add(p4c1, "cell 0 0");
 
             //---- p4c2 ----
             p4c2.setText("Carte 2");
-            p4c2.setFocusPainted(false);
             player4Panel.add(p4c2, "cell 1 0");
 
             //---- player4Label ----
@@ -383,14 +378,14 @@ public class Board extends JPanel implements Observer {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
     private JPanel player1Panel;
-    private JButton p1c1;
-    private JButton p1c2;
+    private JLabel p1c1;
+    private JLabel p1c2;
     private JLabel player1Label;
     private JLabel p1Score;
     private JLabel p1Tropheys;
     private JPanel player2Panel;
-    private JButton p2c1;
-    private JButton p2c2;
+    private JLabel p2c1;
+    private JLabel p2c2;
     private JLabel player2Label;
     private JLabel p2Score;
     private JLabel p2Tropheys;
@@ -400,14 +395,14 @@ public class Board extends JPanel implements Observer {
     private JLabel trophy2;
     private JLabel turn;
     private JPanel player3Panel;
-    private JButton p3c1;
-    private JButton p3c2;
+    private JLabel p3c1;
+    private JLabel p3c2;
     private JLabel player3Label;
     private JLabel p3Score;
     private JLabel p3Tropheys;
     private JPanel player4Panel;
-    private JButton p4c1;
-    private JButton p4c2;
+    private JLabel p4c1;
+    private JLabel p4c2;
     private JLabel player4Label;
     private JLabel p4Score;
     private JLabel p4Tropheys;
