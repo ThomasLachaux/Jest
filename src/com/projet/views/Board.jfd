@@ -17,13 +17,11 @@ new FormModel {
 				name: "player1Panel"
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p1c1"
-					"text": "Carte 1"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p1c2"
-					"text": "Carte 2"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 0"
 				} )
@@ -57,13 +55,11 @@ new FormModel {
 				name: "player2Panel"
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p2c1"
-					"text": "Carte 1"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p2c2"
-					"text": "Carte 2"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 0"
 				} )
@@ -134,13 +130,11 @@ new FormModel {
 				name: "player3Panel"
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p3c1"
-					"text": "Carte 1"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p3c2"
-					"text": "Carte 2"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 0"
 				} )
@@ -174,13 +168,11 @@ new FormModel {
 				name: "player4Panel"
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p4c1"
-					"text": "Carte 1"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p4c2"
-					"text": "Carte 2"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 0"
 				} )
@@ -212,3 +204,4 @@ new FormModel {
 		} )
 	}
 }
+

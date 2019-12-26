@@ -43,13 +43,22 @@ public class PlayerController {
     }
 
     public PlayerController showCards() {
-
-        
-
-        ImageIcon icon1 = new ImageIcon(player.getCard(0).getValue()+"" + ""+ player.getCard(0).getColor() + ".png");
-        Image img = icon1.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
-        ImageIcon icon2 = new ImageIcon(player.getCard(1).getValue()+"" + ""+ player.getCard(1).getColor() + ".png");
-        cardB.setIcon(icon2);
+        if(player.getCard(0).getColor().getOrder() != 1){
+            ImageIcon icon1 = new ImageIcon(player.getCard(0).getValue()+"" + ""+ player.getCard(0).getColor() + ".png");
+            cardA.setIcon(icon1);
+        }
+        else {
+            ImageIcon icon1 = new ImageIcon( player.getCard(0).getColor() + ".png");
+            cardA.setIcon(icon1);
+        }
+        if(player.getCard(1).getColor().getOrder() != 1){
+            ImageIcon icon2 = new ImageIcon(player.getCard(1).getValue() + "" + "" + player.getCard(1).getColor() + ".png");
+            cardB.setIcon(icon2);
+        }
+        else{
+            ImageIcon icon2 = new ImageIcon(player.getCard(1).getColor() + ".png");
+            cardB.setIcon(icon2);
+        }
 
         return this;
     }
@@ -106,17 +115,45 @@ public class PlayerController {
     }
 
     public PlayerController hideCards() {
-        cardA.setText("⛶");
-        cardB.setText("⛶");
+        ImageIcon icon1 = new ImageIcon("blanc.png");
+        cardA.setIcon(icon1);
+        ImageIcon icon2 = new ImageIcon("blanc.png");
+        cardB.setIcon(icon2);
 
         return this;
     }
 
     public PlayerController displayVisibleCard() {
-        cardA.setText(player.getCard(0).toStringFromOutside());
+        if(player.getCard(0).isFaceDown() == false){
+            if(player.getCard(0).getColor().getOrder() != 1){
+                ImageIcon icon1 = new ImageIcon(player.getCard(0).getValue()+"" + ""+ player.getCard(0).getColor() + ".png");
+                cardA.setIcon(icon1);
+            }
+            else {
+                ImageIcon icon1 = new ImageIcon( player.getCard(0).getColor() + ".png");
+                cardA.setIcon(icon1);
+            }
+        }
+        else {
+            ImageIcon icon1 = new ImageIcon("blanc.png");
+            cardA.setIcon(icon1);
+        }
 
         if(player.getCurrentCardSize() == 2) {
-            cardB.setText(player.getCard(1).toStringFromOutside());
+            if(player.getCard(1).isFaceDown() == false){
+                if(player.getCard(1).getColor().getOrder() != 1){
+                    ImageIcon icon2 = new ImageIcon(player.getCard(1).getValue() + "" + "" + player.getCard(1).getColor() + ".png");
+                    cardB.setIcon(icon2);
+                }
+                else{
+                    ImageIcon icon2 = new ImageIcon(player.getCard(1).getColor() + ".png");
+                    cardB.setIcon(icon2);
+                }
+            }
+            else{
+                ImageIcon icon2 = new ImageIcon("blanc.png");
+                cardB.setIcon(icon2);
+            }
         }
         else {
             cardB.setEnabled(false);
