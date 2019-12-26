@@ -16,15 +16,13 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.util.ArrayList;
 
-/**
- * @author unknown
- */
 public class Board extends JPanel implements Observer {
 
     private ArrayList<PlayerController> playerControllers = new ArrayList<>();
 
     public Board(ArrayList<Player> players) {
         initComponents();
+        Game.getInstance().addObserver(this);
 
         playerControllers.add(new PlayerController(players.get(0), player1Panel, player1Label, p1c1, p1c2, p1Score, p1Tropheys));
         playerControllers.add(new PlayerController(players.get(1), player2Panel, player2Label, p2c1, p2c2, p2Score, p1Tropheys));
@@ -174,13 +172,13 @@ public class Board extends JPanel implements Observer {
         p4Tropheys = new JLabel();
 
         //======== this ========
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
-        swing.border.EmptyBorder(0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border
-        .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog"
-        ,java.awt.Font.BOLD,12),java.awt.Color.red), getBorder
-        ())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
-        .beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException
-        ();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing
+        .border.EmptyBorder(0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border.TitledBorder
+        .CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.
+        awt.Font.BOLD,12),java.awt.Color.red), getBorder()))
+        ; addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
+        ){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException();}})
+        ;
         setLayout(new MigLayout(
             "fill,hidemode 3,align center center",
             // columns

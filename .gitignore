@@ -24,9 +24,14 @@ hs_err_pid*
 # Intellij Idea
 out/
 .idea/
+!.idea/misc.xml
 
 # Eclipse
 .project
 .classpath
 bin/
 .settings
+
+# Javadoc
+build/
+doc/

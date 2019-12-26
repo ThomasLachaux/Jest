@@ -92,6 +92,9 @@ public class Game extends Observable implements Runnable {
     private Game() {
     }
 
+    /**
+     * Affiche les trophées
+     */
     public void distributeAndShowTrophies() {
         tropheyMapping = new TropheyMapping(TropheyMapping.generateDefaultMapping());
 
@@ -113,6 +116,9 @@ public class Game extends Observable implements Runnable {
         }
     }
 
+    /**
+     * Demande et crée les joueurs et les bots
+     */
     public void createPlayers() {
 
         int players = Scanner.nextInt(0, 4);
@@ -139,6 +145,10 @@ public class Game extends Observable implements Runnable {
 
     }
 
+    /**
+     * Joue un tour
+     * @param turn index du tour, commence à 1
+     */
     public void playTurn(int turn) {
         System.out.println(Console.RED + "--- Tour " + turn + " ---" + com.projet.views.Console.RESET);
 
@@ -207,6 +217,9 @@ public class Game extends Observable implements Runnable {
 
     }
 
+    /**
+     * Crée les cartes et les ajoute à la pile des cartes
+     */
     public void createCards() {
         for (int i = 1; i <= 4; i++) {
             for (Color color : Color.values()) {
@@ -218,10 +231,16 @@ public class Game extends Observable implements Runnable {
         stack.add(new Card(Color.Jocker, 0));
     }
 
+    /**
+     * Mélange les cartes
+     */
     public void shuffleCards() {
         Collections.shuffle(stack);
     }
 
+    /**
+     * Fait une distribution des cartes. Appelée que pour le premier tour
+     */
     public void distributeCardsFirst() {
         System.out.println("Distribution des cartes...");
         for (Player player : players) {
@@ -229,6 +248,9 @@ public class Game extends Observable implements Runnable {
         }
     }
 
+    /**
+     * Fait une redistribution des cartes. Appelée à partir du 2ème tour
+     */
     public void distributeCard() {
         System.out.println("Redistribution des cartes...");
         for (Player player : players) {
@@ -236,6 +258,10 @@ public class Game extends Observable implements Runnable {
         }
     }
 
+    /**
+     * Getter des trophés
+     * @return trophés
+     */
     public ArrayList<Trophy> getTrophies() {
         return trophies;
     }

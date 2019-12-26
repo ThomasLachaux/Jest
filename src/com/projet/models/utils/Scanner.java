@@ -2,6 +2,10 @@ package com.projet.models.utils;
 
 import com.projet.models.App;
 
+/**
+ * Permet les entrée de l'application
+ * Peut aussi faire de la validation pour les nombres
+ */
 public class Scanner {
     private static final String INVALID_ANSWER = "Entrée invalide ! Veuillez réessayer";
 
@@ -9,7 +13,12 @@ public class Scanner {
     private Scanner() {
     }
 
-    // Le min et le max sont inclusifs
+    /**
+     * Attend dans le bus l'arrivée d'un entier que l'on parse
+     * @param min minimum inclusif
+     * @param max maximum inclusif
+     * @return première entrée du bus validée
+     */
     public static int nextInt(int min, int max) {
         int result = -1;
         try {
@@ -33,7 +42,12 @@ public class Scanner {
         return result;
     }
 
-    // Sous entends que le min est 1
+    /**
+     * Attend dans le bus l'arrivée d'un entier que l'on parse
+     * Sous entend que le minimum est 1
+     * @param max maximum inclusif
+     * @return première entrée du bus validée
+     */
     public static int nextInt(int max) {
         return nextInt(1, max);
     }

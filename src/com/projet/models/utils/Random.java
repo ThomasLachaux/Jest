@@ -1,5 +1,8 @@
 package com.projet.models.utils;
 
+/**
+ * Classe regroupant toutes les méthodes statiques liées à l'aléatoire
+ */
 public class Random {
 
     /**

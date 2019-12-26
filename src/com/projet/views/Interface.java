@@ -58,7 +58,6 @@ public class Interface extends Observable implements Observer {
         switch (eventType) {
             case GAME_SET_UP:
                 Board board = new Board((ArrayList<Player>) payload);
-                addObserver(board);
                 switchPanel(board);
                 break;
         }
