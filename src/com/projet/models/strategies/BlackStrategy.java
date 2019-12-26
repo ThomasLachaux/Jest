@@ -6,13 +6,21 @@ import com.projet.models.players.Player;
 
 import java.util.ArrayList;
 
+/**
+ * Cette classe décrit la stratégie d'un bot qui essaye de jouer de façon a peu près normale
+ */
 public class BlackStrategy extends BotStrategy {
 
     public BlackStrategy(String name) {
         super(name);
     }
 
-    // Affiche la carte la plus haute en numero et si pareil, plus haute en couleur
+    /**
+     * Affiche la carte la plus haute en numero et si pareil, plus haute en couleur
+     * @param cardA première carte
+     * @param cardB deuxième carte
+     * @return carte choisie
+     */
     @Override
     public Card askWhichCardToShow(Card cardA, Card cardB) {
         Card chosen;
@@ -31,6 +39,11 @@ public class BlackStrategy extends BotStrategy {
         return chosen;
     }
 
+    /**
+     * Essaye de choisir un joueur qui a un trèfle ou un pique
+     * @param otherPlayers autres joueurs volables
+     * @return joueur choisi
+     */
     @Override
     public Player askWhichPlayerToSteal(ArrayList<Player> otherPlayers) {
         if (otherPlayers.size() == 0) {
@@ -56,6 +69,11 @@ public class BlackStrategy extends BotStrategy {
         }
     }
 
+    /**
+     * Vole toujours la carte visible
+     * @param stolenPlayer joueur volé
+     * @return carte volée
+     */
     @Override
     public Card askWhichCardToSteal(Player stolenPlayer) {
         Card chosenCard = stolenPlayer.stealVisibleCard();
