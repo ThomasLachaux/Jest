@@ -25,6 +25,16 @@ public class PlayerController {
     private JLabel score;
     private JLabel tropheys;
 
+    /**
+     * Attribute le bon label au joueur et cache ses cartes
+     * @param player joueur
+     * @param panel panneau
+     * @param label label
+     * @param cardA première carte
+     * @param cardB deuxième carte
+     * @param score label des scores
+     * @param tropheys label des trophés
+     */
     public PlayerController(Player player, JPanel panel, JLabel label, JButton cardA, JButton cardB, JLabel score, JLabel tropheys) {
         this.player = player;
         this.panel = panel;
@@ -38,6 +48,10 @@ public class PlayerController {
         hideCards();
     }
 
+    /**
+     * Renvoie le joueur
+     * @return joueur
+     */
     public Player getPlayer() {
         return player;
     }
