@@ -55,7 +55,7 @@ public class PlayerController {
     }
 
     public static String loadHiddenCard() {
-        return loadCard("blanc");
+        return loadCard("blank");
     }
 
     /**
@@ -67,6 +67,10 @@ public class PlayerController {
         return player;
     }
 
+    /**
+     * Affiche les 2 cartes du joueur
+     * @return joueur
+     */
     public PlayerController showCards() {
 
         Card cardAModel = player.getCard(0);
@@ -91,6 +95,11 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     private MouseListener getChooseCardListener(int index) {
         return new MouseListener() {
             @Override
@@ -104,11 +113,11 @@ public class PlayerController {
             }
 
             public void mousePressed(MouseEvent e) {
+                App.getInstance().getBus().put(index);
+                removeActionListeners();
             }
 
             public void mouseClicked(MouseEvent e) {
-                App.getInstance().getBus().put(index);
-                removeActionListeners();
             }
         };
     }
