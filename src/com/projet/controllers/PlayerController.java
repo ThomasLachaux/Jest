@@ -1,11 +1,12 @@
 package com.projet.controllers;
 
 import com.projet.models.App;
+import com.projet.models.Card;
+import com.projet.models.Color;
 import com.projet.models.Game;
 import com.projet.models.players.Player;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -27,12 +28,13 @@ public class PlayerController {
 
     /**
      * Attribute le bon label au joueur et cache ses cartes
-     * @param player joueur
-     * @param panel panneau
-     * @param label label
-     * @param cardA première carte
-     * @param cardB deuxième carte
-     * @param score label des scores
+     *
+     * @param player   joueur
+     * @param panel    panneau
+     * @param label    label
+     * @param cardA    première carte
+     * @param cardB    deuxième carte
+     * @param score    label des scores
      * @param tropheys label des trophés
      */
     public PlayerController(Player player, JPanel panel, JLabel label, JLabel cardA, JLabel cardB, JLabel score, JLabel tropheys) {
@@ -48,8 +50,17 @@ public class PlayerController {
         hideCards();
     }
 
+    public static String loadCard(String imageName) {
+        return "src/com/projet/views/images/" + imageName + ".png";
+    }
+
+    public static String loadHiddenCard() {
+        return loadCard("blanc");
+    }
+
     /**
      * Renvoie le joueur
+     *
      * @return joueur
      */
     public Player getPlayer() {
@@ -57,20 +68,23 @@ public class PlayerController {
     }
 
     public PlayerController showCards() {
-        if(player.getCard(0).getColor().getOrder() != 1){
-            ImageIcon icon1 = new ImageIcon(player.getCard(0).getValue()+"" + ""+ player.getCard(0).getColor() + ".png");
+
+        Card cardAModel = player.getCard(0);
+        Card cardBModel = player.getCard(1);
+
+        if (cardAModel.getColor() != Color.Jocker) {
+            ImageIcon icon1 = new ImageIcon(loadCard(cardAModel.getValue() + cardAModel.getColor().toString()));
+            cardA.setIcon(icon1);
+        } else {
+            ImageIcon icon1 = new ImageIcon(loadCard(cardAModel.getColor().toString()));
             cardA.setIcon(icon1);
         }
-        else {
-            ImageIcon icon1 = new ImageIcon( player.getCard(0).getColor() + ".png");
-            cardA.setIcon(icon1);
-        }
-        if(player.getCard(1).getColor().getOrder() != 1){
-            ImageIcon icon2 = new ImageIcon(player.getCard(1).getValue() + "" + "" + player.getCard(1).getColor() + ".png");
+
+        if (cardBModel.getColor() != Color.Jocker) {
+            ImageIcon icon2 = new ImageIcon(loadCard(cardBModel.getValue() + player.getCard(1).getColor().toString()));
             cardB.setIcon(icon2);
-        }
-        else{
-            ImageIcon icon2 = new ImageIcon(player.getCard(1).getColor() + ".png");
+        } else {
+            ImageIcon icon2 = new ImageIcon(loadCard(cardBModel.getColor().toString()));
             cardB.setIcon(icon2);
         }
 
@@ -80,10 +94,18 @@ public class PlayerController {
     private MouseListener getChooseCardListener(int index) {
         return new MouseListener() {
             @Override
-            public void mouseExited(MouseEvent e){}
-            public void mouseEntered(MouseEvent e){}
-            public void mouseReleased(MouseEvent e){}
-            public void mousePressed(MouseEvent e){}
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mousePressed(MouseEvent e) {
+            }
+
             public void mouseClicked(MouseEvent e) {
                 App.getInstance().getBus().put(index);
                 removeActionListeners();
@@ -107,8 +129,8 @@ public class PlayerController {
         playing();
         showCards();
 
-        cardAListener =  getChooseCardListener(1);
-        cardBListener =  getChooseCardListener(2);
+        cardAListener = getChooseCardListener(1);
+        cardBListener = getChooseCardListener(2);
 
         cardA.addMouseListener(cardAListener);
         cardB.addMouseListener(cardBListener);
@@ -117,59 +139,60 @@ public class PlayerController {
     }
 
     public PlayerController playing() {
-        label.setForeground(Color.RED);
+        label.setForeground(java.awt.Color.RED);
 
         return this;
     }
 
     public PlayerController notPlaying() {
-        label.setForeground(Color.BLACK);
+        label.setForeground(java.awt.Color.BLACK);
 
         return this;
     }
 
     public PlayerController hideCards() {
-        ImageIcon icon1 = new ImageIcon("blanc.png");
+        ImageIcon icon1 = new ImageIcon(loadHiddenCard());
         cardA.setIcon(icon1);
-        ImageIcon icon2 = new ImageIcon("blanc.png");
+        ImageIcon icon2 = new ImageIcon(loadHiddenCard());
         cardB.setIcon(icon2);
 
         return this;
     }
 
     public PlayerController displayVisibleCard() {
-        if(player.getCard(0).isFaceDown() == false){
-            if(player.getCard(0).getColor().getOrder() != 1){
-                ImageIcon icon1 = new ImageIcon(player.getCard(0).getValue()+"" + ""+ player.getCard(0).getColor() + ".png");
+
+        Card cardAModel = player.getCard(0);
+
+        if (cardAModel.isFaceUp()) {
+            if (player.getCard(0).getColor() != Color.Jocker) {
+                ImageIcon icon1 = new ImageIcon(loadCard(cardAModel.getValue() + cardAModel.getColor().toString()));
+                cardA.setIcon(icon1);
+            } else {
+                ImageIcon icon1 = new ImageIcon(loadCard(cardAModel.getColor().toString()));
                 cardA.setIcon(icon1);
             }
-            else {
-                ImageIcon icon1 = new ImageIcon( player.getCard(0).getColor() + ".png");
-                cardA.setIcon(icon1);
-            }
-        }
-        else {
-            ImageIcon icon1 = new ImageIcon("blanc.png");
+        } else {
+            ImageIcon icon1 = new ImageIcon(loadHiddenCard());
             cardA.setIcon(icon1);
         }
 
-        if(player.getCurrentCardSize() == 2) {
-            if(player.getCard(1).isFaceDown() == false){
-                if(player.getCard(1).getColor().getOrder() != 1){
-                    ImageIcon icon2 = new ImageIcon(player.getCard(1).getValue() + "" + "" + player.getCard(1).getColor() + ".png");
+        if (player.getCurrentCardSize() == 2) {
+
+            Card cardBModel = player.getCard(1);
+
+            if (cardBModel.isFaceUp()) {
+                if (cardBModel.getColor().getOrder() != 1) {
+                    ImageIcon icon2 = new ImageIcon(loadCard(cardBModel.getValue() + player.getCard(1).getColor().toString()));
+                    cardB.setIcon(icon2);
+                } else {
+                    ImageIcon icon2 = new ImageIcon(loadCard(cardBModel.getColor().toString()));
                     cardB.setIcon(icon2);
                 }
-                else{
-                    ImageIcon icon2 = new ImageIcon(player.getCard(1).getColor() + ".png");
-                    cardB.setIcon(icon2);
-                }
-            }
-            else{
-                ImageIcon icon2 = new ImageIcon("blanc.png");
+            } else {
+                ImageIcon icon2 = new ImageIcon(loadHiddenCard());
                 cardB.setIcon(icon2);
             }
-        }
-        else {
+        } else {
             cardB.setEnabled(false);
         }
 
@@ -193,16 +216,24 @@ public class PlayerController {
     private MouseListener getStealListener(int playerIndex, int cardChoice) {
         return new MouseListener() {
             @Override
-            public void mouseExited(MouseEvent e){}
-            public void mouseEntered(MouseEvent e){}
-            public void mouseReleased(MouseEvent e){}
-            public void mousePressed(MouseEvent e){}
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mousePressed(MouseEvent e) {
+            }
+
             public void mouseClicked(MouseEvent e) {
                 JLabel button = (JLabel) e.getSource();
                 button.setText(" ");
 
                 // Si le joueur courant est le même que le controller, on envoit pas quel joueur choisir
-                if(player != Game.getInstance().getCurrentPlayer()) {
+                if (player != Game.getInstance().getCurrentPlayer()) {
                     App.getInstance().getBus().put(playerIndex + 1);
                 }
                 App.getInstance().getBus().put(cardChoice);
@@ -212,11 +243,11 @@ public class PlayerController {
     }
 
     public PlayerController removeActionListeners() {
-        for(MouseListener listener : cardA.getMouseListeners()) {
+        for (MouseListener listener : cardA.getMouseListeners()) {
             cardA.removeMouseListener(listener);
         }
 
-        for(MouseListener listener : cardB.getMouseListeners()) {
+        for (MouseListener listener : cardB.getMouseListeners()) {
             cardB.removeMouseListener(listener);
         }
 
