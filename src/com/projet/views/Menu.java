@@ -6,6 +6,9 @@ package com.projet.views;
 
 import com.projet.models.App;
 import com.projet.models.utils.Bus;
+import mdlaf.MaterialLookAndFeel;
+import mdlaf.themes.MaterialLiteTheme;
+import mdlaf.themes.MaterialOceanicTheme;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -29,6 +32,8 @@ public class Menu extends JPanel {
     2: jouer carte face caché
      */
     private int extension = 0;
+
+    private boolean darkTheme = false;
 
     public Menu() {
         initComponents();
@@ -93,6 +98,20 @@ public class Menu extends JPanel {
         }
     }
 
+    private void themeButtonActionPerformed(ActionEvent e) {
+        darkTheme = !darkTheme;
+
+        if(darkTheme) {
+            themeButton.setText("Sombre");
+            MaterialLookAndFeel.changeTheme(new MaterialOceanicTheme());
+        }
+
+        else {
+            themeButton.setText("Clair");
+            MaterialLookAndFeel.changeTheme(new MaterialLiteTheme());
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
@@ -105,22 +124,25 @@ public class Menu extends JPanel {
         difficulty = new JButton();
         extensionLabel = new JLabel();
         extensionButton = new JButton();
+        themeLabel = new JLabel();
+        themeButton = new JButton();
         play = new JButton();
         rules = new JButton();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border
-        . EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax
-        . swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,
-        12 ), java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans
-        . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .
-        getPropertyName () )) throw new RuntimeException( ); }} );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border.
+        EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e", javax. swing. border. TitledBorder. CENTER, javax. swing
+        . border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069al\u006fg" ,java .awt .Font .BOLD ,12 ),
+        java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( )
+        { @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .equals (e .getPropertyName () ))
+        throw new RuntimeException( ); }} );
         setLayout(new MigLayout(
             "fill,hidemode 3,align center center",
             // columns
             "[fill]" +
             "[fill]",
             // rows
+            "[]" +
             "[]" +
             "[]" +
             "[]" +
@@ -174,16 +196,27 @@ public class Menu extends JPanel {
         extensionButton.addActionListener(e -> extensionActionPerformed(e));
         add(extensionButton, "cell 1 4");
 
+        //---- themeLabel ----
+        themeLabel.setText("Th\u00e8me du jeu");
+        themeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(themeLabel, "cell 0 5");
+
+        //---- themeButton ----
+        themeButton.setText("Clair");
+        themeButton.addActionListener(e -> themeButtonActionPerformed(e));
+        add(themeButton, "cell 1 5");
+
         //---- play ----
         play.setText("Jouer");
         play.addActionListener(e -> playActionPerformed(e));
-        add(play, "cell 0 5 2 1");
+        add(play, "cell 0 6 2 1");
 
         //---- rules ----
         rules.setText("R\u00e8gles");
         rules.addActionListener(e -> rulesActionPerformed(e));
-        add(rules, "cell 0 6 2 1");
+        add(rules, "cell 0 7 2 1");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -197,6 +230,8 @@ public class Menu extends JPanel {
     private JButton difficulty;
     private JLabel extensionLabel;
     private JButton extensionButton;
+    private JLabel themeLabel;
+    private JButton themeButton;
     private JButton play;
     private JButton rules;
     // JFormDesigner - End of variables declaration  //GEN-END:variables

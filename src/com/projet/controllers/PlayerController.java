@@ -5,6 +5,7 @@ import com.projet.models.Card;
 import com.projet.models.Color;
 import com.projet.models.Game;
 import com.projet.models.players.Player;
+import com.projet.views.Interface;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -101,25 +102,13 @@ public class PlayerController {
      * @return
      */
     private MouseListener getChooseCardListener(int index) {
-        return new MouseListener() {
+        return Interface.mouseListener(new Interface.MouseListener() {
             @Override
-            public void mouseExited(MouseEvent e) {
-            }
-
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            public void mousePressed(MouseEvent e) {
+            public void onAction(MouseEvent e) {
                 App.getInstance().getBus().put(index);
                 removeActionListeners();
             }
-
-            public void mouseClicked(MouseEvent e) {
-            }
-        };
+        });
     }
 
     /**
@@ -223,21 +212,9 @@ public class PlayerController {
     }
 
     private MouseListener getStealListener(int playerIndex, int cardChoice) {
-        return new MouseListener() {
+        return Interface.mouseListener(new Interface.MouseListener() {
             @Override
-            public void mouseExited(MouseEvent e) {
-            }
-
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            public void mousePressed(MouseEvent e) {
-            }
-
-            public void mouseClicked(MouseEvent e) {
+            public void onAction(MouseEvent e) {
                 JLabel button = (JLabel) e.getSource();
                 button.setText(" ");
 
@@ -248,7 +225,7 @@ public class PlayerController {
                 App.getInstance().getBus().put(cardChoice);
                 notPlaying();
             }
-        };
+        });
     }
 
     public PlayerController removeActionListeners() {
