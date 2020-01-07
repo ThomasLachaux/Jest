@@ -66,6 +66,9 @@ public class Game extends Observable implements Runnable {
             i++;
         } while (tmpStack.size() != 0 || (extension == 1 && stack.size() != 0));
 
+        for (Player player : players) {
+            player.addToJest(player.getCard(0));
+        }
 
         System.out.println("Fin du jeu !");
         giveTrophies();
@@ -163,7 +166,7 @@ public class Game extends Observable implements Runnable {
         notifyObservers(EventType.TURN_START, turn);
 
         // Quelle carte reveler
-        if(extension != 2) {
+        if (extension != 2) {
             for (Player player : players) {
                 player.askWhichCardToFaceUp();
             }
@@ -193,27 +196,28 @@ public class Game extends Observable implements Runnable {
                     stealerPlayer = hasntPlayedPlayers.get(0);
             }
         }
-        if (extension == 0 || extension == 2) {
-            for (Player player : players) {
-                Card cardPlayer = player.pollHand();
-                Card cardStack = stack.poll();
-                if (cardStack != null) {
-                    tmpStack.add(cardPlayer);
-                    tmpStack.add(cardStack);
+        if (stack.size() != 0) {
+            if (extension == 0 || extension == 2) {
+                for (Player player : players) {
+                    Card cardPlayer = player.pollHand();
+                    Card cardStack = stack.poll();
+                    if (cardStack != null) {
+                        tmpStack.add(cardPlayer);
+                        tmpStack.add(cardStack);
+                    }
+                    Collections.shuffle(tmpStack);
                 }
-                Collections.shuffle(tmpStack);
-            }
-        } else if (extension == 1) {
-            // Redonner toutes les cartes à la pile et melange
-            for (Player player : players) {
-                Card cardPlayer = player.pollHand();
-                if (stack.size() != 0) {
-                    stack.add(cardPlayer);
+            } else if (extension == 1) {
+                // Redonner toutes les cartes à la pile et melange
+                for (Player player : players) {
+                    Card cardPlayer = player.pollHand();
+                    if (stack.size() != 0) {
+                        stack.add(cardPlayer);
+                    }
+                    Collections.shuffle(stack);
                 }
-                Collections.shuffle(stack);
             }
         }
-
     }
 
     /**

@@ -44,7 +44,7 @@ public class Interface extends Observable implements Observer {
             e.printStackTrace ();
         }
         frame = new JFrame("Jest");
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.setBounds(100, 100, 1000, 1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

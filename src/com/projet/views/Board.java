@@ -124,6 +124,14 @@ public class Board extends JPanel implements Observer {
 
                 Trophy trophy = Game.getInstance().getTrophies().get(trophyNumber);
                 findController(winner).addTrophy(trophy);
+
+                if(mapping.getKey() == 0) {
+                    trophy1.setIcon(null);
+                }
+
+                else {
+                    trophy2.setIcon(null);
+                }
                 break;
 
             case SCORE_GIVEN:
