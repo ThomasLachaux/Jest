@@ -6,11 +6,11 @@ import com.projet.models.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TropheyMapping {
+public class TrophyMapping {
 
     private HashMap<Card, Trophy> map;
 
-    public TropheyMapping(HashMap<Card, Trophy> map) {
+    public TrophyMapping(HashMap<Card, Trophy> map) {
         this.map = map;
     }
 

@@ -6,7 +6,7 @@ import com.projet.models.players.Player;
 import com.projet.models.strategies.BlackStrategy;
 import com.projet.models.strategies.RandomStrategy;
 import com.projet.models.strategies.Strategy;
-import com.projet.models.trophies.TropheyMapping;
+import com.projet.models.trophies.TrophyMapping;
 import com.projet.models.trophies.Trophy;
 import com.projet.models.trophies.visitor.TrophyVisitor;
 import com.projet.models.utils.Entry;
@@ -18,7 +18,6 @@ import com.projet.views.Console;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class Game extends Observable implements Runnable {
 
@@ -27,7 +26,7 @@ public class Game extends Observable implements Runnable {
     private ArrayList<Player> players;
     private LinkedList<Card> tmpStack;
     private ArrayList<Trophy> trophies;
-    private TropheyMapping tropheyMapping;
+    private TrophyMapping trophyMapping;
     private int extension = 0;
 
     private Player currentPlayer;
@@ -96,13 +95,13 @@ public class Game extends Observable implements Runnable {
      * Affiche les trophées
      */
     public void distributeAndShowTrophies() {
-        tropheyMapping = new TropheyMapping(TropheyMapping.generateDefaultMapping());
+        trophyMapping = new TrophyMapping(TrophyMapping.generateDefaultMapping());
 
         System.out.println("--- Trophées ---");
         trophies = new ArrayList<>();
 
         Card cardA = stack.poll();
-        Trophy trophyA = tropheyMapping.computeTrophy(cardA);
+        Trophy trophyA = trophyMapping.computeTrophy(cardA);
         trophies.add(trophyA);
 
         System.out.print(trophyA + " (" + cardA + ")" + "     ");
@@ -110,7 +109,7 @@ public class Game extends Observable implements Runnable {
         // Si il y a 3 joueurs, on ajoute encore un trophée
         if (players.size() == 3) {
             Card cardB = stack.poll();
-            Trophy trophyB = tropheyMapping.computeTrophy(cardB);
+            Trophy trophyB = trophyMapping.computeTrophy(cardB);
             trophies.add(trophyB);
             System.out.println(trophyB + " (" + cardB + ")");
         }
@@ -296,7 +295,7 @@ public class Game extends Observable implements Runnable {
             Trophy trophy = trophies.get(i);
             Player winner = trophy.accept(visitor);
             if (winner != null) {
-                winner.addToJest(tropheyMapping.findCard(trophy));
+                winner.addToJest(trophyMapping.findCard(trophy));
                 // Fait un mapping entre l'index du trohpé et le gagnant
                 Entry<Integer, Player> mapping = new Entry<>(i, winner);
                 notifyObservers(EventType.TROPHEY_GIVEN, mapping);
@@ -315,7 +314,7 @@ public class Game extends Observable implements Runnable {
         this.currentPlayer = currentPlayer;
     }
 
-    public TropheyMapping getTropheyMapping() {
-        return tropheyMapping;
+    public TrophyMapping getTrophyMapping() {
+        return trophyMapping;
     }
 }

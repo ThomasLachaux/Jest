@@ -18,12 +18,12 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p1c1"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 0"
+					"value": "cell 0 0,alignx right,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p1c2"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 1 0"
+					"value": "cell 1 0,alignx left,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "player1Label"
@@ -39,10 +39,15 @@ new FormModel {
 					"value": "cell 0 2 2 1"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "p1Tropheys"
+					name: "p1Tropheys1"
 					"horizontalAlignment": 0
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 3 2 1"
+					"value": "cell 0 3"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "p1Tropheys2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 3"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 1"
@@ -56,12 +61,12 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p2c1"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 0"
+					"value": "cell 0 0,alignx right,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p2c2"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 1 0"
+					"value": "cell 1 0,alignx left,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "player2Label"
@@ -77,10 +82,15 @@ new FormModel {
 					"value": "cell 0 2 2 1"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "p2Tropheys"
+					name: "p2Tropheys1"
 					"horizontalAlignment": 0
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 3 2 1"
+					"value": "cell 0 3"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "p2Tropheys2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 3"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 1 0"
@@ -100,14 +110,12 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "trophy1"
-					"text": "Trophée 1"
 					"horizontalAlignment": 0
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 1"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "trophy2"
-					"text": "Trophée 2"
 					"horizontalAlignment": 0
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 1"
@@ -131,12 +139,12 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p3c1"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 0"
+					"value": "cell 0 0,alignx right,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p3c2"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 1 0"
+					"value": "cell 1 0,alignx left,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "player3Label"
@@ -152,10 +160,15 @@ new FormModel {
 					"value": "cell 0 2 2 1"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "p3Tropheys"
+					name: "p3Tropheys1"
 					"horizontalAlignment": 0
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 3 2 1"
+					"value": "cell 0 3"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "p3Tropheys2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 3"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 2 1"
@@ -169,12 +182,12 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p4c1"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 0"
+					"value": "cell 0 0,alignx right,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "p4c2"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 1 0"
+					"value": "cell 1 0,alignx left,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "player4Label"
@@ -190,10 +203,15 @@ new FormModel {
 					"value": "cell 0 2 2 1"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "p4Tropheys"
+					name: "p4Tropheys1"
 					"horizontalAlignment": 0
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 0 3 2 1"
+					"value": "cell 0 3"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "p4Tropheys2"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 3"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 1 2"
@@ -204,4 +222,3 @@ new FormModel {
 		} )
 	}
 }
-

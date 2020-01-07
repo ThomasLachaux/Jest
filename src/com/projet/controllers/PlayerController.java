@@ -5,6 +5,7 @@ import com.projet.models.Card;
 import com.projet.models.Color;
 import com.projet.models.Game;
 import com.projet.models.players.Player;
+import com.projet.models.trophies.Trophy;
 import com.projet.views.Interface;
 
 import javax.swing.*;
@@ -25,7 +26,8 @@ public class PlayerController {
     private MouseListener cardBListener;
 
     private JLabel score;
-    private JLabel tropheys;
+    private JLabel trophyA;
+    private JLabel trophyB;
 
     /**
      * Attribute le bon label au joueur et cache ses cartes
@@ -36,16 +38,18 @@ public class PlayerController {
      * @param cardA    première carte
      * @param cardB    deuxième carte
      * @param score    label des scores
-     * @param tropheys label des trophés
+     * @param trophyA label du trophé A
+     * @param trophyB label du trophé B
      */
-    public PlayerController(Player player, JPanel panel, JLabel label, JLabel cardA, JLabel cardB, JLabel score, JLabel tropheys) {
+    public PlayerController(Player player, JPanel panel, JLabel label, JLabel cardA, JLabel cardB, JLabel score, JLabel trophyA, JLabel trophyB) {
         this.player = player;
         this.panel = panel;
         this.label = label;
         this.cardA = cardA;
         this.cardB = cardB;
         this.score = score;
-        this.tropheys = tropheys;
+        this.trophyA = trophyA;
+        this.trophyB = trophyB;
 
         label.setText(player.getName());
         hideCards();
@@ -70,6 +74,7 @@ public class PlayerController {
 
     /**
      * Affiche les 2 cartes du joueur
+     *
      * @return joueur
      */
     public PlayerController showCards() {
@@ -97,7 +102,6 @@ public class PlayerController {
     }
 
     /**
-     *
      * @param index
      * @return
      */
@@ -256,8 +260,17 @@ public class PlayerController {
         return this;
     }
 
-    public PlayerController addTrophey(String trophey) {
-        tropheys.setText(tropheys.getText() + "     " + trophey);
+    public PlayerController addTrophy(Trophy trophy) {
+        Card card = Game.getInstance().getTrophyMapping().findCard(trophy);
+        JLabel trophyLabel = trophyA.getIcon() == null ? trophyA : trophyB;
+
+        if (card.getColor().getOrder() != 1) {
+            ImageIcon icon2 = new ImageIcon(loadCard(card.getValue() + card.getColor().toString()));
+            trophyLabel.setIcon(icon2);
+        } else {
+            ImageIcon icon2 = new ImageIcon(loadCard(card.getColor().toString()));
+            trophyLabel.setIcon(icon2);
+        }
 
         return this;
     }

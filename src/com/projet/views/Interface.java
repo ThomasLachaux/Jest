@@ -6,12 +6,9 @@ import com.projet.models.utils.EventType;
 import com.projet.models.utils.Observable;
 import com.projet.models.utils.Observer;
 import mdlaf.MaterialLookAndFeel;
-import mdlaf.themes.JMarsDarkTheme;
-import mdlaf.themes.MaterialOceanicTheme;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class Interface extends Observable implements Observer {

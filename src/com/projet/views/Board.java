@@ -5,6 +5,7 @@
 package com.projet.views;
 
 import com.projet.controllers.PlayerController;
+import com.projet.models.Card;
 import com.projet.models.Game;
 import com.projet.models.players.Player;
 import com.projet.models.trophies.Trophy;
@@ -16,6 +17,8 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.util.ArrayList;
 
+import static com.projet.controllers.PlayerController.loadCard;
+
 public class Board extends JPanel implements Observer {
 
     private ArrayList<PlayerController> playerControllers = new ArrayList<>();
@@ -24,22 +27,35 @@ public class Board extends JPanel implements Observer {
         initComponents();
         Game.getInstance().addObserver(this);
 
-        playerControllers.add(new PlayerController(players.get(0), player1Panel, player1Label, p1c1, p1c2, p1Score, p1Tropheys));
-        playerControllers.add(new PlayerController(players.get(1), player2Panel, player2Label, p2c1, p2c2, p2Score, p1Tropheys));
-        playerControllers.add(new PlayerController(players.get(2), player3Panel, player3Label, p3c1, p3c2, p3Score, p1Tropheys));
+        playerControllers.add(new PlayerController(players.get(0), player1Panel, player1Label, p1c1, p1c2, p1Score, p1Tropheys1,p1Tropheys2));
+        playerControllers.add(new PlayerController(players.get(1), player2Panel, player2Label, p2c1, p2c2, p2Score, p2Tropheys1,p2Tropheys2));
+        playerControllers.add(new PlayerController(players.get(2), player3Panel, player3Label, p3c1, p3c2, p3Score, p3Tropheys1,p3Tropheys2));
 
-        Trophy trophyA = Game.getInstance().getTrophies().get(0);
-        trophy1.setText(Game.getInstance().getTropheyMapping().findCard(trophyA).toString() + " " + trophyA.toString());
+        Card cardA = Game.getInstance().getTrophyMapping().findCard(Game.getInstance().getTrophies().get(0));
+
+        if (cardA.getColor().getOrder() != 1) {
+            ImageIcon icon = new ImageIcon(loadCard(cardA.getValue() + cardA.getColor().toString()));
+            trophy1.setIcon(icon);
+        } else {
+            ImageIcon icon = new ImageIcon(loadCard(cardA.getColor().toString()));
+            trophy1.setIcon(icon);
+        }
 
         if(players.size() == 4) {
-            playerControllers.add(new PlayerController(players.get(3), player4Panel, player4Label, p4c1, p4c2, p4Score, p1Tropheys));
-            trophy2.setText(null);
+            playerControllers.add(new PlayerController(players.get(3), player4Panel, player4Label, p4c1, p4c2, p4Score, p4Tropheys1,p4Tropheys2));
         }
 
         else {
             remove(player4Panel);
-            Trophy trophyB = Game.getInstance().getTrophies().get(1);
-            trophy2.setText(Game.getInstance().getTropheyMapping().findCard(trophyB).toString() + " " + trophyB.toString());
+            Card cardB = Game.getInstance().getTrophyMapping().findCard(Game.getInstance().getTrophies().get(1));
+
+            if (cardB.getColor().getOrder() != 1) {
+                ImageIcon icon = new ImageIcon(loadCard(cardB.getValue() + cardA.getColor().toString()));
+                trophy2.setIcon(icon);
+            } else {
+                ImageIcon icon = new ImageIcon(loadCard(cardB.getColor().toString()));
+                trophy2.setIcon(icon);
+            }
         }
 
 
@@ -103,18 +119,11 @@ public class Board extends JPanel implements Observer {
 
             case TROPHEY_GIVEN:
                 Entry<Integer, Player> mapping = (Entry<Integer, Player>) payload;
-                int tropheyNumber = mapping.getKey();
+                int trophyNumber = mapping.getKey();
                 Player winner = mapping.getValue();
 
-                Trophy trophy = Game.getInstance().getTrophies().get(tropheyNumber);
-
-                if(tropheyNumber == 0) {
-                    findController(winner).addTrophey(trophy.toString());
-                    trophy1.setText(null);
-                } else if(tropheyNumber == 1) {
-                    findController(winner).addTrophey(trophy.toString());
-                    trophy2.setText(null);
-                }
+                Trophy trophy = Game.getInstance().getTrophies().get(trophyNumber);
+                findController(winner).addTrophy(trophy);
                 break;
 
             case SCORE_GIVEN:
@@ -150,13 +159,15 @@ public class Board extends JPanel implements Observer {
         p1c2 = new JLabel();
         player1Label = new JLabel();
         p1Score = new JLabel();
-        p1Tropheys = new JLabel();
+        p1Tropheys1 = new JLabel();
+        p1Tropheys2 = new JLabel();
         player2Panel = new JPanel();
         p2c1 = new JLabel();
         p2c2 = new JLabel();
         player2Label = new JLabel();
         p2Score = new JLabel();
-        p2Tropheys = new JLabel();
+        p2Tropheys1 = new JLabel();
+        p2Tropheys2 = new JLabel();
         infos = new JPanel();
         trophyLabel = new JLabel();
         trophy1 = new JLabel();
@@ -167,22 +178,24 @@ public class Board extends JPanel implements Observer {
         p3c2 = new JLabel();
         player3Label = new JLabel();
         p3Score = new JLabel();
-        p3Tropheys = new JLabel();
+        p3Tropheys1 = new JLabel();
+        p3Tropheys2 = new JLabel();
         player4Panel = new JPanel();
         p4c1 = new JLabel();
         p4c2 = new JLabel();
         player4Label = new JLabel();
         p4Score = new JLabel();
-        p4Tropheys = new JLabel();
+        p4Tropheys1 = new JLabel();
+        p4Tropheys2 = new JLabel();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
-        swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border
-        . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
-        ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
-        ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
-        .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
-        ( ); }} );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
+        javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax
+        . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
+        .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt
+        . Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans.
+        PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .
+        equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
         setLayout(new MigLayout(
             "fill,hidemode 3,align center center",
             // columns
@@ -206,8 +219,8 @@ public class Board extends JPanel implements Observer {
                 "[]" +
                 "[]" +
                 "[]"));
-            player1Panel.add(p1c1, "cell 0 0");
-            player1Panel.add(p1c2, "cell 1 0");
+            player1Panel.add(p1c1, "cell 0 0,alignx right,growx 0");
+            player1Panel.add(p1c2, "cell 1 0,alignx left,growx 0");
 
             //---- player1Label ----
             player1Label.setText("Joueur 1");
@@ -218,9 +231,10 @@ public class Board extends JPanel implements Observer {
             p1Score.setHorizontalAlignment(SwingConstants.CENTER);
             player1Panel.add(p1Score, "cell 0 2 2 1");
 
-            //---- p1Tropheys ----
-            p1Tropheys.setHorizontalAlignment(SwingConstants.CENTER);
-            player1Panel.add(p1Tropheys, "cell 0 3 2 1");
+            //---- p1Tropheys1 ----
+            p1Tropheys1.setHorizontalAlignment(SwingConstants.CENTER);
+            player1Panel.add(p1Tropheys1, "cell 0 3");
+            player1Panel.add(p1Tropheys2, "cell 1 3");
         }
         add(player1Panel, "cell 0 1");
 
@@ -236,8 +250,8 @@ public class Board extends JPanel implements Observer {
                 "[]" +
                 "[]" +
                 "[]"));
-            player2Panel.add(p2c1, "cell 0 0");
-            player2Panel.add(p2c2, "cell 1 0");
+            player2Panel.add(p2c1, "cell 0 0,alignx right,growx 0");
+            player2Panel.add(p2c2, "cell 1 0,alignx left,growx 0");
 
             //---- player2Label ----
             player2Label.setText("Joueur 2");
@@ -248,9 +262,10 @@ public class Board extends JPanel implements Observer {
             p2Score.setHorizontalAlignment(SwingConstants.CENTER);
             player2Panel.add(p2Score, "cell 0 2 2 1");
 
-            //---- p2Tropheys ----
-            p2Tropheys.setHorizontalAlignment(SwingConstants.CENTER);
-            player2Panel.add(p2Tropheys, "cell 0 3 2 1");
+            //---- p2Tropheys1 ----
+            p2Tropheys1.setHorizontalAlignment(SwingConstants.CENTER);
+            player2Panel.add(p2Tropheys1, "cell 0 3");
+            player2Panel.add(p2Tropheys2, "cell 1 3");
         }
         add(player2Panel, "cell 1 0");
 
@@ -272,12 +287,10 @@ public class Board extends JPanel implements Observer {
             infos.add(trophyLabel, "cell 0 0 2 1");
 
             //---- trophy1 ----
-            trophy1.setText("Troph\u00e9e 1");
             trophy1.setHorizontalAlignment(SwingConstants.CENTER);
             infos.add(trophy1, "cell 0 1");
 
             //---- trophy2 ----
-            trophy2.setText("Troph\u00e9e 2");
             trophy2.setHorizontalAlignment(SwingConstants.CENTER);
             infos.add(trophy2, "cell 1 1");
 
@@ -300,8 +313,8 @@ public class Board extends JPanel implements Observer {
                 "[]" +
                 "[]" +
                 "[]"));
-            player3Panel.add(p3c1, "cell 0 0");
-            player3Panel.add(p3c2, "cell 1 0");
+            player3Panel.add(p3c1, "cell 0 0,alignx right,growx 0");
+            player3Panel.add(p3c2, "cell 1 0,alignx left,growx 0");
 
             //---- player3Label ----
             player3Label.setText("Joueur 3");
@@ -312,9 +325,10 @@ public class Board extends JPanel implements Observer {
             p3Score.setHorizontalAlignment(SwingConstants.CENTER);
             player3Panel.add(p3Score, "cell 0 2 2 1");
 
-            //---- p3Tropheys ----
-            p3Tropheys.setHorizontalAlignment(SwingConstants.CENTER);
-            player3Panel.add(p3Tropheys, "cell 0 3 2 1");
+            //---- p3Tropheys1 ----
+            p3Tropheys1.setHorizontalAlignment(SwingConstants.CENTER);
+            player3Panel.add(p3Tropheys1, "cell 0 3");
+            player3Panel.add(p3Tropheys2, "cell 1 3");
         }
         add(player3Panel, "cell 2 1");
 
@@ -330,8 +344,8 @@ public class Board extends JPanel implements Observer {
                 "[]" +
                 "[]" +
                 "[]"));
-            player4Panel.add(p4c1, "cell 0 0");
-            player4Panel.add(p4c2, "cell 1 0");
+            player4Panel.add(p4c1, "cell 0 0,alignx right,growx 0");
+            player4Panel.add(p4c2, "cell 1 0,alignx left,growx 0");
 
             //---- player4Label ----
             player4Label.setText("Joueur 4");
@@ -342,9 +356,10 @@ public class Board extends JPanel implements Observer {
             p4Score.setHorizontalAlignment(SwingConstants.CENTER);
             player4Panel.add(p4Score, "cell 0 2 2 1");
 
-            //---- p4Tropheys ----
-            p4Tropheys.setHorizontalAlignment(SwingConstants.CENTER);
-            player4Panel.add(p4Tropheys, "cell 0 3 2 1");
+            //---- p4Tropheys1 ----
+            p4Tropheys1.setHorizontalAlignment(SwingConstants.CENTER);
+            player4Panel.add(p4Tropheys1, "cell 0 3");
+            player4Panel.add(p4Tropheys2, "cell 1 3");
         }
         add(player4Panel, "cell 1 2");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -357,13 +372,15 @@ public class Board extends JPanel implements Observer {
     private JLabel p1c2;
     private JLabel player1Label;
     private JLabel p1Score;
-    private JLabel p1Tropheys;
+    private JLabel p1Tropheys1;
+    private JLabel p1Tropheys2;
     private JPanel player2Panel;
     private JLabel p2c1;
     private JLabel p2c2;
     private JLabel player2Label;
     private JLabel p2Score;
-    private JLabel p2Tropheys;
+    private JLabel p2Tropheys1;
+    private JLabel p2Tropheys2;
     private JPanel infos;
     private JLabel trophyLabel;
     private JLabel trophy1;
@@ -374,12 +391,14 @@ public class Board extends JPanel implements Observer {
     private JLabel p3c2;
     private JLabel player3Label;
     private JLabel p3Score;
-    private JLabel p3Tropheys;
+    private JLabel p3Tropheys1;
+    private JLabel p3Tropheys2;
     private JPanel player4Panel;
     private JLabel p4c1;
     private JLabel p4c2;
     private JLabel player4Label;
     private JLabel p4Score;
-    private JLabel p4Tropheys;
+    private JLabel p4Tropheys1;
+    private JLabel p4Tropheys2;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
