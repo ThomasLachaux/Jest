@@ -48,7 +48,7 @@ public class Interface extends Observable implements Observer {
         }
         frame = new JFrame("Jest");
         frame.setResizable(false);
-        frame.setBounds(100, 100, 720, 480);
+        frame.setBounds(100, 100, 1080, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         switchPanel(new Menu());
