@@ -138,7 +138,7 @@ public class PlayerController {
     }
 
     /**
-     * Appelé quand c'est au moment du joueur de choisir une cart
+     * Appelé quand c'est au moment du joueur de choisir une carte
      * Ajoute des listeners aux cartes
      * @return
      */
@@ -255,9 +255,9 @@ public class PlayerController {
     }
 
     /**
-     *
-     * @param playerIndex
-     * @param cardChoice
+     * Renvoie un listener contenant la réference du joueur si le joueur à voler est le meme que le joueur en cours on envoie juste la carte
+     * @param playerIndex index du joueur de 0 a n
+     * @param cardChoice va de 1 a 2 c'est la carte qu'on vole
      * @return listener
      */
     private MouseListener getStealListener(int playerIndex, int cardChoice) {
@@ -274,6 +274,10 @@ public class PlayerController {
         });
     }
 
+    /**
+     * Enleve les listeners sur les cartes d'un joueur
+     * @return
+     */
     public PlayerController removeActionListeners() {
         for (MouseListener listener : cardA.getMouseListeners()) {
             cardA.removeMouseListener(listener);
@@ -286,6 +290,11 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     * Ajoute des listener sur les cartes du joueur
+     * @param playerIndex
+     * @return
+     */
     public PlayerController addStealListener(int playerIndex) {
         cardAListener = getStealListener(playerIndex, 1);
         cardBListener = getStealListener(playerIndex, 2);
@@ -296,12 +305,21 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     * Affiche les scores
+     * @return
+     */
     public PlayerController displayScore() {
         int points = player.getScore().getPoints();
         score.setText("Score: " + points);
         return this;
     }
 
+    /**
+     * Affiche les trophées en dessous du joueur 
+     * @param trophy
+     * @return
+     */
     public PlayerController addTrophy(Trophy trophy) {
         Card card = Game.getInstance().getTrophyMapping().findCard(trophy);
         JLabel trophyLabel = trophyA.getIcon() == null ? trophyA : trophyB;
