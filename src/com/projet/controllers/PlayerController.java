@@ -55,10 +55,19 @@ public class PlayerController {
         hideCards();
     }
 
+    /**
+     * Renvoie le chemin relatif où sont stoké les images
+     * @param imageName
+     * @return chemin relatif
+     */
     public static String loadCard(String imageName) {
         return "src/com/projet/views/images/" + imageName + ".png";
     }
 
+    /**
+     * Retourne le chemin relatif vers une image blanche
+     * @return chemin relatif
+     */
     public static String loadHiddenCard() {
         return loadCard("blank");
     }
@@ -102,6 +111,7 @@ public class PlayerController {
     }
 
     /**
+     * Quand un utilisateur a choisi l'une de ses cartes, envoie le numéro dans le bus
      * @param index
      * @return
      */
@@ -127,6 +137,11 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     * Appelé quand c'est au moment du joueur de choisir une cart
+     * Ajoute des listeners aux cartes
+     * @return
+     */
     public PlayerController chooseCard() {
         playing();
         showCards();
@@ -140,18 +155,30 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     * Modifie la couleur du label au moment du tour de jeu du joueur
+     * @return
+     */
     public PlayerController playing() {
         label.setForeground(java.awt.Color.RED);
 
         return this;
     }
 
+    /**
+     * Reset la couleur du label du joueur
+     * @return
+     */
     public PlayerController notPlaying() {
         label.setForeground(java.awt.Color.BLACK);
 
         return this;
     }
 
+    /**
+     * Cache les cartes du joueur
+     * @return
+     */
     public PlayerController hideCards() {
         ImageIcon icon1 = new ImageIcon(loadHiddenCard());
         cardA.setIcon(icon1);
@@ -161,6 +188,10 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     * Affiche de façon visible seulement la carte choisi
+     * @return
+     */
     public PlayerController displayVisibleCard() {
 
         Card cardAModel = player.getCard(0);
@@ -201,6 +232,10 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     * Désactive les cartes du joueur
+     * @return
+     */
     public PlayerController disableCards() {
         cardA.setEnabled(false);
         cardB.setEnabled(false);
@@ -208,6 +243,10 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     * Active les cartes du joueur
+     * @return
+     */
     public PlayerController enableCards() {
         cardA.setEnabled(true);
         cardB.setEnabled(true);
@@ -215,13 +254,16 @@ public class PlayerController {
         return this;
     }
 
+    /**
+     *
+     * @param playerIndex
+     * @param cardChoice
+     * @return listener
+     */
     private MouseListener getStealListener(int playerIndex, int cardChoice) {
         return Interface.mouseListener(new Interface.MouseListener() {
             @Override
             public void onAction(MouseEvent e) {
-                JLabel button = (JLabel) e.getSource();
-                button.setText(" ");
-
                 // Si le joueur courant est le même que le controller, on envoit pas quel joueur choisir
                 if (player != Game.getInstance().getCurrentPlayer()) {
                     App.getInstance().getBus().put(playerIndex + 1);
