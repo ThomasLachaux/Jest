@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 /**
  * Classe comprenant les méthodes permettant aux joueur de voler une personne
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class HumanStrategy implements Strategy {
     @Override

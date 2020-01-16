@@ -6,6 +6,13 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Permet de communiquer entre les threads
  * Attrape les exceptions dans cette classe pour éviter d'avoir un code trop long dans les autres
  */
+/**
+ * Permet de communiquer entre les threads
+ * Attrape les exceptions dans cette classe pour éviter d'avoir un code trop long dans les autres
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
+ */
 public class Bus extends LinkedBlockingQueue<String> {
 
 

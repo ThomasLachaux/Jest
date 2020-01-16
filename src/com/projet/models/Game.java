@@ -20,6 +20,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 /**
  * Classe principale du moteur du jeu contenant le déroulé de la partie
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class Game extends Observable implements Runnable {
 

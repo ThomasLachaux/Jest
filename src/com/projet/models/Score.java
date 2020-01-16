@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 /**
  * Classe des scores
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class Score {
     private int points;

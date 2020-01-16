@@ -7,7 +7,10 @@ import com.projet.models.utils.Random;
 import java.util.ArrayList;
 
 /**
- *Classe de la strategie ou le bot choisi des cartes aléatoirement
+ * Classe de la strategie ou le bot choisi des cartes aléatoirement
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class RandomStrategy extends BotStrategy {
 

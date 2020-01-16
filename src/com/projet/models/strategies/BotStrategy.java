@@ -5,6 +5,9 @@ import com.projet.models.players.Player;
 
 /**
  * Classe abstraite implémentant le design pattern strategy
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public abstract class BotStrategy implements Strategy {
 

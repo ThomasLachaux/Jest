@@ -8,6 +8,9 @@ import java.util.Map;
 
 /**
  * Classe créant un association clé valeur entre la carte et le trophé associé
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class TrophyMapping {
 

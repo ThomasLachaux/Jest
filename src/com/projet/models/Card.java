@@ -1,5 +1,10 @@
 package com.projet.models;
 
+/**
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
+ */
 public class Card {
 
     protected Color color;

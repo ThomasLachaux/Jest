@@ -2,6 +2,9 @@ package com.projet.models.utils;
 
 /**
  * Contient tous les evenement liées au cycle de vie de l'application
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public enum EventType {
     /**

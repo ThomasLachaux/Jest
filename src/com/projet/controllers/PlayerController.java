@@ -12,6 +12,13 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * Contrôleur du joueur. Fait le lien entre l'interface et le moteur
+ *
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
+ */
 public class PlayerController {
 
     private Player player;

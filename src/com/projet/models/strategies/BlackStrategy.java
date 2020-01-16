@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 /**
  * Cette classe décrit la stratégie d'un bot qui essaye de jouer de façon a peu près normale
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class BlackStrategy extends BotStrategy {
 

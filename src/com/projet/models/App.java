@@ -8,6 +8,9 @@ import java.awt.*;
 
 /**
  * Point de départ du programme
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class App {
 

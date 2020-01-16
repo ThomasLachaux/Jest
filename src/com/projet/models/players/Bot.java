@@ -5,6 +5,9 @@ import com.projet.views.Console;
 
 /**
  * Classe d'un bot
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class Bot extends Player {
     public Bot(String name, Strategy strategy) {

@@ -7,9 +7,11 @@ import com.projet.models.strategies.Strategy;
 import com.projet.views.Console;
 
 import java.util.ArrayList;
-
 /**
  * Classe abstraite du joueur
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public abstract class Player implements Comparable<Player> {
 

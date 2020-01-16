@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Fri Dec 20 23:07:15 CET 2019
- */
-
 package com.projet.views;
 
 import com.projet.models.App;
@@ -20,7 +16,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * @author unknown
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class Menu extends JPanel {
 

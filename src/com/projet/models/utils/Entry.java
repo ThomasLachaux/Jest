@@ -2,6 +2,9 @@ package com.projet.models.utils;
 
 /**
  * Représente un element clé valeur que l'on peut retrouver dans un HashMap
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  * @param <K> clé
  * @param <V> valeur
  */

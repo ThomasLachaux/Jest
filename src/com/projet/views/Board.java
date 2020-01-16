@@ -17,6 +17,9 @@ import static com.projet.controllers.PlayerController.loadCard;
 
 /**
  * la classe est un observer du modele
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class Board extends JPanel implements Observer {
     /**

@@ -9,6 +9,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
+ */
 @SuppressWarnings("unused")
 public class Console implements Observer, Runnable {
 

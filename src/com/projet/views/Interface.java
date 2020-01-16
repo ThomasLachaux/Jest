@@ -12,6 +12,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+/**
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
+ */
 public class Interface extends Observable implements Observer {
 
     private JFrame frame;

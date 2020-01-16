@@ -2,6 +2,9 @@ package com.projet.models;
 
 /**
  * Enumeration des couleur de cartes
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public enum Color {
     Spade("♠", 5),

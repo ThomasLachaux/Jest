@@ -2,6 +2,9 @@ package com.projet.models.utils;
 
 /**
  * Classe regroupant toutes les méthodes statiques liées à l'aléatoire
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class Random {
 

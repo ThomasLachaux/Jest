@@ -6,9 +6,11 @@ import com.projet.models.players.Player;
 import com.projet.models.trophies.*;
 
 import java.util.ArrayList;
-
 /**
  * Classe représentant le concrete visitor des trophées
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class TrophyVisitor implements Visitor {
 

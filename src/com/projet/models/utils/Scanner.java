@@ -5,6 +5,9 @@ import com.projet.models.App;
 /**
  * Permet les entrée de l'application
  * Peut aussi faire de la validation pour les nombres
+ * @author Thomas de Lachaux
+ * @author Yohann Valo
+ * @version 1.0
  */
 public class Scanner {
     private static final String INVALID_ANSWER = "Entrée invalide ! Veuillez réessayer";
