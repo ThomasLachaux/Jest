@@ -8,7 +8,7 @@ import com.projet.models.trophies.*;
 import java.util.ArrayList;
 
 /**
- * 
+ * Classe représentant le concrete visitor des trophées
  */
 public class TrophyVisitor implements Visitor {
 
@@ -18,6 +18,11 @@ public class TrophyVisitor implements Visitor {
         this.players = players;
     }
 
+    /**
+     * Calcule le score de chaque joueur et determine un gagnant
+     * @param players
+     * @return
+     */
     private Player calculateBestJest(ArrayList<Player> players) {
         Player winner = players.get(0);
 
@@ -30,6 +35,11 @@ public class TrophyVisitor implements Visitor {
         return winner;
     }
 
+    /**
+     * Implémente le pattern visitor
+     * @param highest
+     * @return
+     */
     @Override
     public Player visit(Highest highest) {
         Player winner = players.get(0);
@@ -52,7 +62,9 @@ public class TrophyVisitor implements Visitor {
 
         return winner;
     }
-
+    /**
+     * Implémente le pattern visitor
+     */
     @Override
     public Player visit(Lowest lowest) {
         Player winner = players.get(0);
@@ -73,7 +85,9 @@ public class TrophyVisitor implements Visitor {
 
         return winner;
     }
-
+    /**
+     * Implémente le pattern visitor
+     */
     @Override
     public Player visit(Majority majority) {
         Player winner = players.get(0);
@@ -94,7 +108,9 @@ public class TrophyVisitor implements Visitor {
 
         return winner;
     }
-
+    /**
+     * Implémente le pattern visitor
+     */
     @Override
     public Player visit(Joker joker) {
         Player winner = null;
@@ -110,14 +126,17 @@ public class TrophyVisitor implements Visitor {
 
         return winner;
     }
-
+    /**
+     * Implémente le pattern visitor
+     */
     @Override
     public Player visit(BestJest bestJest) {
         return calculateBestJest(players);
     }
 
-
-    // todo: mettra à jour la fonction, ne correspond pas aux règles
+    /**
+     * Implémente le pattern visitor
+     */
     @Override
     public Player visit(NoJoke noJoke) {
         ArrayList<Player> playersWithoutJocker = new ArrayList<>();

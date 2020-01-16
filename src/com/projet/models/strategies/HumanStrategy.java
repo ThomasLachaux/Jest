@@ -8,8 +8,14 @@ import com.projet.models.players.Player;
 
 import java.util.ArrayList;
 
+/**
+ * Classe comprenant les méthodes permettant aux joueur de voler une personne
+ */
 public class HumanStrategy implements Strategy {
     @Override
+    /**
+     * Demande au joueur quelle carte mettre face visible
+     */
     public Card askWhichCardToShow(Card cardA, Card cardB) {
         System.out.println("Quelle carte choisissez-vous de mettre face visible ?");
         System.out.print("1) " + cardA.toString() + "     ");
@@ -22,7 +28,9 @@ public class HumanStrategy implements Strategy {
 
         return response == 1 ? cardA : cardB;
     }
-
+    /**
+     * Demande au joueur quelle joueur il souhaite voler
+     */
     @Override
     public Player askWhichPlayerToSteal(ArrayList<Player> otherPlayers) {
         Game.getInstance().notifyObservers(EventType.STEAL_PLAYER, otherPlayers);
@@ -45,7 +53,9 @@ public class HumanStrategy implements Strategy {
             return stolenPlayer;
         }
     }
-
+    /**
+     * Demande au joueur quelle carte voler
+     */
     @Override
     public Card askWhichCardToSteal(Player stolenPlayer) {
         System.out.println("Quelle carte voler ?");

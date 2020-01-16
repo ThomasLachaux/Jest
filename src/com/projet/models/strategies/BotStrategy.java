@@ -3,6 +3,9 @@ package com.projet.models.strategies;
 import com.projet.models.Card;
 import com.projet.models.players.Player;
 
+/**
+ * Classe abstraite implémentant le design pattern strategy
+ */
 public abstract class BotStrategy implements Strategy {
 
     protected String name;

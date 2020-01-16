@@ -8,6 +8,9 @@ import com.projet.views.Console;
 
 import java.util.ArrayList;
 
+/**
+ * Classe abstraite du joueur
+ */
 public abstract class Player implements Comparable<Player> {
 
     // Equivalent de posée sur le diagramme mais on ne fait pas de français
@@ -34,18 +37,27 @@ public abstract class Player implements Comparable<Player> {
         score = new Score(this);
     }
 
-    // On a bien 2 cartes par joueurs tout le temps ????
-    // todo: faire des validations/exceptions
+    /**
+     * Met les cartes face caché
+     * @param cardA
+     * @param cardB
+     */
     public void addCardFaceDown(Card cardA, Card cardB) {
         current.add(cardA.setFaceDown());
         current.add(cardB.setFaceDown());
     }
 
+    /**
+     * Surligne le nom du joueur
+     */
     public void startPrompt() {
         Game.getInstance().setCurrentPlayer(this);
         System.out.println(favoriteColor() + "--- " + this.name + " ---" + Console.RESET);
     }
 
+    /**
+     * Demande quel carte mettre face visible
+     */
     public void askWhichCardToFaceUp() {
         startPrompt();
 
@@ -57,6 +69,11 @@ public abstract class Player implements Comparable<Player> {
         cardChosen.setFaceUp();
     }
 
+    /**
+     * Demande quel joueur voler
+     * @param players
+     * @return
+     */
     public Player askWhichPlayerToSteal(ArrayList<Player> players) {
         startPrompt();
 
@@ -81,6 +98,10 @@ public abstract class Player implements Comparable<Player> {
         return stolenPlayer;
     }
 
+    /**
+     * Ajoute une carte au jest
+     * @param card
+     */
     public void addToJest(Card card) {
         jest.add(card);
     }
@@ -97,6 +118,11 @@ public abstract class Player implements Comparable<Player> {
         return current.get(index);
     }
 
+    /**
+     * Affiche les cartes
+     * @param withIndexes
+     * @return
+     */
     public String displayCards(boolean withIndexes) {
         StringBuilder builder = new StringBuilder();
 
@@ -120,11 +146,20 @@ public abstract class Player implements Comparable<Player> {
         return displayCards(false);
     }
 
+    /**
+     * Affiche quelle carte a été volé et la retire de la main du joueur
+     * @param index
+     * @return
+     */
     public Card stealCard(int index) {
         System.out.println(name + " a  perdu un " + current.get(index).toString());
         return current.remove(index);
     }
 
+    /**
+     * Permet de voler la carte non visible
+     * @return
+     */
     public Card stealVisibleCard() {
         int index = current.indexOf(getVisibleCard());
 

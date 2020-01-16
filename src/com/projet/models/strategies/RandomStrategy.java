@@ -6,19 +6,27 @@ import com.projet.models.utils.Random;
 
 import java.util.ArrayList;
 
+/**
+ *Classe de la strategie ou le bot choisi des cartes aléatoirement
+ */
 public class RandomStrategy extends BotStrategy {
 
     public RandomStrategy(String name) {
         super(name);
     }
 
+    /**
+     * Le bot choisi de manière aléatoire une carte à montrer
+     */
     @Override
     public Card askWhichCardToShow(Card cardA, Card cardB) {
         Card chosenCard = Math.random() <= 0.5 ? cardA : cardB;
         hasChoseCard(chosenCard);
         return chosenCard;
     }
-
+    /**
+     * Le bot choisi de manière aléatoire quel joueur voler
+     */
     @Override
     public Player askWhichPlayerToSteal(ArrayList<Player> otherPlayers) {
         if(otherPlayers.size() == 0) {
@@ -32,7 +40,9 @@ public class RandomStrategy extends BotStrategy {
             return chosenPlayer;
         }
     }
-
+    /**
+     * Le bot choisi de manière aléatoire une carte à voler
+     */
     @Override
     public Card askWhichCardToSteal(Player stolenPlayer) {
         Card stolenCard = stolenPlayer.stealCard(Random.ranInt(0, stolenPlayer.getCurrentCardSize() - 1));

@@ -3,6 +3,9 @@ package com.projet.models.players;
 import com.projet.models.strategies.Strategy;
 import com.projet.views.Console;
 
+/**
+ * Classe d'un bot
+ */
 public class Bot extends Player {
     public Bot(String name, Strategy strategy) {
         super(name, strategy);
