@@ -36,6 +36,9 @@ public class Console implements Observer, Runnable {
         return instance;
     }
 
+    /**
+     * Démarage de la partie en mode console
+     */
     public static void startGame() {
         System.out.println(" __| |____________________________________________| |__");
         System.out.println("(__   ____________________________________________   __)");
@@ -52,6 +55,11 @@ public class Console implements Observer, Runnable {
         System.out.println("   | |                                            | |");
     }
 
+    /**
+     * Méthode update qui indique à l'utilisateur ou configurer l'interface
+     * @param eventType type de l'évenement
+     * @param payload paramètres
+     */
     @Override
     public void update(EventType eventType, Object payload) {
         switch(eventType) {
@@ -62,11 +70,13 @@ public class Console implements Observer, Runnable {
                 break;
 
             case GAME_SET_UP:
-                System.out.println("Debug: console débloquée");
                 canUseConsole = true;
         }
     }
 
+    /**
+     * la console est un thread donc on a une methode run
+     */
     @Override
     public void run() {
         while (true) {

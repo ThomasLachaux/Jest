@@ -51,7 +51,10 @@ public class Card {
     }
 
 
-
+    /**
+     * Affiche la carte face caché ""⛶"" comme ca
+     * @return
+     */
     public String toStringFromOutside() {
         return faceDown ? "⛶" : toString();
     }
@@ -60,7 +63,10 @@ public class Card {
     public String toString() {
         return (color != Color.Jocker ? value : "") + String.valueOf(color);
     }
-
+    /**
+     * Permet de savoir si il y a une égalité entre les cartes
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Card) {

@@ -6,6 +6,9 @@ import com.projet.models.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe créant un association clé valeur entre la carte et le trophé associé
+ */
 public class TrophyMapping {
 
     private HashMap<Card, Trophy> map;
@@ -14,6 +17,10 @@ public class TrophyMapping {
         this.map = map;
     }
 
+    /**
+     * Associe une carte à un trophée selon les règles
+     * @return cartographie des cartes
+     */
     public static HashMap<Card, Trophy> generateDefaultMapping() {
         HashMap<Card, Trophy> trophies = new HashMap<>();
 
@@ -45,10 +52,19 @@ public class TrophyMapping {
         return trophies;
     }
 
+    /**
+     * Détermine un trophée en fonction d'une carte
+     * @param card
+     * @return un trophée
+     */
     public Trophy computeTrophy(Card card) {
         return map.get(card);
     }
-
+    /**
+     * Détermine une carte en fonction d'un trophée
+     * @param find
+     * @return une carte
+     */
     public Card findCard(Trophy find) {
         for(Map.Entry<Card, Trophy> trophy : map.entrySet()) {
             if(find == trophy.getValue()) {

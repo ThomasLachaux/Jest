@@ -4,6 +4,9 @@ import com.projet.models.players.Player;
 
 import java.util.ArrayList;
 
+/**
+ * Classe des scores
+ */
 public class Score {
     private int points;
     private Player player;
@@ -13,12 +16,18 @@ public class Score {
         this.player = player;
     }
 
+    /**
+     * Permet de calculer les scores totaux
+     */
     public void calculateAll() {
         calculateBlack();
         calculateDiamond();
         calculateHeart();
     }
 
+    /**
+     * Permet de calculer le score pique et trefle
+     */
     public void calculateBlack() {
         ArrayList<Integer> pair = new ArrayList<Integer>();
         int occurence = 0;
@@ -73,7 +82,9 @@ public class Score {
         }
         this.points += occurence * 2; //les points sont incrémenté du nombre de pairs(occurences) fois 2 car une pair vaut 2 points
     }
-
+    /**
+     * Permet de calculer le score des carreaux
+     */
     public void calculateDiamond() {
         boolean asDiamond = false;
         int nbrDiamond = 0;
@@ -100,7 +111,9 @@ public class Score {
             }
         }
     }
-
+    /**
+     * Permet de calculer le score des coeurs
+     */
     public void calculateHeart() {
         boolean hasJoker = false;
         int nbrHeart = 0;
@@ -142,7 +155,9 @@ public class Score {
         }
 
     }
-
+    /**
+     * getter des points d un joueur
+     */
     public int getPoints() {
         return points;
     }

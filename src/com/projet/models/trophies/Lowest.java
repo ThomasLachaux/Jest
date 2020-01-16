@@ -3,7 +3,9 @@ package com.projet.models.trophies;
 import com.projet.models.Color;
 import com.projet.models.players.Player;
 import com.projet.models.trophies.visitor.Visitor;
-
+/**
+ * Classe du trophée lowest implémentant le pattern visitor
+ */
 public class Lowest implements Trophy {
 
     private Color trophyColor;

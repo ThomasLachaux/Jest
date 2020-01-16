@@ -39,6 +39,10 @@ public class Menu extends JPanel {
         initComponents();
     }
 
+    /**
+     * Lorsque le joueur lance la partie les paramètres sont envoyés dasn le bus
+     * @param event
+     */
     private void playActionPerformed(ActionEvent event) {
         Bus bus = App.getInstance().getBus();
 
@@ -54,6 +58,10 @@ public class Menu extends JPanel {
         }
     }
 
+    /**
+     * Met à jour le nombre de bot possible maximum en fonction du nombre de jooueurs choisi
+     * @param e
+     */
     private void playerStateChanged(ChangeEvent e) {
         int players = (int) playerInput.getModel().getValue();
         System.out.println(players);
@@ -62,12 +70,20 @@ public class Menu extends JPanel {
         botInput.setModel(botModel);
     }
 
+    /**
+     * change le text label de facile a difficile lors d'un clique
+     * @param e
+     */
     private void difficultyActionPerformed(ActionEvent e) {
         easyDifficulty = !easyDifficulty;
 
         difficulty.setText(easyDifficulty ? "Facile" : "Difficile");
     }
 
+    /**
+     * change le text label lors d'un clique
+     * @param e
+     */
     private void extensionActionPerformed(ActionEvent e) {
         extension++;
         extension %= 3;
@@ -89,6 +105,10 @@ public class Menu extends JPanel {
         extensionButton.setText(text);
     }
 
+    /**
+     * Renvoie l'utilisateur sur les règles
+     * @param e
+     */
     private void rulesActionPerformed(ActionEvent e) {
         try {
             URI uri = new URI("https://bit.ly/2Ss0pOP");
@@ -98,6 +118,10 @@ public class Menu extends JPanel {
         }
     }
 
+    /**
+     * change le label text lors d'un clique et change le thème
+     * @param e
+     */
     private void themeButtonActionPerformed(ActionEvent e) {
         darkTheme = !darkTheme;
 

@@ -6,6 +6,9 @@ import com.projet.views.Interface;
 
 import java.awt.*;
 
+/**
+ * Point de départ du programme
+ */
 public class App {
 
     private static App instance;
@@ -19,6 +22,9 @@ public class App {
         return instance;
     }
 
+    /**
+     * Création d'une instance game et console et création de trois threads (Game Console Interface) utile pour le programme
+     */
     private App() {
         instance = this;
         Game game = Game.getInstance();

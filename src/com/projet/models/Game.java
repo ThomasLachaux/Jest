@@ -18,7 +18,9 @@ import com.projet.views.Console;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-
+/**
+ * Classe principale du moteur du jeu contenant le déroulé de la partie
+ */
 public class Game extends Observable implements Runnable {
 
     private static Game instance;
@@ -31,6 +33,10 @@ public class Game extends Observable implements Runnable {
 
     private Player currentPlayer;
 
+    /**
+     * Méthode pour le singleton si il n'existe pas d'instance on en créer une
+     * @return instance
+     */
     public static Game getInstance() {
         if(instance == null) {
             instance = new Game();
@@ -39,6 +45,9 @@ public class Game extends Observable implements Runnable {
         return instance;
     }
 
+    /**
+     * Déroulé d'une partie ( création des cartes,choix des paramètres du jeu, distibution par tour, calcul des scores
+     */
     @Override
     public void run() {
         notifyObservers(EventType.GAME_START, null);
@@ -52,16 +61,14 @@ public class Game extends Observable implements Runnable {
 
 
         distributeAndShowTrophies();
-        System.out.println("Avant envoi");
         notifyObservers(EventType.GAME_SET_UP, players);
-        System.out.println("Après envoi");
+
 
 
         // On joue tant que notre pile temporaire n'est plus vide.
         // (Elle est de 6 pour 3 joueurs dans tous les tours sauf le dernier)
         int i = 1;
         do {
-            System.out.println("stack: " + stack.size());
             playTurn(i);
             i++;
         } while (tmpStack.size() != 0 || (extension == 1 && stack.size() != 0));
@@ -95,7 +102,7 @@ public class Game extends Observable implements Runnable {
     }
 
     /**
-     * Affiche les trophées
+     * Affiche les trophées en supprimant les trophées de la pile de carte
      */
     public void distributeAndShowTrophies() {
         trophyMapping = new TrophyMapping(TrophyMapping.generateDefaultMapping());
@@ -124,15 +131,11 @@ public class Game extends Observable implements Runnable {
     public void createPlayers() {
 
         int players = Scanner.nextInt(0, 4);
-        System.out.println("Debug: Joueurs: " + players);
         int bots;
         int botDifficulty = 1;
         bots = Scanner.nextInt(0, players);
-        System.out.println("Debug: Bots: " + bots);
 
         botDifficulty = Scanner.nextInt(2);
-        System.out.println("Debug: Difficulté: " + botDifficulty);
-
         for (int i = 0; i < players - bots; i++) {
             String name = "Player " + (i + 1);
             this.players.add(new Human(name));
@@ -160,9 +163,9 @@ public class Game extends Observable implements Runnable {
         } else {
             distributeCard();
         }
-        System.out.println(tmpStack.size());
         System.out.println("Il reste " + stack.size() + " cartes");
 
+        // Notifie la Console et l'interfae que le jeu demarre
         notifyObservers(EventType.TURN_START, turn);
 
         // Quelle carte reveler
@@ -221,7 +224,7 @@ public class Game extends Observable implements Runnable {
     }
 
     /**
-     * Crée les cartes et les ajoute à la pile des cartes
+     * Créer les cartes et les ajoute à la pile des cartes
      */
     public void createCards() {
         for (int i = 1; i <= 4; i++) {
@@ -269,6 +272,9 @@ public class Game extends Observable implements Runnable {
         return trophies;
     }
 
+    /**
+     * affiche le jeu dans la console
+     */
     public void displayCurrentGame() {
         String justification = "| %-16s | %-14s |%n";
 
@@ -281,6 +287,9 @@ public class Game extends Observable implements Runnable {
         System.out.println("+------------------+----------------+");
     }
 
+    /**
+     * permet de choisir l'extension
+     */
     public void chooseExtension() {
         System.out.println("voulez vous une extension ?");
         System.out.println("1) Oui     2) Non");
@@ -293,6 +302,9 @@ public class Game extends Observable implements Runnable {
 
     }
 
+    /**
+     * distribue les trophés a la fin du jeu
+     */
     public void giveTrophies() {
         TrophyVisitor visitor = new TrophyVisitor(players);
         for (int i = 0; i < trophies.size(); i++) {

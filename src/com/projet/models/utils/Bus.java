@@ -36,7 +36,6 @@ public class Bus extends LinkedBlockingQueue<String> {
     @Override
     public void put(String s) {
         try {
-            System.out.println("Debug Bus: " + s);
             super.put(s);
         } catch (InterruptedException e) {
             e.printStackTrace();

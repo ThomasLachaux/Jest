@@ -1,5 +1,8 @@
 package com.projet.models;
 
+/**
+ * Enumeration des couleur de cartes
+ */
 public enum Color {
     Spade("♠", 5),
     Club("♣", 4),
@@ -17,6 +20,10 @@ public enum Color {
         this.order = order;
     }
 
+    /**
+     * Permet de recuperer "order" qui est la puissance des cartes cela sert par exemple pour savoir qui joue en premier
+     * @return
+     */
     public int getOrder() {
         return order;
     }

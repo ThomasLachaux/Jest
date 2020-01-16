@@ -7,6 +7,9 @@ import com.projet.models.trophies.*;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class TrophyVisitor implements Visitor {
 
     private ArrayList<Player> players;

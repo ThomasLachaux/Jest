@@ -19,8 +19,13 @@ import java.util.ArrayList;
 
 import static com.projet.controllers.PlayerController.loadCard;
 
+/**
+ * la classe est un observer du modele
+ */
 public class Board extends JPanel implements Observer {
-
+    /**
+     * un constructeur qui permet d associer un joueur a un controleur
+     */
     private ArrayList<PlayerController> playerControllers = new ArrayList<>();
 
     public Board(ArrayList<Player> players) {
@@ -61,6 +66,11 @@ public class Board extends JPanel implements Observer {
 
     }
 
+    /**
+     * methode update du patron MVC
+     * @param eventType type de l'évenement
+     * @param payload paramètres
+     */
     @Override
     public void update(EventType eventType, Object payload) {
         switch (eventType) {
@@ -156,6 +166,11 @@ public class Board extends JPanel implements Observer {
         }
     }
 
+    /**
+     * permet de trouver le controleur associé a un joueur
+     * @param player
+     * @return
+     */
     private PlayerController findController(Object player) {
         for(PlayerController controller : playerControllers) {
             if(controller.getPlayer() == player) {
