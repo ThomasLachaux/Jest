@@ -2,7 +2,6 @@ package com.projet.models;
 
 public class Card {
 
-    // Todo: ajouter une enum.toString()
     protected Color color;
     protected int value;
     private boolean faceDown;

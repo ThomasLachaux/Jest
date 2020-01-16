@@ -8,6 +8,7 @@ import com.projet.models.utils.Observer;
 import mdlaf.MaterialLookAndFeel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -44,8 +45,8 @@ public class Interface extends Observable implements Observer {
             e.printStackTrace ();
         }
         frame = new JFrame("Jest");
-        //frame.setResizable(false);
         frame.setBounds(100, 100, 1000, 1000);
+        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         switchPanel(new Menu());
@@ -98,12 +99,14 @@ public class Interface extends Observable implements Observer {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
+                Cursor cursor = new Cursor(Cursor.HAND_CURSOR);
+                Interface.getInstance().getFrame().setCursor(cursor);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-
+                Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                Interface.getInstance().getFrame().setCursor(cursor);
             }
         };
     }

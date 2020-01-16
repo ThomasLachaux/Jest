@@ -74,6 +74,7 @@ public class Board extends JPanel implements Observer {
                 turn.setText("Tour: " + payload);
                 break;
             case CHOOSE_CARD:
+                status.setText("Les joueurs rendent une carte visible");
                 for(PlayerController controller : playerControllers) {
                     controller.disableCards();
                 }
@@ -89,10 +90,13 @@ public class Board extends JPanel implements Observer {
                 break;
 
             case STEAL_PLAYER:
+                status.setText("Les joueurs volent une personne");
                 findController(Game.getInstance().getCurrentPlayer()).playing();
+
+                // Désactive toutes les cartes de tout le monde
                 for(PlayerController controller : playerControllers) {
                     controller
-                            .displayVisibleCard()
+                            .hideCards()
                             .disableCards();
                 }
 
@@ -101,6 +105,7 @@ public class Board extends JPanel implements Observer {
                 // Si on doit se voler à soit même, s'auto active
                 if(otherPlayers.size() == 0) {
                     findController(Game.getInstance().getCurrentPlayer())
+                            .displayVisibleCard()
                             .enableCards()
                             .addStealListener(-1);
                 }
@@ -108,6 +113,7 @@ public class Board extends JPanel implements Observer {
                 for(int i = 0; i < otherPlayers.size(); i++) {
                     Player player = otherPlayers.get(i);
                     findController(player)
+                            .displayVisibleCard()
                             .enableCards()
                             .addStealListener(i);
                 }
@@ -119,11 +125,13 @@ public class Board extends JPanel implements Observer {
                 for(PlayerController controller : playerControllers) {
                     controller
                             .removeActionListeners()
-                            .enableCards();
+                            .hideCards()
+                            .disableCards();
                 }
                 break;
 
             case TROPHEY_GIVEN:
+                status.setText("Fin du jeu !");
                 Entry<Integer, Player> mapping = (Entry<Integer, Player>) payload;
                 int trophyNumber = mapping.getKey();
                 Player winner = mapping.getValue();
@@ -199,6 +207,7 @@ public class Board extends JPanel implements Observer {
         trophy1 = new JLabel();
         trophy2 = new JLabel();
         turn = new JLabel();
+        status = new JLabel();
         player3Panel = new JPanel();
         p3c1 = new JLabel();
         p3c2 = new JLabel();
@@ -298,6 +307,7 @@ public class Board extends JPanel implements Observer {
                 // rows
                 "[]" +
                 "[]" +
+                "[]" +
                 "[]"));
 
             //---- trophyLabel ----
@@ -317,6 +327,11 @@ public class Board extends JPanel implements Observer {
             turn.setText("Tour");
             turn.setHorizontalAlignment(SwingConstants.CENTER);
             infos.add(turn, "cell 0 2 2 1");
+
+            //---- status ----
+            status.setText("Status");
+            status.setHorizontalAlignment(SwingConstants.CENTER);
+            infos.add(status, "cell 0 3 2 1");
         }
         add(infos, "cell 1 1");
 
@@ -405,6 +420,7 @@ public class Board extends JPanel implements Observer {
     private JLabel trophy1;
     private JLabel trophy2;
     private JLabel turn;
+    private JLabel status;
     private JPanel player3Panel;
     private JLabel p3c1;
     private JLabel p3c2;
