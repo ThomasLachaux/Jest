@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+@SuppressWarnings("unused")
 public class Console implements Observer, Runnable {
 
     public static final String RESET = "\u001B[0m";
@@ -79,6 +80,7 @@ public class Console implements Observer, Runnable {
      */
     @Override
     public void run() {
+        //noinspection InfiniteLoopStatement
         while (true) {
             String input = readLine();
 

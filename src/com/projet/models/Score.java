@@ -29,21 +29,26 @@ public class Score {
      * Permet de calculer le score pique et trefle
      */
     public void calculateBlack() {
-        ArrayList<Integer> pair = new ArrayList<Integer>();
+        ArrayList<Integer> pair = new ArrayList<>();
         int occurence = 0;
-        boolean asSpade = false;//booleen qui permet de savoir si on a seulement un seul as d'une couleur
+        // Permet de savoir si on a seulement un seul as d'une couleur
+        boolean asSpade = false;
         boolean asClub = false;
-        int nbrSpade = 0;
-        int nbrClub = 0;
-        for (Card card : player.getJest()) {//boucle qui permet d avoir la condition un seul pique et cest l'as pour le transformer en 5
+        int spaceCount = 0;
+        int clubCount = 0;
+
+        // Boucle qui permet d'avoir la condition un seul pique qui détermine la valeur de l'as (1 ou 5)
+        for (Card card : player.getJest()) {
             if (card.getColor() == Color.Spade) {
-                nbrSpade += 1;
+                spaceCount += 1;
                 if (card.getValue() == 1) {
                     asSpade = true;
                 }
             }
         }
-        if (nbrSpade == 1 && asSpade == true) {// changement de la valeur de l'as si la condition est respectée
+
+        // Changement de la valeur de l'as si la condition est respectée
+        if (spaceCount == 1 && asSpade) {
             for (Card card : player.getJest()) {
                 if (card.getColor() == Color.Spade && card.getValue() == 1) {
                     card.setValue(5);
@@ -51,53 +56,61 @@ public class Score {
             }
         }
 
-        for (Card card : player.getJest()) { //meme chose pour les trefles
+        // Même chose pour les trefles
+        for (Card card : player.getJest()) {
             if (card.getColor() == Color.Club) {
-                nbrClub += 1;
+                clubCount += 1;
                 if (card.getValue() == 1) {
                     asClub = true;
                 }
 
             }
         }
-        if (nbrClub == 1 && asClub == true) {
+
+        if (clubCount == 1 && asClub) {
             for (Card card : player.getJest()) {
                 if (card.getColor() == Color.Club && card.getValue() == 1) {
                     card.setValue(5);
                 }
             }
         }
-        for (Card card : player.getJest()) {// calcul des pairs on rentre toutes les valeurs de couleur noir dans un tableau d entier
+
+        // Calcul des pairs on rentre toutes les valeurs de couleur noir dans un tableau d'entier
+        for (Card card : player.getJest()) {
             if (card.getColor() == Color.Spade || card.getColor() == Color.Club) {
                 pair.add(card.getValue());
                 this.points += card.getValue();
             }
         }
-        for (int j = 0; j < pair.size(); j += 1) { // si on retrouve une occurence dans le tableau des valeurs en excluant l'égalité des indices de parcours on incrément occurence
+
+        // Si on retrouve une occurence dans le tableau des valeurs en excluant l'égalité des indices de parcours, on incrément occurence
+        for (int j = 0; j < pair.size(); j += 1) {
             for (int i = 0; i < pair.size(); i += 1) {
-                if (pair.get(j) == pair.get(i) && i != j) {
+                if (pair.get(j).equals(pair.get(i)) && i != j) {
                     occurence += 1;
                 }
             }
         }
-        this.points += occurence * 2; //les points sont incrémenté du nombre de pairs(occurences) fois 2 car une pair vaut 2 points
+
+        // Les points sont incrémenté du nombre de pairs (occurences) fois 2 car une pair vaut 2 points
+        this.points += occurence * 2;
     }
     /**
      * Permet de calculer le score des carreaux
      */
     public void calculateDiamond() {
         boolean asDiamond = false;
-        int nbrDiamond = 0;
+        int diamondCount = 0;
         for (Card card : player.getJest()) {//similaire pour l'as
             if (card.getColor() == Color.Diamond) {
-                nbrDiamond += 1;
+                diamondCount += 1;
                 if (card.getValue() == 1) {
                     asDiamond = true;
                 }
 
             }
         }
-        if (nbrDiamond == 1 && asDiamond == true) {
+        if (diamondCount == 1 && asDiamond) {
             for (Card card : player.getJest()) {
                 if (card.getColor() == Color.Diamond && card.getValue() == 1) {
                     card.setValue(5);
@@ -126,7 +139,7 @@ public class Score {
                 }
             }
         }
-        if (nbrHeart == 1 && asHeart == true) {
+        if (nbrHeart == 1 && asHeart) {
             for (Card card : player.getJest()) {
                 if (card.getColor() == Color.Heart && card.getValue() == 1) {
                     card.setValue(5);
@@ -136,17 +149,18 @@ public class Score {
         for (Card card : player.getJest()) { //est ce que le joueur a la joker?
             if (card.getColor() == Color.Jocker) {
                 hasJoker = true;
+                break;
             }
         }
-        if (hasJoker == true && nbrHeart == 0) {// le joker et aucun coeur = +4 points
+        if (hasJoker && nbrHeart == 0) {// le joker et aucun coeur = +4 points
             this.points += 4;
-        } else if (hasJoker == true && nbrHeart < 4 && nbrHeart > 0) { // le joker et 1 a 3 coeur cest les points en negatif
+        } else if (hasJoker && nbrHeart < 4 && nbrHeart > 0) { // le joker et 1 a 3 coeur cest les points en negatif
             for (Card card : player.getJest()) {
                 if (card.getColor() == Color.Heart) {
                     this.points -= card.getValue();
                 }
             }
-        } else if (hasJoker == true && nbrHeart == 4) {// le joker et tous les coeurs cest les points en positif
+        } else if (hasJoker && nbrHeart == 4) {// le joker et tous les coeurs cest les points en positif
             for (Card card : player.getJest()) {
                 if (card.getColor() == Color.Heart) {
                     this.points += card.getValue();

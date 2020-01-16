@@ -64,11 +64,9 @@ public class Interface extends Observable implements Observer {
     @Override
     public void update(EventType eventType, Object payload) {
         notifyObservers(eventType, payload);
-        switch (eventType) {
-            case GAME_SET_UP:
-                Board board = new Board((ArrayList<Player>) payload);
-                switchPanel(board);
-                break;
+        if (eventType == EventType.GAME_SET_UP) {
+            Board board = new Board((ArrayList<Player>) payload);
+            switchPanel(board);
         }
     }
 

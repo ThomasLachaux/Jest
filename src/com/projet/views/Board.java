@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Sat Dec 21 10:19:06 CET 2019
- */
-
 package com.projet.views;
 
 import com.projet.controllers.PlayerController;
@@ -179,10 +175,6 @@ public class Board extends JPanel implements Observer {
         }
 
         return null;
-    }
-
-    private void createUIComponents() {
-        // TODO: add custom component creation code here
     }
 
     private void initComponents() {
